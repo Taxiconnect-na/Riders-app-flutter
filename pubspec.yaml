@@ -76,7 +76,7 @@ flutter:
     - family: MoveTextRegular
       fonts:
         - asset: fonts/UberMoveTextRegular.otf
-    - family: MovTextMedium
+    - family: MoveTextMedium
       fonts:
         - asset: fonts/UberMoveTextMedium.otf
     - family: MoveTextLight

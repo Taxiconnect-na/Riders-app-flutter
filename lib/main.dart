@@ -10,7 +10,7 @@ ThemeData _buildAppTheme() {
 }
 
 TextTheme _appTextTheme(TextTheme base) {
-  return base.apply(fontFamily: 'MoveTextRegular');
+  return base.apply(fontFamily: 'MoveTextRegular', bodyColor: Colors.black);
 }
 
 void main() {
