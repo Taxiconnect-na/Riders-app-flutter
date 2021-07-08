@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Components/Login/EntryScreen.dart';
+import 'package:taxiconnect/Components/Login/OTPVerificationEntry.dart';
 import 'package:taxiconnect/Components/Login/PhoneDetailsScreen.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputModal.dart'; //Debug
 import 'Modules/PhoneNumberInput/PhoneNumberInputEntry.dart'; //Debug
@@ -17,5 +18,5 @@ TextTheme _appTextTheme(TextTheme base) {
 }
 
 void main() {
-  runApp(new MaterialApp(theme: _appTheme, home: PhoneDetailsScreen()));
+  runApp(new MaterialApp(theme: _appTheme, home: OTPVerificationEntry()));
 }
