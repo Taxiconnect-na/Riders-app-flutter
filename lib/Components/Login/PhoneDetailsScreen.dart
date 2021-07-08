@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxiconnect/Components/Modules/GenericCircButton/GenericCircButton.dart';
+import 'package:taxiconnect/Modules/GenericCircButton/GenericCircButton.dart';
 
 class PhoneDetailsScreen extends StatefulWidget {
   const PhoneDetailsScreen({Key? key}) : super(key: key);
@@ -17,7 +17,12 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
           child: Column(
             children: [
               ListTile(
-                leading: Icon(Icons.arrow_back, size: 33, color: Colors.black),
+                leading: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        Icon(Icons.arrow_back, size: 33, color: Colors.black)),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),

@@ -48,6 +48,7 @@ flutter:
   assets:
     - Assets/logo.png
     - Assets/entryImage0.png
+    - Assets/flagsPng100/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
