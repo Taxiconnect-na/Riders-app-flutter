@@ -17,6 +17,7 @@ class _OTPVerificationInputState extends State<OTPVerificationInput> {
       Container(
         color: Colors.white,
         child: PinCodeTextField(
+          enablePinAutofill: true,
           showCursor: false,
           autoFocus: true,
           autovalidateMode: AutovalidateMode.disabled,

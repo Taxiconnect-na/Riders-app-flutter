@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Components/Login/CreateAccountEntry.dart';
 import 'package:taxiconnect/Components/Login/EntryScreen.dart';
+import 'package:taxiconnect/Components/Login/NewAccountAddiDetails.dart';
 import 'package:taxiconnect/Components/Login/OTPVerificationEntry.dart';
 import 'package:taxiconnect/Components/Login/PhoneDetailsScreen.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputModal.dart'; //Debug
@@ -32,14 +33,24 @@ class AppGeneralEntry extends StatefulWidget {
 class _AppGeneralEntryState extends State<AppGeneralEntry> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: _appTheme,
-        initialRoute: '/CreateAccountEntry',
-        routes: {
-          '/': (context) => EntryScreen(),
-          '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
-          '/OTPVerificationEntry': (context) => OTPVerificationEntry(),
-          '/CreateAccountEntry': (context) => CreateAccountEntry()
-        });
+    return GestureDetector(
+        onTap: () {
+          //Hide Keyboard on arbitrary press throughout the app
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          print(currentFocus.hasPrimaryFocus);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: MaterialApp(
+            theme: _appTheme,
+            initialRoute: '/NewAccountAddiDetails',
+            routes: {
+              '/': (context) => EntryScreen(),
+              '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
+              '/OTPVerificationEntry': (context) => OTPVerificationEntry(),
+              '/CreateAccountEntry': (context) => CreateAccountEntry(),
+              '/NewAccountAddiDetails': (context) => NewAccountAddiDetails()
+            }));
   }
 }
