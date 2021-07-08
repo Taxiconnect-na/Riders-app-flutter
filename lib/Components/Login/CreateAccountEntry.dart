@@ -42,7 +42,7 @@ class _CreateAccountEntryState extends State<CreateAccountEntry> {
                               speed: Duration(milliseconds: 250)),
                           WavyAnimatedText('Ongeipi',
                               speed: Duration(milliseconds: 250))
-                        ], repeatForever: true, pause: Duration(seconds: 4)))),
+                        ], repeatForever: true, pause: Duration(seconds: 5)))),
               ),
               SizedBox(
                 height: 10,
@@ -53,21 +53,69 @@ class _CreateAccountEntryState extends State<CreateAccountEntry> {
               SizedBox(
                 height: 10,
               ),
-              Padding(
+              Expanded(
+                  child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Container(
-                  decoration: BoxDecoration(border: Border.all(width: 1)),
                   child: Text(
                     'Would you like to create a new account?',
                     style: TextStyle(fontFamily: 'MoveBold', fontSize: 28),
                     textAlign: TextAlign.center,
                   ),
                 ),
-              )
+              )),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                    child: RichText(
+                        text: TextSpan(
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'MoveTextRegular',
+                                fontSize: 17),
+                            children: [
+                      TextSpan(text: 'By clicking '),
+                      TextSpan(
+                          text: 'Create your account',
+                          style: TextStyle(fontFamily: 'MoveTextBold')),
+                      TextSpan(text: ', you automatically accept our '),
+                      TextSpan(
+                          text: 'terms and conditions.',
+                          style: TextStyle(
+                              fontFamily: 'MoveTextMedium',
+                              color: Color.fromRGBO(14, 132, 145, 1)))
+                    ]))),
+              ),
+              CreateNewAccountButton()
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+//Button to create the account
+class CreateNewAccountButton extends StatelessWidget {
+  const CreateNewAccountButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.black)),
+            onPressed: () => print('pressed'),
+            child: Padding(
+                padding: EdgeInsets.only(bottom: 15, top: 15),
+                child: Text(
+                  'Create your account',
+                  style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 28),
+                )),
+          ),
+        ));
   }
 }
