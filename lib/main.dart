@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxiconnect/Components/Login/CreateAccountEntry.dart';
 import 'package:taxiconnect/Components/Login/EntryScreen.dart';
 import 'package:taxiconnect/Components/Login/OTPVerificationEntry.dart';
 import 'package:taxiconnect/Components/Login/PhoneDetailsScreen.dart';
@@ -18,5 +19,27 @@ TextTheme _appTextTheme(TextTheme base) {
 }
 
 void main() {
-  runApp(new MaterialApp(theme: _appTheme, home: OTPVerificationEntry()));
+  runApp(AppGeneralEntry());
+}
+
+class AppGeneralEntry extends StatefulWidget {
+  const AppGeneralEntry({Key? key}) : super(key: key);
+
+  @override
+  _AppGeneralEntryState createState() => _AppGeneralEntryState();
+}
+
+class _AppGeneralEntryState extends State<AppGeneralEntry> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        theme: _appTheme,
+        initialRoute: '/CreateAccountEntry',
+        routes: {
+          '/': (context) => EntryScreen(),
+          '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
+          '/OTPVerificationEntry': (context) => OTPVerificationEntry(),
+          '/CreateAccountEntry': (context) => CreateAccountEntry()
+        });
+  }
 }

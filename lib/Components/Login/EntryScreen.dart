@@ -42,14 +42,14 @@ class _EntryScreenState extends State<EntryScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(200),
                           child: Image.asset(
-                            'Assets/logo.png',
+                            'Assets/Images/logo.png',
                             fit: BoxFit.contain,
                           ),
                         )),
                     Expanded(
                         child: Container(
                       //decoration: BoxDecoration(border: Border.all(width: 1)),
-                      child: Image.asset('Assets/entryImage0.png',
+                      child: Image.asset('Assets/Images/entryImage0.png',
                           fit: BoxFit.contain),
                     )),
                     Container(

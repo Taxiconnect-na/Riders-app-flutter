@@ -57,8 +57,8 @@ class FlagPartPhoneEntry extends StatelessWidget {
             }),
         child: Container(
             decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                border: Border.all(width: 0.5, color: Colors.grey.shade300),
+                //color: Colors.grey.shade100,
+                border: Border.all(width: 0.5, color: Colors.white),
                 borderRadius: BorderRadius.circular(3)),
             height: MediaQuery.of(context).size.height,
             child: Padding(

@@ -58,7 +58,9 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                         ),
                       ),
                       trailing: GenericCircButton(
-                        key: Key('PhoneDetailsScreen'),
+                        originRouteName: 'PhoneDetailsScreen',
+                        destinationRouteName: 'OTPVerificationEntry',
+                        destinationRouteNature: 'obvious',
                       ),
                     ),
                   ))

@@ -53,7 +53,9 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
                   child: Container(
                     child: ListTile(
                       trailing: GenericCircButton(
-                        key: Key('OTPVerificationEntry'),
+                        originRouteName: 'OTPVerificationEntry',
+                        destinationRouteName: 'Next',
+                        destinationRouteNature: 'ambigue',
                       ),
                     ),
                   ))
