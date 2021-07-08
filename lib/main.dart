@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Components/Login/EntryScreen.dart';
+import 'package:taxiconnect/Components/Login/PhoneDetailsScreen.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputModal.dart'; //Debug
+import 'Modules/PhoneNumberInput/PhoneNumberInputEntry.dart'; //Debug
 
 final ThemeData _appTheme = _buildAppTheme();
 
@@ -15,5 +17,5 @@ TextTheme _appTextTheme(TextTheme base) {
 }
 
 void main() {
-  runApp(new MaterialApp(theme: _appTheme, home: PhoneNumberInputModal()));
+  runApp(new MaterialApp(theme: _appTheme, home: PhoneDetailsScreen()));
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Modules/GenericCircButton/GenericCircButton.dart';
+import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputEntry.dart';
 
 class PhoneDetailsScreen extends StatefulWidget {
   const PhoneDetailsScreen({Key? key}) : super(key: key);
@@ -31,8 +32,11 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                     child: Text("What's your phone number?",
                         style: TextStyle(
                             fontFamily: 'MoveTextMedium',
-                            fontSize: 21,
+                            fontSize: 24,
                             color: Colors.black))),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Expanded(
                   child: Padding(
@@ -40,8 +44,7 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                           EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(border: Border.all(width: 1)),
-                        child: Text('phone'),
+                        child: PhoneNumberInputEntry(),
                       ))),
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 25),
@@ -50,7 +53,9 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                       leading: Container(
                         width: MediaQuery.of(context).size.width / 2.2,
                         child: Text(
-                            'By proceeding, you will receive an SMS and data fees may apply.'),
+                          'By proceeding, you will receive an SMS and data fees may apply.',
+                          style: TextStyle(fontSize: 14),
+                        ),
                       ),
                       trailing: GenericCircButton(
                         key: Key('PhoneDetailsScreen'),
