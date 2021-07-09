@@ -39,7 +39,7 @@ class WalletEntry extends StatelessWidget {
                         topRight: Radius.circular(35))),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                  child: Text('Bottom part'),
+                  child: WalletEntryBottomPart(),
                 ),
               ),
             ),
@@ -108,6 +108,89 @@ class HeaderPartWalletEntry extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+//Bottom part of the wallet entry
+class WalletEntryBottomPart extends StatelessWidget {
+  const WalletEntryBottomPart({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(border: Border.all(width: 1)),
+      child: Column(
+        children: [
+          ListTile(
+            horizontalTitleGap: 5,
+            contentPadding: EdgeInsets.only(left: 0),
+            leading: Container(
+                child: Icon(
+              Icons.phone_android,
+              color: Colors.black,
+              size: 35,
+            )),
+            title: Text('Send cab fares',
+                style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 20)),
+            subtitle: Text('Easily send to anyone'),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+            ),
+          ),
+          Divider(
+            thickness: 1,
+          ),
+          ListTile(
+            horizontalTitleGap: 5,
+            contentPadding: EdgeInsets.only(left: 0),
+            leading: Container(
+                child: Icon(
+              Icons.account_balance_wallet,
+              color: Colors.black,
+              size: 35,
+            )),
+            title: Text('Top-up',
+                style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 20)),
+            subtitle: Text('Safely top-up your wallet'),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          LastTransactionSection()
+        ],
+      ),
+    );
+  }
+}
+
+//Last transaction part
+class LastTransactionSection extends StatelessWidget {
+  const LastTransactionSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20, bottom: 15),
+      child: Row(
+        children: [
+          Expanded(
+              child: Text(
+            'Last transaction',
+            style: TextStyle(fontSize: 19, color: Colors.grey.shade700),
+          )),
+          Text('Show all',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: 'MoveTextMedium',
+                  color: Color.fromRGBO(14, 132, 145, 1)))
+        ],
       ),
     );
   }
