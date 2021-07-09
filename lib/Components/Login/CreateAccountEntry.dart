@@ -109,7 +109,8 @@ class CreateNewAccountButton extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.black)),
-            onPressed: () => print('pressed'),
+            onPressed: () =>
+                Navigator.pushNamed(context, '/NewAccountAddiDetails'),
             child: Padding(
                 padding: EdgeInsets.only(bottom: 15, top: 15),
                 child: Text(

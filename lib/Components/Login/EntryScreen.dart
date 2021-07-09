@@ -84,7 +84,7 @@ class _EntryScreenState extends State<EntryScreen> {
                             fontSize: 20,
                             color: Colors.black)),
                     trailing: Icon(Icons.arrow_forward_ios,
-                        size: 25, color: Colors.black)),
+                        size: 20, color: Colors.black)),
               )),
             ),
           )

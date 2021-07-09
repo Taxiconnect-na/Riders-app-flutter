@@ -54,8 +54,8 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
                     child: ListTile(
                       trailing: GenericCircButton(
                         originRouteName: 'OTPVerificationEntry',
-                        destinationRouteName: 'Next',
-                        destinationRouteNature: 'ambigue',
+                        destinationRouteName: 'CreateAccountEntry',
+                        destinationRouteNature: 'obvious',
                       ),
                     ),
                   ))
