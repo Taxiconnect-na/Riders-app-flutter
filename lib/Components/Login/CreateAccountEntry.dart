@@ -104,6 +104,7 @@ class CreateNewAccountButton extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Container(
+          height: 65,
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
             style: ButtonStyle(
