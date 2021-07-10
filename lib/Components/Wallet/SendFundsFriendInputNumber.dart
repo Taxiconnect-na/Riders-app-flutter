@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:taxiconnect/Modules/GenericCircButton/GenericCircButton.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputEntry.dart';
 
-class PhoneDetailsScreen extends StatefulWidget {
-  const PhoneDetailsScreen({Key? key}) : super(key: key);
+class SendFundsFriendInputNumber extends StatefulWidget {
+  const SendFundsFriendInputNumber({Key? key}) : super(key: key);
 
   @override
-  _PhoneDetailsScreenState createState() => _PhoneDetailsScreenState();
+  _SendFundsFriendInputNumberState createState() =>
+      _SendFundsFriendInputNumberState();
 }
 
-class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
+class _SendFundsFriendInputNumberState
+    extends State<SendFundsFriendInputNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +31,10 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Container(
                     width: MediaQuery.of(context).size.width,
-                    child: Text("What's your phone number?",
+                    child: Text("Who's receiving?",
                         style: TextStyle(
-                            fontFamily: 'MoveTextMedium',
-                            fontSize: 24,
+                            fontFamily: 'MoveBold',
+                            fontSize: 28,
                             color: Colors.black))),
               ),
               SizedBox(
@@ -52,13 +54,24 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                     child: ListTile(
                       leading: Container(
                         width: MediaQuery.of(context).size.width / 2.2,
-                        child: Text(
-                          'By proceeding, you will receive an SMS and data fees may apply.',
-                          style: TextStyle(fontSize: 15),
+                        child: RichText(
+                          text: TextSpan(
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                              children: [
+                                TextSpan(text: 'You can only send fares to '),
+                                TextSpan(
+                                    text: 'active TaxiConnect ',
+                                    style: TextStyle(
+                                        fontFamily: 'MoveTextMedium',
+                                        color:
+                                            Color.fromRGBO(14, 132, 145, 1))),
+                                TextSpan(text: 'accounts.')
+                              ]),
                         ),
                       ),
                       trailing: GenericCircButton(
-                        originRouteName: 'PhoneDetailsScreen',
+                        originRouteName: 'SendFundsFriendInputNumber',
                         destinationRouteName: 'OTPVerificationEntry',
                         destinationRouteNature: 'obvious',
                       ),

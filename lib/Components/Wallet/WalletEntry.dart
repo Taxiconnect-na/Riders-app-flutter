@@ -120,7 +120,6 @@ class WalletEntryBottomPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(width: 1)),
       child: Column(
         children: [
           ListTile(
@@ -178,18 +177,58 @@ class LastTransactionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 20, bottom: 15),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-              child: Text(
-            'Last transaction',
-            style: TextStyle(fontSize: 19, color: Colors.grey.shade700),
-          )),
-          Text('Show all',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontFamily: 'MoveTextMedium',
-                  color: Color.fromRGBO(14, 132, 145, 1)))
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              children: [
+                Expanded(
+                    child: Text(
+                  'Last transaction',
+                  style: TextStyle(fontSize: 19, color: Colors.grey.shade700),
+                )),
+                Text('Show all',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontFamily: 'MoveTextMedium',
+                        color: Color.fromRGBO(14, 132, 145, 1)))
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 0.5, color: Colors.grey),
+                borderRadius: BorderRadius.circular(3)),
+            child: ListTile(
+              horizontalTitleGap: 5,
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: Icon(Icons.date_range_rounded),
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Paid for ride',
+                          style: TextStyle(
+                              fontFamily: 'MoveTextMedium', fontSize: 17))),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Cash payment',
+                          style: TextStyle(
+                              color: Color.fromRGBO(14, 132, 145, 1))))
+                ],
+              ),
+              subtitle: Text('12-05-2021 at 13:00'),
+              trailing: Text(
+                'N\$30',
+                style: TextStyle(
+                    fontFamily: 'MoveBold',
+                    fontSize: 22,
+                    color: Color.fromRGBO(14, 132, 145, 1)),
+              ),
+            ),
+          )
         ],
       ),
     );
