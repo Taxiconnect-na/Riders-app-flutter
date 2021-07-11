@@ -8,8 +8,10 @@ import 'package:taxiconnect/Components/Wallet/SendFundsEntry.dart';
 import 'package:taxiconnect/Components/Wallet/WalletEntry.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputModal.dart'; //Debug
 import 'Components/Wallet/CheckPhoneNumberDest.dart';
+import 'Components/Wallet/SendFundsConfirmation.dart';
 import 'Components/Wallet/SendFundsFriendInputNumber.dart';
 import 'Components/Wallet/SendFundsInputAmount.dart';
+import 'Components/Wallet/TransactionFinalReport.dart';
 import 'Modules/PhoneNumberInput/PhoneNumberInputEntry.dart'; //Debug
 
 final ThemeData _appTheme = _buildAppTheme();
@@ -49,7 +51,7 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
         },
         child: MaterialApp(
             theme: _appTheme,
-            initialRoute: '/SendFundsInputAmount',
+            initialRoute: '/TransactionFinalReport',
             routes: {
               '/': (context) => EntryScreen(),
               '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
@@ -61,7 +63,9 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
               '/SendFundsFriendInputNumber': (context) =>
                   SendFundsFriendInputNumber(),
               '/CheckPhoneNumberDest': (context) => CheckPhoneNumberDest(),
-              '/SendFundsInputAmount': (context) => SendFundsInputAmount()
+              '/SendFundsInputAmount': (context) => SendFundsInputAmount(),
+              '/SendFundsConfirmation': (context) => SendFundsConfirmation(),
+              '/TransactionFinalReport': (context) => TransactionFinalReport()
             }));
   }
 }

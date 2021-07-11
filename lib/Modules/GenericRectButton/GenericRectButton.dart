@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 ///Generic rectangular button
 ///Can receive any on press action void function
 class GenericRectButton extends StatelessWidget {
-  const GenericRectButton({Key? key}) : super(key: key);
+  final String label;
+  final bool isArrowShow;
+
+  GenericRectButton({required this.label, this.isArrowShow = true});
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +28,18 @@ class GenericRectButton extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          'Next',
+                          this.label,
                           style: TextStyle(
                               fontFamily: 'MoveTextMedium', fontSize: 28),
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 25,
+                    Visibility(
+                      visible: this.isArrowShow,
+                      child: Icon(
+                        Icons.arrow_forward,
+                        size: 25,
+                      ),
                     )
                   ],
                 )),

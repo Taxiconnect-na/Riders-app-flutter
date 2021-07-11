@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
 
-class CheckPhoneNumberDest extends StatefulWidget {
-  const CheckPhoneNumberDest({Key? key}) : super(key: key);
+class TransactionFinalReport extends StatefulWidget {
+  const TransactionFinalReport({Key? key}) : super(key: key);
 
   @override
-  _CheckPhoneNumberDestState createState() => _CheckPhoneNumberDestState();
+  _TransactionFinalReportState createState() => _TransactionFinalReportState();
 }
 
-class _CheckPhoneNumberDestState extends State<CheckPhoneNumberDest> {
+class _TransactionFinalReportState extends State<TransactionFinalReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class _CheckPhoneNumberDestState extends State<CheckPhoneNumberDest> {
                 child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
-                    child: Text("Good to go!",
+                    child: Text("Transfer successful!",
                         style: TextStyle(
                             fontFamily: 'MoveBold',
                             fontSize: 28,
@@ -40,7 +40,8 @@ class _CheckPhoneNumberDestState extends State<CheckPhoneNumberDest> {
               ),
               AvatarAndServerDetails(),
               GenericRectButton(
-                label: 'Next',
+                label: 'Done',
+                isArrowShow: false,
               )
             ],
           ),
@@ -90,12 +91,29 @@ class AvatarAndServerDetails extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
-                child: Container(
-                  child: Text(
-                    'You are allowed to make the transaction.',
-                    style: TextStyle(
-                        fontSize: 16, color: Color.fromRGBO(14, 132, 145, 1)),
-                  ),
+                child: Column(
+                  children: [
+                    Icon(Icons.check,
+                        size: 35, color: Color.fromRGBO(14, 132, 145, 1)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Container(
+                        child: Text(
+                          'Sent N\$100',
+                          style:
+                              TextStyle(fontSize: 20, fontFamily: 'MoveBold'),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        'Your transaction was successful.',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromRGBO(14, 132, 145, 1)),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
