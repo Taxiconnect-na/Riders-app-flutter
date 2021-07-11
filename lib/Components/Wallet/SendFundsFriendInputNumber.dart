@@ -51,6 +51,7 @@ class _SendFundsFriendInputNumberState
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 25),
                   child: Container(
+                    height: 100,
                     child: ListTile(
                       leading: Container(
                         width: MediaQuery.of(context).size.width / 2.2,

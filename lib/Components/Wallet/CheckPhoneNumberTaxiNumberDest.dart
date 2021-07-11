@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
 
-class CheckPhoneNumberDest extends StatefulWidget {
-  const CheckPhoneNumberDest({Key? key}) : super(key: key);
+///Supports both Riders and Drivers
+
+class CheckPhoneNumberTaxiNumberDest extends StatefulWidget {
+  const CheckPhoneNumberTaxiNumberDest({Key? key}) : super(key: key);
 
   @override
-  _CheckPhoneNumberDestState createState() => _CheckPhoneNumberDestState();
+  _CheckPhoneNumberTaxiNumberDestState createState() =>
+      _CheckPhoneNumberTaxiNumberDestState();
 }
 
-class _CheckPhoneNumberDestState extends State<CheckPhoneNumberDest> {
+class _CheckPhoneNumberTaxiNumberDestState
+    extends State<CheckPhoneNumberTaxiNumberDest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
