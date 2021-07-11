@@ -49,7 +49,7 @@ class InputAmountToSendPart extends StatelessWidget {
       child: Container(
           child: ListTile(
         horizontalTitleGap: 0,
-        contentPadding: EdgeInsets.only(left: 0, right: 0),
+        contentPadding: EdgeInsets.only(left: 0, right: 0, top: 20),
         leading: Container(
           alignment: Alignment.centerLeft,
           decoration:

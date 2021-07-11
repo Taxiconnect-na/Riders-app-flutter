@@ -8,11 +8,13 @@ import 'package:taxiconnect/Components/Wallet/SendFundsEntry.dart';
 import 'package:taxiconnect/Components/Wallet/WalletEntry.dart';
 import 'package:taxiconnect/Modules/PhoneNumberInput/PhoneNumberInputModal.dart'; //Debug
 import 'Components/Wallet/CheckPhoneNumberTaxiNumberDest.dart';
+import 'Components/Wallet/EnterTopUpAmount.dart';
 import 'Components/Wallet/PayTaxiInputNumber.dart';
 import 'Components/Wallet/SendFundsConfirmation.dart';
 import 'Components/Wallet/SendFundsFriendInputNumber.dart';
 import 'Components/Wallet/SendFundsInputAmount.dart';
 import 'Components/Wallet/TransactionFinalReport.dart';
+import 'Components/Wallet/WalletTopupEntry.dart';
 import 'Modules/PhoneNumberInput/PhoneNumberInputEntry.dart'; //Debug
 
 final ThemeData _appTheme = _buildAppTheme();
@@ -52,7 +54,7 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
         },
         child: MaterialApp(
             theme: _appTheme,
-            initialRoute: '/PayTaxiInputNumber',
+            initialRoute: '/EnterTopUpAmount',
             routes: {
               '/': (context) => EntryScreen(),
               '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
@@ -69,6 +71,8 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
               '/SendFundsConfirmation': (context) => SendFundsConfirmation(),
               '/TransactionFinalReport': (context) => TransactionFinalReport(),
               '/PayTaxiInputNumber': (context) => PayTaxiInputNumber(),
+              '/WalletTopupEntry': (context) => WalletTopupEntry(),
+              '/EnterTopUpAmount': (context) => EnterTopUpAmount()
             }));
   }
 }
