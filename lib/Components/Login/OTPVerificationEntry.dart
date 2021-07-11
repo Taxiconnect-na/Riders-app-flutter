@@ -51,6 +51,7 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 25),
                   child: Container(
+                    height: 100,
                     child: ListTile(
                       trailing: GenericCircButton(
                         originRouteName: 'OTPVerificationEntry',
