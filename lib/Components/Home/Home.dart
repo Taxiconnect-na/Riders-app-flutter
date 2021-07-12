@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:taxiconnect/Components/Home/GenericMap/GenericMap.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/MainClassicBottomSlider.dart';
+
+import 'HeaderGeneralCaptain.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,7 +19,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SlidingUpPanel(
+        body: Stack(
+      children: [
+        SlidingUpPanel(
             controller: panelController,
             minHeight:
                 200, //? Should vary based on the type of content displayed
@@ -29,16 +34,14 @@ class _HomeState extends State<Home> {
             body: Container(
               decoration: BoxDecoration(color: Colors.grey),
               child: SafeArea(
+                top: false,
                 child: Column(
                   children: [
-                    Container(
-                      child: Text('Top part'),
-                    ),
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
-                        child: Text('middle part'),
+                        child: GenericMap(),
                       ),
                     ),
                   ],
@@ -81,6 +84,9 @@ class _HomeState extends State<Home> {
             onPanelClosed: () {
               this.isPanelShown = false;
               print('PANEL CLOSED!');
-            }));
+            }),
+        SafeArea(child: HeaderGeneralCaptain()),
+      ],
+    ));
   }
 }
