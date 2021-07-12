@@ -15,13 +15,28 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final panelController = PanelController();
   bool isPanelShown = false; //To know whether or not the panel is shown.
+  double minSliderHeight = 200; //The minimum height for the slider.
+  double maxSliderHeight = 450; //The maximum height for the slider.
+  double _initRelativeFocusButtonPosition =
+      30; //The init and fixed relative focus button position -default: minSliderHeight
+  double relativeFocusButtonPosition =
+      0; //The relative position of the focus button based on the slider's height - initial: 30
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    this._initRelativeFocusButtonPosition += this.minSliderHeight;
+    this.relativeFocusButtonPosition = this._initRelativeFocusButtonPosition;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        SlidingUpPanel(
+      body: Stack(
+        children: [
+          SlidingUpPanel(
             controller: panelController,
             minHeight:
                 200, //? Should vary based on the type of content displayed
@@ -49,34 +64,34 @@ class _HomeState extends State<Home> {
               ),
             ),
             panelBuilder: (controller) => Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => this.isPanelShown
-                          ? print(
-                              'Keep opened by default - Quick close restriction.')
-                          : this.panelController.open(),
-                      child: Container(
-                        height: 30,
-                        alignment: Alignment.center,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Positioned(
-                              bottom: 7,
-                              child: Icon(
-                                Icons.minimize_rounded,
-                                size: 40,
-                                color: Colors.grey.shade400,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+              children: [
+                GestureDetector(
+                  onTap: () => this.isPanelShown
+                      ? print(
+                          'Keep opened by default - Quick close restriction.')
+                      : this.panelController.open(),
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          bottom: 7,
+                          child: Icon(
+                            Icons.minimize_rounded,
+                            size: 40,
+                            color: Colors.grey.shade400,
+                          ),
+                        )
+                      ],
                     ),
-                    Expanded(
-                        child: MainClassicBottomSlider(controller: controller)),
-                  ],
+                  ),
                 ),
+                Expanded(
+                    child: MainClassicBottomSlider(controller: controller)),
+              ],
+            ),
             onPanelOpened: () {
               this.isPanelShown = true;
               print('PANEL OPENED!');
@@ -84,9 +99,32 @@ class _HomeState extends State<Home> {
             onPanelClosed: () {
               this.isPanelShown = false;
               print('PANEL CLOSED!');
-            }),
-        SafeArea(child: HeaderGeneralCaptain()),
-      ],
-    ));
+            },
+            onPanelSlide: (double position) {
+              setState(() {
+                relativeFocusButtonPosition =
+                    (position * (maxSliderHeight - minSliderHeight)) +
+                        _initRelativeFocusButtonPosition;
+              });
+              print(relativeFocusButtonPosition);
+            },
+          ),
+          Positioned(
+            right: 20.0,
+            bottom: relativeFocusButtonPosition,
+            child: FloatingActionButton(
+              child: Icon(
+                Icons.gps_fixed,
+                color: Colors.black,
+                size: 35,
+              ),
+              onPressed: () {},
+              backgroundColor: Colors.white,
+            ),
+          ),
+          SafeArea(child: HeaderGeneralCaptain()),
+        ],
+      ),
+    );
   }
 }

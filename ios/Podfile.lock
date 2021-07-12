@@ -8,10 +8,16 @@ PODS:
   - GoogleMaps/Base (4.1.0)
   - GoogleMaps/Maps (4.1.0):
     - GoogleMaps/Base
+  - location (0.0.1):
+    - Flutter
+  - "permission_handler (5.1.0+2)":
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
+  - location (from `.symlinks/plugins/location/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
 
 SPEC REPOS:
   trunk:
@@ -22,12 +28,18 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
+  location:
+    :path: ".symlinks/plugins/location/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
+  location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 081c59a1beb0135fc3037a8081c8a323df69284b
 
 COCOAPODS: 1.10.1
