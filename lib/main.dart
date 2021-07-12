@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxiconnect/Components/Home/Home.dart';
 import 'package:taxiconnect/Components/Login/CreateAccountEntry.dart';
 import 'package:taxiconnect/Components/Login/EntryScreen.dart';
 import 'package:taxiconnect/Components/Login/NewAccountAddiDetails.dart';
@@ -52,27 +53,25 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
             currentFocus.unfocus();
           }
         },
-        child: MaterialApp(
-            theme: _appTheme,
-            initialRoute: '/EnterTopUpAmount',
-            routes: {
-              '/': (context) => EntryScreen(),
-              '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
-              '/OTPVerificationEntry': (context) => OTPVerificationEntry(),
-              '/CreateAccountEntry': (context) => CreateAccountEntry(),
-              '/NewAccountAddiDetails': (context) => NewAccountAddiDetails(),
-              '/WalletEntry': (context) => WalletEntry(),
-              '/SendFundsEntry': (context) => SendFundsEntry(),
-              '/SendFundsFriendInputNumber': (context) =>
-                  SendFundsFriendInputNumber(),
-              '/CheckPhoneNumberTaxiNumberDest': (context) =>
-                  CheckPhoneNumberTaxiNumberDest(),
-              '/SendFundsInputAmount': (context) => SendFundsInputAmount(),
-              '/SendFundsConfirmation': (context) => SendFundsConfirmation(),
-              '/TransactionFinalReport': (context) => TransactionFinalReport(),
-              '/PayTaxiInputNumber': (context) => PayTaxiInputNumber(),
-              '/WalletTopupEntry': (context) => WalletTopupEntry(),
-              '/EnterTopUpAmount': (context) => EnterTopUpAmount()
-            }));
+        child: MaterialApp(theme: _appTheme, initialRoute: '/Home', routes: {
+          '/': (context) => EntryScreen(),
+          '/Home': (context) => Home(),
+          '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
+          '/OTPVerificationEntry': (context) => OTPVerificationEntry(),
+          '/CreateAccountEntry': (context) => CreateAccountEntry(),
+          '/NewAccountAddiDetails': (context) => NewAccountAddiDetails(),
+          '/WalletEntry': (context) => WalletEntry(),
+          '/SendFundsEntry': (context) => SendFundsEntry(),
+          '/SendFundsFriendInputNumber': (context) =>
+              SendFundsFriendInputNumber(),
+          '/CheckPhoneNumberTaxiNumberDest': (context) =>
+              CheckPhoneNumberTaxiNumberDest(),
+          '/SendFundsInputAmount': (context) => SendFundsInputAmount(),
+          '/SendFundsConfirmation': (context) => SendFundsConfirmation(),
+          '/TransactionFinalReport': (context) => TransactionFinalReport(),
+          '/PayTaxiInputNumber': (context) => PayTaxiInputNumber(),
+          '/WalletTopupEntry': (context) => WalletTopupEntry(),
+          '/EnterTopUpAmount': (context) => EnterTopUpAmount()
+        }));
   }
 }
