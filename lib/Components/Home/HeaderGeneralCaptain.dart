@@ -21,18 +21,21 @@ class _HeaderGeneralCaptainState extends State<HeaderGeneralCaptain> {
             //decoration: BoxDecoration(border: Border.all(width: 1)),
             child: Row(
           children: [
-            Container(
-              width: 55,
-              height: 55,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 6)
-              ], color: Colors.white, shape: BoxShape.circle),
-              child: Icon(
-                Icons.menu,
-                size: 37,
+            InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: Container(
+                width: 55,
+                height: 55,
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 6)
+                ], color: Colors.white, shape: BoxShape.circle),
+                child: Icon(
+                  Icons.menu,
+                  size: 37,
+                ),
               ),
             ),
           ],

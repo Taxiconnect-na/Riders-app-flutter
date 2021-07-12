@@ -9,8 +9,8 @@ class RideDeliverySelection extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Container(
-          decoration:
-              BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
+          // decoration:
+          //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           child: Padding(
@@ -125,10 +125,10 @@ class BasicProductionSelection extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 0),
                   child: Container(
                     //decoration: BoxDecoration(border: Border.all(width: 1)),
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomCenter,
                     width: MediaQuery.of(context).size.width,
                     child: Container(
                         width: 30,

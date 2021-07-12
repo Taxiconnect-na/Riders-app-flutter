@@ -11,7 +11,7 @@ class MainClassicBottomSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(width: 1)),
+      //decoration: BoxDecoration(border: Border.all(width: 1)),
       child: Column(
         children: [DisplayAssigner()],
       ),

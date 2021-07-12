@@ -34,6 +34,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: SafeArea(child: Text('Hey!')),
+      ),
       body: Stack(
         children: [
           SlidingUpPanel(
