@@ -14,6 +14,10 @@ class HomeProvider with ChangeNotifier {
   double relativeFocusButtonPosition =
       0; //The relative position of the focus button based on the slider's height - initial: 30
   double relativeMapHeight = 0;
+  Map<dynamic, dynamic> locationServicesStatus = {
+    'isLocationServiceEnabled': false,
+    'isLocationPermissionGranted': false
+  }; //Will hold the status of the GPRS service and the one of the location permission.
 
   //?1. Initialize home screen measurements
   //Resposible for initializing the height of the map, the refocus button when the Home component
@@ -36,7 +40,6 @@ class HomeProvider with ChangeNotifier {
             this._initRelativeFocusButtonPosition;
     //Map height
     //this.relativeMapHeight -= sliderPositionHeight;
-    print(relativeMapHeight);
     notifyListeners();
   }
 
@@ -46,5 +49,23 @@ class HomeProvider with ChangeNotifier {
   void updatePanelShownStatus(bool status) {
     isPanelShown = status;
     notifyListeners();
+  }
+
+  //?4. Update the GPRS service status and the location permission
+  void updateGPRSServiceStatusAndLocationPermissions(
+      {required bool gprsServiceStatus, required bool locationPermission}) {
+    if (gprsServiceStatus !=
+            this.locationServicesStatus['isLocationServiceEnabled'] ||
+        locationPermission !=
+            this.locationServicesStatus[
+                'isLocationPermissionGranted']) //new values received
+    {
+      locationServicesStatus['isLocationServiceEnabled'] = gprsServiceStatus;
+      this.locationServicesStatus['isLocationPermissionGranted'] =
+          locationPermission;
+      //...Update
+      print('UPDATED GLOBAL STATE FOR LOCATION SERVICE STATUS');
+      notifyListeners();
+    }
   }
 }

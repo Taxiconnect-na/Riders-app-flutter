@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsSelection.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/GenericGreeting.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/RideDeliverySelection.dart';
 
@@ -27,7 +28,7 @@ class DisplayAssigner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RideDeliverySelection(),
+      child: ConnectMeUsSelection(),
     );
   }
 }

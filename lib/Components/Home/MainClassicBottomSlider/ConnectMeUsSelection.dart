@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'BasicProductSelection.dart';
 
-class RideDeliverySelection extends StatelessWidget {
-  const RideDeliverySelection({Key? key}) : super(key: key);
+class ConnectMeUsSelection extends StatelessWidget {
+  const ConnectMeUsSelection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,13 @@ class RideDeliverySelection extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text("You're the boss",
+                  child: Text("Private or shared?",
                       style: TextStyle(
                           fontFamily: 'MoveTextMedium', fontSize: 18)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(),
-                  child: Text("Choose the desired service",
+                  child: Text("We can handle your convenience",
                       style:
                           TextStyle(fontFamily: 'MoveTextLight', fontSize: 14)),
                 ),
@@ -41,10 +41,13 @@ class RideDeliverySelection extends StatelessWidget {
                       child: Row(
                         children: [
                           BasicProductSelection(
-                              iconString: 'Assets/Images/normaltaxieconomy.jpg',
-                              productName: 'Ride',
-                              shortDescription:
-                                  'The easiest way to move around the city.'),
+                            iconString: 'Assets/Images/meeting.png',
+                            iconSize: 25,
+                            productName: 'ConnectUs',
+                            shortDescription: 'Shared booking',
+                            shortDescriptionColor:
+                                Color.fromRGBO(9, 110, 212, 1),
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.27,
                             width: 1.5,
@@ -59,11 +62,13 @@ class RideDeliverySelection extends StatelessWidget {
                                 ])),
                           ),
                           BasicProductSelection(
-                              iconString: 'Assets/Images/box_delivery.png',
-                              iconSize: 31,
-                              productName: 'Delivery',
-                              shortDescription:
-                                  'Send your packages from one place to another.'),
+                            iconString: 'Assets/Images/user.png',
+                            iconSize: 25,
+                            productName: 'ConnectMe',
+                            shortDescription: 'Private booking',
+                            shortDescriptionColor:
+                                Color.fromRGBO(9, 110, 212, 1),
+                          ),
                         ],
                       ),
                     ),

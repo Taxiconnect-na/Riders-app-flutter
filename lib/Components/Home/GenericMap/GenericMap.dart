@@ -14,10 +14,6 @@ class GenericMap extends StatefulWidget {
 }
 
 class _GenericMapState extends State<GenericMap> {
-  //Wake the LocationOpsHandler
-  final void locationOpsHandler =
-      new LocationOpsHandler().startLocationWatcher();
-  //........
   late GoogleMapController mapController;
   final _userCenterPoint = const LatLng(-22.559723, 17.074068);
 
@@ -27,11 +23,22 @@ class _GenericMapState extends State<GenericMap> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //Wake the LocationOpsHandler
+    new LocationOpsHandler(parentContext: context).startLocationWatcher();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
       body: GoogleMap(
         padding: EdgeInsets.only(bottom: 60),
+        mapToolbarEnabled: false,
+        zoomControlsEnabled: false,
         myLocationButtonEnabled: false,
         myLocationEnabled: true,
         onMapCreated: _onMapCreatedHandler,
