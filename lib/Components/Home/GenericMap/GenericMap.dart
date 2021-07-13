@@ -31,6 +31,7 @@ class _GenericMapState extends State<GenericMap> {
     return Scaffold(
       backgroundColor: Colors.red,
       body: GoogleMap(
+        padding: EdgeInsets.only(bottom: 60),
         myLocationButtonEnabled: false,
         myLocationEnabled: true,
         onMapCreated: _onMapCreatedHandler,

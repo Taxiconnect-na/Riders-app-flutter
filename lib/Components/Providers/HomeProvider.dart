@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+
+///? HOME PROVIDER
+///Hold the provider responsible for the home only!
+///! Keep the module-like providers split (create a provider for each of the Components)
+///! Eg: For Wallet, create a WalletProvider.dart file, etc...
+
+class HomeProvider with ChangeNotifier {
+  bool isPanelShown = false; //To know whether or not the panel is shown.
+  double minSliderHeight = 200; //The minimum height for the slider.
+  double maxSliderHeight = 450; //The maximum height for the slider.
+  double _initRelativeFocusButtonPosition =
+      30; //The init and fixed relative focus button position -default: minSliderHeight
+  double relativeFocusButtonPosition =
+      0; //The relative position of the focus button based on the slider's height - initial: 30
+  double relativeMapHeight = 0;
+
+  //?1. Initialize home screen measurements
+  //Resposible for initializing the height of the map, the refocus button when the Home component
+  //is created only, it happens only once.
+  //? Receives the Home Screen size
+  void initHomeScreenMeasurements({required Size screenSize}) {
+    //Refocus button
+    this._initRelativeFocusButtonPosition += this.minSliderHeight;
+    this.relativeFocusButtonPosition = this._initRelativeFocusButtonPosition;
+    //Map height + a tolerable height factor of 40 (default)
+    this.relativeMapHeight = screenSize.height - this.minSliderHeight + 40;
+  }
+
+  //?2. Update refocus position
+  void updateRefocusAndMapPositions(
+      {required double sliderPositionHeight, required Size screenSize}) {
+    //Refocus position
+    this.relativeFocusButtonPosition =
+        (sliderPositionHeight * (this.maxSliderHeight - this.minSliderHeight)) +
+            this._initRelativeFocusButtonPosition;
+    //Map height
+    //this.relativeMapHeight -= sliderPositionHeight;
+    print(relativeMapHeight);
+    notifyListeners();
+  }
+
+  //?3. Update panel shown status
+  //Defined to true if the panel is shown and false otherwise.
+  //? Received the bool for the state
+  void updatePanelShownStatus(bool status) {
+    isPanelShown = status;
+    notifyListeners();
+  }
+}

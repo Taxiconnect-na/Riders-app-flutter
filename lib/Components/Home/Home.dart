@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:taxiconnect/Components/Home/GenericMap/GenericMap.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/MainClassicBottomSlider.dart';
+import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'HeaderGeneralCaptain.dart';
 
@@ -14,21 +17,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final panelController = PanelController();
-  bool isPanelShown = false; //To know whether or not the panel is shown.
-  double minSliderHeight = 200; //The minimum height for the slider.
-  double maxSliderHeight = 450; //The maximum height for the slider.
-  double _initRelativeFocusButtonPosition =
-      30; //The init and fixed relative focus button position -default: minSliderHeight
-  double relativeFocusButtonPosition =
-      0; //The relative position of the focus button based on the slider's height - initial: 30
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    this._initRelativeFocusButtonPosition += this.minSliderHeight;
-    this.relativeFocusButtonPosition = this._initRelativeFocusButtonPosition;
+    final _homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    _homeProvider.initHomeScreenMeasurements(
+        screenSize: Size(ScreenUtil().screenWidth, ScreenUtil().screenHeight));
   }
 
   @override
@@ -55,12 +52,11 @@ class _HomeState extends State<Home> {
                 top: false,
                 child: Column(
                   children: [
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        child: GenericMap(),
-                      ),
+                    Container(
+                      height: context.watch<HomeProvider>().relativeMapHeight,
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      child: GenericMap(),
                     ),
                   ],
                 ),
@@ -69,7 +65,8 @@ class _HomeState extends State<Home> {
             panelBuilder: (controller) => Column(
               children: [
                 GestureDetector(
-                  onTap: () => this.isPanelShown
+                  onTap: () => Provider.of<HomeProvider>(context, listen: false)
+                          .isPanelShown
                       ? print(
                           'Keep opened by default - Quick close restriction.')
                       : this.panelController.open(),
@@ -96,25 +93,23 @@ class _HomeState extends State<Home> {
               ],
             ),
             onPanelOpened: () {
-              this.isPanelShown = true;
+              context.read<HomeProvider>().updatePanelShownStatus(true);
               print('PANEL OPENED!');
             },
             onPanelClosed: () {
-              this.isPanelShown = false;
+              context.read<HomeProvider>().updatePanelShownStatus(false);
               print('PANEL CLOSED!');
             },
             onPanelSlide: (double position) {
-              setState(() {
-                relativeFocusButtonPosition =
-                    (position * (maxSliderHeight - minSliderHeight)) +
-                        _initRelativeFocusButtonPosition;
-              });
-              print(relativeFocusButtonPosition);
+              context.read<HomeProvider>().updateRefocusAndMapPositions(
+                  sliderPositionHeight: position,
+                  screenSize: Size(
+                      ScreenUtil().screenWidth, ScreenUtil().screenHeight));
             },
           ),
           Positioned(
             right: 20.0,
-            bottom: relativeFocusButtonPosition,
+            bottom: context.watch<HomeProvider>().relativeFocusButtonPosition,
             child: FloatingActionButton(
               child: Icon(
                 Icons.gps_fixed,
