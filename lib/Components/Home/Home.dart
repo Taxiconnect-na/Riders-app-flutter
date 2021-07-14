@@ -7,6 +7,7 @@ import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/MainClassicB
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/LocationOpsHandler/LocationOpsHandler.dart';
+import 'package:taxiconnect/Modules/Search/Search.dart';
 
 import 'HeaderGeneralCaptain.dart';
 
@@ -148,6 +149,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           SafeArea(child: HeaderGeneralCaptain()),
+          Search()
         ],
       ),
     );
