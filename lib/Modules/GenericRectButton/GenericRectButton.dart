@@ -5,13 +5,20 @@ import 'package:flutter/material.dart';
 class GenericRectButton extends StatelessWidget {
   final String label;
   final bool isArrowShow;
+  final double horizontalPadding; //Default: 16
+  final double verticalPadding; //Default: 16
 
-  GenericRectButton({required this.label, this.isArrowShow = true});
+  GenericRectButton(
+      {required this.label,
+      this.isArrowShow = true,
+      this.horizontalPadding = 16,
+      this.verticalPadding = 16});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: EdgeInsets.symmetric(
+            horizontal: this.horizontalPadding, vertical: this.verticalPadding),
         child: Container(
           height: 65,
           width: MediaQuery.of(context).size.width,

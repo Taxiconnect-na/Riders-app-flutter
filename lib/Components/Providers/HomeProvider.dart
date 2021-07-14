@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 ///? HOME PROVIDER
-///Hold the provider responsible for the home only!
+///Hold the provider responsible for the home's user interface only (exclude all trip->ride,delivery data) !
 ///! Keep the module-like providers split (create a provider for each of the Components)
 ///! Eg: For Wallet, create a WalletProvider.dart file, etc...
 

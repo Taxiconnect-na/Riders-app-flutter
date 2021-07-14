@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
+import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'ThemesAndRoutes/AppRoutes.dart'; //Debug
 
 void main() {
   runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => HomeProvider())],
+    providers: [
+      ChangeNotifierProvider(
+          create: (_) => HomeProvider()), //For home interface
+      ChangeNotifierProvider(
+          create: (_) => TripProvider()) //For trips management
+    ],
     child: AppGeneralEntry(),
   ));
 }
