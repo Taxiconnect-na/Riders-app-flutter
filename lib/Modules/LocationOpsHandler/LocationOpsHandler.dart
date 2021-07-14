@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 
+import 'package:taxiconnect/Modules/LocationOpsHandler/PositionConverter.dart';
+
 ///Responsible for handling all the operations related to the geographic
 ///position of the user.
 
@@ -55,15 +57,14 @@ class LocationOpsHandler {
 
   //? 2. Get the  user's location details
   //Responsible for getting the user's latitude and logitude, or any other location related infos.
-  void getUserLocation() async {
-    // return await Geolocator.getCurrentPosition();
-    LocationPermission permission = await Geolocator.checkPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.medium);
-    //LocationPermission RequestPermission = await Geolocator.requestPermission();
-    print(permission.toString() == 'LocationPermission.whileInUse');
-
-    //Check the permissions
+  Future getUserLocation({bool shouldGetNewLocation = true}) async {
+    if (shouldGetNewLocation) {
+      return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
+    } else //Get the last known location - useful especially when a permission is denied
+    {
+      return await Geolocator.getLastKnownPosition();
+    }
   }
 
   //? 3. Request location permission
@@ -93,6 +94,8 @@ class LocationOpsHandler {
   //...
   void startLocationWatcher() async {
     print('Watcher active and running!');
+    PositionConverter positionConverter =
+        new PositionConverter(); //To parse the coordinates (Position) data
     //Ask once for the location permission
     this.requestLocationPermission();
     this.gprsStatusStreamer();
@@ -109,10 +112,39 @@ class LocationOpsHandler {
                 locationPermission: status['isLocationPermissionGranted']);
         //....
         if (status['isLocationServiceEnabled'] &&
-            status['isLocationPermissionGranted']) //Has full permission
+            status[
+                'isLocationPermissionGranted']) //Has full permission - get the coordinates
         {
-        } else //Is missing one Permission
-        {}
+          Future userPosition = this.getUserLocation();
+          userPosition.then((value) {
+            if (value != null) {
+              value = positionConverter.parseToMap(
+                  positionString: value.toString());
+
+              parentContext
+                  .read<HomeProvider>()
+                  .updateRidersLocationCoordinates(
+                      latitude: value['latitude'],
+                      longitude: value['longitude']);
+            }
+          });
+        } else //Is missing one Permission - get the last coordinates
+        {
+          Future userPosition =
+              this.getUserLocation(shouldGetNewLocation: false);
+          userPosition.then((value) {
+            if (value != null) {
+              value = positionConverter.parseToMap(
+                  positionString: value.toString());
+
+              parentContext
+                  .read<HomeProvider>()
+                  .updateRidersLocationCoordinates(
+                      latitude: value['latitude'],
+                      longitude: value['longitude']);
+            }
+          });
+        }
       });
     });
   }

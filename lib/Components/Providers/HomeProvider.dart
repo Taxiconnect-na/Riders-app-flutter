@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
 
 ///? HOME PROVIDER
 ///Hold the provider responsible for the home only!
@@ -6,6 +8,9 @@ import 'package:flutter/material.dart';
 ///! Eg: For Wallet, create a WalletProvider.dart file, etc...
 
 class HomeProvider with ChangeNotifier {
+  Completer<GoogleMapController> mapController =
+      Completer(); //? Resposible for holding the general maps controller.
+  double mapZoom = 15; //The current zoom of the map
   bool isPanelShown = false; //To know whether or not the panel is shown.
   double minSliderHeight = 200; //The minimum height for the slider.
   double maxSliderHeight = 450; //The maximum height for the slider.
@@ -18,6 +23,12 @@ class HomeProvider with ChangeNotifier {
     'isLocationServiceEnabled': false,
     'isLocationPermissionGranted': false
   }; //Will hold the status of the GPRS service and the one of the location permission.
+  late Map userLocationCoords =
+      new Map(); //The user location coordinates: lat/long
+  late Map userLocationDetails =
+      new Map(); //The details of the user location: city, location name
+  final userCenterPointFallback = const LatLng(-22.559723,
+      17.074068); //TO be used when the actual user location is not yet found.
 
   //?1. Initialize home screen measurements
   //Resposible for initializing the height of the map, the refocus button when the Home component
@@ -67,5 +78,49 @@ class HomeProvider with ChangeNotifier {
       print('UPDATED GLOBAL STATE FOR LOCATION SERVICE STATUS');
       notifyListeners();
     }
+  }
+
+  //?5. Update the rider's location coordinates
+  void updateRidersLocationCoordinates(
+      {required double latitude, required double longitude}) {
+    if (userLocationCoords != null) {
+      if (userLocationCoords['latitude'] != latitude &&
+          userLocationCoords['longitude'] != longitude) //new Data received
+      {
+        //Check if the previous coors were null - if so animate the map marker to the current position
+        if (userLocationCoords['latitude'] == null ||
+            userLocationCoords['longitude']) {
+          mapController.future.then((value) =>
+              value.animateCamera(CameraUpdate.zoomBy(16))); //Zoom out first
+
+          mapController.future.then((value) => value.animateCamera(
+              CameraUpdate.newCameraPosition(CameraPosition(
+                  target: LatLng(latitude, longitude), zoom: mapZoom))));
+        }
+        //...
+        userLocationCoords['latitude'] = latitude;
+        userLocationCoords['longitude'] = longitude;
+        print('Updated location with new ones');
+        //..
+        notifyListeners();
+      }
+    }
+  }
+
+  //!6. Update the google maps main controller
+  void updateGoogleMapsController({required GoogleMapController controller}) {
+    mapController.complete(controller);
+    notifyListeners();
+  }
+
+  //!6a. Get the map id
+  Future<int> getMapId() async {
+    return mapController.future.then<int>((value) => value.mapId);
+  }
+
+  //?7. Update the current zoom of the map
+  void updateCurrentZoomOfMap({required double zoom}) {
+    mapZoom = zoom;
+    notifyListeners();
   }
 }

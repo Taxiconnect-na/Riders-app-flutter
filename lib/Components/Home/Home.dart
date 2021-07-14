@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:taxiconnect/Components/Home/GenericMap/GenericMap.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/MainClassicBottomSlider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiconnect/Modules/LocationOpsHandler/LocationOpsHandler.dart';
 
 import 'HeaderGeneralCaptain.dart';
 
@@ -26,6 +28,9 @@ class _HomeState extends State<Home> {
     final _homeProvider = Provider.of<HomeProvider>(context, listen: false);
     _homeProvider.initHomeScreenMeasurements(
         screenSize: Size(ScreenUtil().screenWidth, ScreenUtil().screenHeight));
+
+    //Wake the LocationOpsHandler
+    new LocationOpsHandler(parentContext: context).startLocationWatcher();
   }
 
   @override
@@ -116,7 +121,29 @@ class _HomeState extends State<Home> {
                 color: Colors.black,
                 size: 35,
               ),
-              onPressed: () {},
+              onPressed: context
+                              .read<HomeProvider>()
+                              .userLocationCoords['latitude'] !=
+                          null &&
+                      context
+                              .read<HomeProvider>()
+                              .userLocationCoords['longitude'] !=
+                          null
+                  ? () async {
+                      context.read<HomeProvider>().mapController.future.then(
+                          (value) => value.animateCamera(
+                              CameraUpdate.newCameraPosition(CameraPosition(
+                                  target: LatLng(
+                                      context
+                                          .read<HomeProvider>()
+                                          .userLocationCoords['latitude'],
+                                      context
+                                          .read<HomeProvider>()
+                                          .userLocationCoords['longitude']),
+                                  zoom:
+                                      context.read<HomeProvider>().mapZoom))));
+                    }
+                  : () {},
               backgroundColor: Colors.white,
             ),
           ),
