@@ -25,8 +25,13 @@ class HomeProvider with ChangeNotifier {
   }; //Will hold the status of the GPRS service and the one of the location permission.
   late Map userLocationCoords =
       new Map(); //The user location coordinates: lat/long
-  late Map userLocationDetails =
-      new Map(); //The details of the user location: city, location name
+  //! Add location debug data
+  Map userLocationDetails = {
+    'city': 'Windhoek',
+    'location_name': 'Trift street',
+    'country': 'Namibia'
+  }; //The details of the user location: city, location name
+  //!----
   final userCenterPointFallback = const LatLng(-22.559723,
       17.074068); //TO be used when the actual user location is not yet found.
 

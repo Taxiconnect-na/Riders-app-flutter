@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
+import 'package:taxiconnect/Components/Providers/SearchProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
+
+import 'DestinationInputsFields.dart';
+import 'RenderDestinationSearchData.dart';
 
 ///Search destination/pickup location
 
@@ -59,6 +64,43 @@ class HeaderPart extends StatefulWidget {
 }
 
 class _HeaderPartState extends State<HeaderPart> {
+  final FocusNode pickupLocationFocusNode = new FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //Focus node for the pickup location
+    pickupLocationFocusNode.addListener(() {
+      if (this.pickupLocationFocusNode.hasFocus) {
+        context
+            .read<SearchProvider>()
+            .updateSelectedLocationFieldIndex(newLocationIndex: 0);
+      }
+    });
+    //..
+    //Initialize pickup location
+    context.read<SearchProvider>().updatePickupLocationDetails(
+        newLocation: context.read<HomeProvider>().userLocationDetails);
+    //Add the value
+    context.read<SearchProvider>().updatePickupLocationIFieldController(
+        value: context
+                    .read<SearchProvider>()
+                    .pickupLocationData['location_name'] !=
+                null
+            ? context.read<SearchProvider>().pickupLocationData['location_name']
+            : 'Searching');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    pickupLocationFocusNode.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,8 +123,8 @@ class _HeaderPartState extends State<HeaderPart> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              alignment: Alignment.topCenter,
-              width: 20,
+              alignment: Alignment.topLeft,
+              width: 15,
               height: 100,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -124,13 +166,22 @@ class _HeaderPartState extends State<HeaderPart> {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(3),
+                            borderRadius: BorderRadius.circular(2),
                             border: Border.all(
                                 width: 1, color: Colors.grey.shade300)),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: TextField(
+                              controller: context
+                                  .read<SearchProvider>()
+                                  .pickupLocationController,
+                              autocorrect: false,
+                              focusNode: pickupLocationFocusNode,
                               maxLength: 35,
+                              onChanged: (value) => context
+                                  .read<SearchProvider>()
+                                  .updateLocationQueryDataPerLocation(
+                                      query: value),
                               style: TextStyle(fontSize: 17),
                               decoration: InputDecoration(
                                   counterText: "",
@@ -155,180 +206,6 @@ class _HeaderPartState extends State<HeaderPart> {
   }
 }
 
-//Destination input fields
-class DestinationInputsFields extends StatelessWidget {
-  const DestinationInputsFields({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        //decoration: BoxDecoration(border: Border.all(width: 1)),
-        child: GenerateDestInputsConditionally(),
-      ),
-    );
-  }
-}
-
-//Generate destination inputs conditionally to the number of passengers
-class GenerateDestInputsConditionally extends StatelessWidget {
-  const GenerateDestInputsConditionally({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int passengersNo = context.read<TripProvider>().selectedPassengersNo;
-
-    if (context
-        .read<TripProvider>()
-        .isGoingToTheSameDestination) //Show one field
-    {
-      return Container(
-        //decoration: BoxDecoration(border: Border.all(width: 1)),
-        child: Column(
-          children: [
-            SingleDestinationTypeInput(
-              passengerIndex: 1,
-              bottomOutsidePadding: 10,
-            )
-          ],
-        ),
-      );
-    } else //Process
-    {
-      switch (passengersNo) {
-        case 1:
-          return Container(
-            //decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Column(
-              children: [
-                SingleDestinationTypeInput(
-                  passengerIndex: 1,
-                  bottomOutsidePadding: 10,
-                )
-              ],
-            ),
-          );
-        case 2:
-          return Container(
-            //decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Column(
-              children: [
-                SingleDestinationTypeInput(
-                  passengerIndex: 1,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 2,
-                  bottomOutsidePadding: 10,
-                )
-              ],
-            ),
-          );
-        case 3:
-          return Container(
-            //decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Column(
-              children: [
-                SingleDestinationTypeInput(
-                  passengerIndex: 1,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 2,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 3,
-                  bottomOutsidePadding: 10,
-                )
-              ],
-            ),
-          );
-        case 4:
-          return Container(
-            //decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Column(
-              children: [
-                SingleDestinationTypeInput(
-                  passengerIndex: 1,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 2,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 3,
-                  bottomOutsidePadding: 10,
-                ),
-                SingleDestinationTypeInput(
-                  passengerIndex: 4,
-                  bottomOutsidePadding: 10,
-                )
-              ],
-            ),
-          );
-        default:
-          return Container(
-            child: Text('Please restart the app.'),
-          );
-      }
-    }
-  }
-}
-
-//Single destination type input
-class SingleDestinationTypeInput extends StatelessWidget {
-  final int passengerIndex; //The passenger no individual: 1,2,3 or 4
-  final double bottomOutsidePadding; //The outside padding of the input field
-
-  SingleDestinationTypeInput(
-      {Key? key, required this.passengerIndex, this.bottomOutsidePadding = 0})
-      : super(key: key);
-
-  String generatePlaceholder(BuildContext context) {
-    if (context.read<TripProvider>().isGoingToTheSameDestination) {
-      return 'Where are you going?';
-    } else {
-      if (context.read<TripProvider>().selectedPassengersNo > 1) {
-        return 'Passenger ${this.passengerIndex} destination';
-      } else {
-        return 'Where are you going?';
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: this.bottomOutsidePadding),
-      child: Container(
-        height: 33,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(2),
-            border: Border.all(width: 1, color: Colors.grey.shade300)),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: TextField(
-              showCursor: true,
-              maxLength: 35,
-              style: TextStyle(fontSize: 17),
-              decoration: InputDecoration(
-                  counterText: "",
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: this.generatePlaceholder(context),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(bottom: 11))),
-        ),
-      ),
-    );
-  }
-}
-
 //Bottom part
 class BottomPart extends StatefulWidget {
   const BottomPart({Key? key}) : super(key: key);
@@ -346,7 +223,7 @@ class _BottomPartState extends State<BottomPart> {
         decoration: BoxDecoration(border: Border.all(width: 1)),
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-          child: Text('Bottom part'),
+          child: RenderDestinationSearchData(),
         ),
       ),
     );
