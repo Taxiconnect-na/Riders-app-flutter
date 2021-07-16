@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           SafeArea(child: HeaderGeneralCaptain()),
-          Search()
+          //Search()
         ],
       ),
     );

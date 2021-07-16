@@ -42,16 +42,7 @@ class PassengersNumberSelection extends StatelessWidget {
                       child: Column(
                         children: [
                           Expanded(child: NumberOfPassengersSelector()),
-                          Visibility(
-                              maintainState: true,
-                              maintainAnimation: true,
-                              visible: context
-                                          .watch<TripProvider>()
-                                          .selectedPassengersNo >
-                                      1
-                                  ? true
-                                  : false,
-                              child: IsGoingToTheSamePlaceChoice()),
+                          IsGoingToTheSamePlaceChoice(),
                           GenericRectButton(
                             label: 'Next',
                             horizontalPadding: 0,
@@ -209,24 +200,37 @@ class _IsGoingToTheSamePlaceChoiceState
               //decoration: BoxDecoration(border: Border.all(width: 1)),
               child: Checkbox(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  fillColor: MaterialStateProperty.all(
-                      Color.fromRGBO(14, 132, 145, 1)),
-                  value:
-                      context.read<TripProvider>().isGoingToTheSameDestination,
-                  onChanged: (value) => context
-                      .read<TripProvider>()
-                      .updateGoingToTheSameDestSwitch(
-                          state: !context
-                              .read<TripProvider>()
-                              .isGoingToTheSameDestination)),
+                  fillColor:
+                      context.watch<TripProvider>().selectedPassengersNo > 1
+                          ? MaterialStateProperty.all(
+                              Color.fromRGBO(14, 132, 145, 1))
+                          : MaterialStateProperty.all(Colors.grey),
+                  value: this.enabled
+                      ? context.read<TripProvider>().isGoingToTheSameDestination
+                      : false,
+                  onChanged: (value) => this.enabled
+                      ? context
+                          .read<TripProvider>()
+                          .updateGoingToTheSameDestSwitch(
+                              state: !context
+                                  .read<TripProvider>()
+                                  .isGoingToTheSameDestination)
+                      : {}),
             ),
           ),
           Expanded(
             child: Container(
               child: InkWell(
                 child: Text(
-                  'Not going to the same place.',
-                  style: TextStyle(fontSize: 18),
+                  context.read<TripProvider>().isGoingToTheSameDestination
+                      ? 'All going to the same place'
+                      : 'Not going to the same place.',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color:
+                          context.watch<TripProvider>().selectedPassengersNo > 1
+                              ? Colors.black
+                              : Colors.grey),
                 ),
               ),
             ),
