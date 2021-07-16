@@ -26,10 +26,11 @@ class HomeProvider with ChangeNotifier {
   late Map userLocationCoords =
       new Map(); //The user location coordinates: lat/long
   //! Add location debug data
-  Map userLocationDetails = {
+  Map<String, dynamic> userLocationDetails = {
     'city': 'Windhoek',
-    'location_name': 'Trift street',
-    'country': 'Namibia'
+    'location_name': 'Trift Place',
+    'country': 'Namibia',
+    'street': 'Trift street'
   }; //The details of the user location: city, location name
   //!----
   final userCenterPointFallback = const LatLng(-22.559723,

@@ -210,7 +210,6 @@ class _SingleDestinationTypeInputState
           padding: const EdgeInsets.only(left: 5),
           child: TextField(
               controller: this.getTheCurrentTextFieldController(),
-              enableInteractiveSelection: false,
               focusNode: this.destinationFocusNode,
               autofocus: this.passengerIndex == 1 ? true : false,
               showCursor: true,

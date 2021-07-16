@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'dart:convert';
-
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 
 ///? SEARCH PROVIDER
@@ -109,39 +108,47 @@ class SearchProvider with ChangeNotifier {
   void updateLocationSelectedInputFields(
       {required Map<String, dynamic> locationSelected,
       required BuildContext context}) {
+    int wordLimitLength = 20;
+    String placeholderInput = locationSelected['location_name']
+                .toString()
+                .length >
+            wordLimitLength
+        ? '${locationSelected['location_name'].toString().substring(0, 20)}...'
+        : locationSelected['location_name'].toString();
+
     switch (this.selectedLocationFieldIndex) {
       case 0:
         pickupLocationData = locationSelected;
         //Update the text value controller
-        pickupLocationController.text = locationSelected['location_name'];
+        pickupLocationController.text = placeholderInput;
         //Empty the results previously found
         resultSearchLocations = null;
         break;
       case 1:
         destination1Data = locationSelected;
         //Update the text value controller
-        destination1Controller.text = locationSelected['location_name'];
+        destination1Controller.text = placeholderInput;
         //Empty the results previously found
         resultSearchLocations = null;
         break;
       case 2:
         destination2Data = locationSelected;
         //Update the text value controller
-        destination2Controller.text = locationSelected['location_name'];
+        destination2Controller.text = placeholderInput;
         //Empty the results previously found
         resultSearchLocations = null;
         break;
       case 3:
         destination3Data = locationSelected;
         //Update the text value controller
-        destination3Controller.text = locationSelected['location_name'];
+        destination3Controller.text = placeholderInput;
         //Empty the results previously found
         resultSearchLocations = null;
         break;
       case 4:
         destination4Data = locationSelected;
         //Update the text value controller
-        destination4Controller.text = locationSelected['location_name'];
+        destination4Controller.text = placeholderInput;
         //Empty the results previously found
         resultSearchLocations = null;
         break;
@@ -212,7 +219,7 @@ class SearchResultsOnQuery {
   //The string to be used for the network get API
 
   //a. Get the search results as a Future
-  //Data to addd &query=Khomas&city=Windhoek&country=Namibia
+  //Data to add &query=Khomas&city=Windhoek&country=Namibia
   Future getLocations(
       {required String query, required BuildContext context}) async {
     print(urlStringBackbone);
@@ -232,11 +239,9 @@ class SearchResultsOnQuery {
     {
       if (response.statusCode == 200) //DecodeSuccessCallback
       {
-        //log(jsonDecode(response.body)['result']['result']);
         return jsonDecode(response.body)['result']['result'];
       } else //Error
       {
-        //print(response.statusCode);
         return 403;
       }
     } else //! Don't show the results, since the text input is not filled

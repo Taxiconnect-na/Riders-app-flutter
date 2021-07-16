@@ -1,8 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Components/Providers/SearchProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiconnect/Modules/Search/RenderCustomDestinations.dart';
 import 'package:taxiconnect/Modules/Search/Search.dart';
 
 //Render destination research data
@@ -21,8 +21,7 @@ class RenderDestinationSearchData extends StatelessWidget {
               .length <=
           0) //Empty text field, so suggest current pickup location or other custom ones set.
       {
-        return Text(
-            'Empty field, suggest current pickup location point or custom ones.');
+        return RenderCustomDestinations();
       } else //Has some value already - suggest
       {
         return renderFutureBuilderResearchData(context);
@@ -36,8 +35,8 @@ class RenderDestinationSearchData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
+      // decoration:
+      //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
       child: renderProxiedData(context),
     );
   }
@@ -64,25 +63,21 @@ class RenderDestinationSearchData extends StatelessWidget {
             });
       } else //Empty Search
       {
-        return Text(
-            'Rendered empty proxied data ${context.watch<SearchProvider>().selectedLocationFieldIndex}');
+        return RenderCustomDestinations();
       }
     } else //No iniitialized yet
     {
-      return Text(
-          'Rendered not initialized proxied data ${context.watch<SearchProvider>().selectedLocationFieldIndex}');
+      return RenderCustomDestinations();
     }
   }
 
   //Create a list of data results
   Widget createResultsListView(List data, BuildContext context) {
     data.removeWhere((element) => element == null); //Remove all null values.
-    print('${data.length} locations found.');
     return Container(
       child: ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, int index) {
-            log(data[index]['location_name']);
             return Container(
               //decoration: BoxDecoration(border: Border.all(width: 1)),
               child: Column(
