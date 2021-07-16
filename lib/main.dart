@@ -6,7 +6,7 @@ import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'ThemesAndRoutes/AppRoutes.dart'; //Debug
 
 void main() {
-  runApp(MultiProvider(
+runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
           create: (_) => HomeProvider()), //For home interface

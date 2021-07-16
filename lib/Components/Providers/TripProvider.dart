@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class TripProvider with ChangeNotifier {
   int selectedPassengersNo =
-      2; //Hold the current number of selected passengers for a trip - default: 1 , max 4
+      1; //Hold the current number of selected passengers for a trip - default: 1 , max 4
   bool isGoingToTheSameDestination =
       false; //To know whether or not the passengers are going to the same destination. - default: false, only makes sense for more than 1 passenger
 

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:taxiconnect/Components/Providers/SearchProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
-
 import 'DestinationInputsFields.dart';
 import 'RenderDestinationSearchData.dart';
 
@@ -77,9 +76,25 @@ class _HeaderPartState extends State<HeaderPart> {
         context
             .read<SearchProvider>()
             .updateSelectedLocationFieldIndex(newLocationIndex: 0);
+      } else //No focus - check if the field is filled, if not put the current pickup location
+      {
+        if (context
+                .read<SearchProvider>()
+                .pickupLocationController
+                .text
+                .trim()
+                .length <=
+            0) //? No text - refill
+        {
+          this.initializedPickupLocationData(context);
+        }
       }
     });
     //..
+    this.initializedPickupLocationData(context);
+  }
+
+  void initializedPickupLocationData(BuildContext context) {
     //Initialize pickup location
     context.read<SearchProvider>().updatePickupLocationDetails(
         newLocation: context.read<HomeProvider>().userLocationDetails);
@@ -138,7 +153,7 @@ class _HeaderPartState extends State<HeaderPart> {
                       padding: const EdgeInsets.only(bottom: 2, top: 1),
                       child: Container(
                         width: 1,
-                        height: 45,
+                        height: 40,
                         decoration:
                             BoxDecoration(border: Border.all(width: 0.5)),
                       ),
@@ -172,6 +187,7 @@ class _HeaderPartState extends State<HeaderPart> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: TextField(
+                              //enableInteractiveSelection: false,
                               controller: context
                                   .read<SearchProvider>()
                                   .pickupLocationController,
@@ -181,7 +197,7 @@ class _HeaderPartState extends State<HeaderPart> {
                               onChanged: (value) => context
                                   .read<SearchProvider>()
                                   .updateLocationQueryDataPerLocation(
-                                      query: value),
+                                      query: value, context: context),
                               style: TextStyle(fontSize: 17),
                               decoration: InputDecoration(
                                   counterText: "",
@@ -193,7 +209,7 @@ class _HeaderPartState extends State<HeaderPart> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       DestinationInputsFields()
                     ],
@@ -220,9 +236,9 @@ class _BottomPartState extends State<BottomPart> {
     return Expanded(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(border: Border.all(width: 1)),
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+          padding: const EdgeInsets.only(top: 10),
           child: RenderDestinationSearchData(),
         ),
       ),

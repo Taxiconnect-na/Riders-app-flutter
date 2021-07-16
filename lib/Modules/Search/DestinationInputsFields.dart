@@ -180,6 +180,21 @@ class _SingleDestinationTypeInputState
     });
   }
 
+  TextEditingController getTheCurrentTextFieldController() {
+    switch (this.passengerIndex) {
+      case 1:
+        return context.read<SearchProvider>().destination1Controller;
+      case 2:
+        return context.read<SearchProvider>().destination2Controller;
+      case 3:
+        return context.read<SearchProvider>().destination3Controller;
+      case 4:
+        return context.read<SearchProvider>().destination4Controller;
+      default:
+        return new TextEditingController();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -194,12 +209,15 @@ class _SingleDestinationTypeInputState
         child: Padding(
           padding: const EdgeInsets.only(left: 5),
           child: TextField(
+              controller: this.getTheCurrentTextFieldController(),
+              enableInteractiveSelection: false,
               focusNode: this.destinationFocusNode,
               autofocus: this.passengerIndex == 1 ? true : false,
               showCursor: true,
               onChanged: (value) => context
                   .read<SearchProvider>()
-                  .updateLocationQueryDataPerLocation(query: value.trim()),
+                  .updateLocationQueryDataPerLocation(
+                      query: value.trim(), context: context),
               maxLength: 35,
               style: TextStyle(fontSize: 17),
               decoration: InputDecoration(
