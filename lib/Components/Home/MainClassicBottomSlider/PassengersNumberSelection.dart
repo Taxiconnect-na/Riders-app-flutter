@@ -205,17 +205,18 @@ class _IsGoingToTheSamePlaceChoiceState
                           ? MaterialStateProperty.all(
                               Color.fromRGBO(14, 132, 145, 1))
                           : MaterialStateProperty.all(Colors.grey),
-                  value: this.enabled
+                  value: context.watch<TripProvider>().selectedPassengersNo > 1
                       ? context.read<TripProvider>().isGoingToTheSameDestination
                       : false,
-                  onChanged: (value) => this.enabled
-                      ? context
-                          .read<TripProvider>()
-                          .updateGoingToTheSameDestSwitch(
-                              state: !context
-                                  .read<TripProvider>()
-                                  .isGoingToTheSameDestination)
-                      : {}),
+                  onChanged: (value) =>
+                      context.watch<TripProvider>().selectedPassengersNo > 1
+                          ? context
+                              .read<TripProvider>()
+                              .updateGoingToTheSameDestSwitch(
+                                  state: !context
+                                      .read<TripProvider>()
+                                      .isGoingToTheSameDestination)
+                          : {}),
             ),
           ),
           Expanded(
