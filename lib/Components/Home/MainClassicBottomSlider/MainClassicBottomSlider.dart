@@ -3,7 +3,9 @@ import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsS
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/GenericGreeting.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/RideDeliverySelection.dart';
 
+import 'ChooseVehicleType.dart';
 import 'PassengersNumberSelection.dart';
+import 'PickupNoteInserter.dart';
 
 //Main classic bottom slider
 class MainClassicBottomSlider extends StatelessWidget {
@@ -30,7 +32,7 @@ class DisplayAssigner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: PassengersNumberSelection(),
+      child: ChooseVehicleType(),
     );
   }
 }

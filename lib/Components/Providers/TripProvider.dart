@@ -8,6 +8,11 @@ class TripProvider with ChangeNotifier {
       1; //Hold the current number of selected passengers for a trip - default: 1 , max 4
   bool isGoingToTheSameDestination =
       false; //To know whether or not the passengers are going to the same destination. - default: false, only makes sense for more than 1 passenger
+  bool isGoingUntilHome =
+      false; //TO know whether or not the passengers are going until home - default: false
+  TextEditingController noteInputController =
+      new TextEditingController(); //The controller to manipulate the note text input.
+  String? pickupNoteText; //The text value of the pickup note - default:null
 
   //! Modifiers
   //?1. Update the passengers number
@@ -25,6 +30,12 @@ class TripProvider with ChangeNotifier {
   //?2 Update going to the same destination switch state
   void updateGoingToTheSameDestSwitch({required bool state}) {
     isGoingToTheSameDestination = state;
+    notifyListeners();
+  }
+
+  //?3. Update going until home
+  void updateGoingUntilHome({required bool state}) {
+    isGoingUntilHome = state;
     notifyListeners();
   }
 }
