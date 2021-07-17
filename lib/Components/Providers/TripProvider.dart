@@ -39,7 +39,7 @@ class TripProvider with ChangeNotifier {
         "app_label": "Electric car",
         "description": "Zero emission all the way",
         "media": {"car_app_icon": "../images_res/electricEconomy.jpg"},
-        "availability": "unavailable"
+        "availability": "available"
       },
       {
         "id": 2,

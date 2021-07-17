@@ -14,6 +14,37 @@ class ChooseVehicleType extends StatelessWidget {
       : super(key: key);
 
   //? Ride scheduling
+  void startScheduleRideProcess(BuildContext context) {
+    context
+        .read<HomeProvider>()
+        .panelController
+        .animatePanelToPosition(0, curve: Curves.easeInOutCubic);
+    //this._selectDate(context);
+    Future tripScheduleModal = showModalBottomSheet(
+        //enableDrag: false,
+        context: context,
+        builder: (context) {
+          return Container(
+              color: Colors.white,
+              child: SafeArea(
+                  child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 400,
+                color: Colors.white,
+                child: Text('Schedule your ride'),
+              )));
+        });
+    //...
+    tripScheduleModal.then((value) {
+      //? Modal closed - restore the main Panel
+      context
+          .read<HomeProvider>()
+          .panelController
+          .animatePanelToPosition(1, curve: Curves.easeInOutCubic);
+    });
+  }
+
+  //?Select futuree booking date
   Future _selectDate(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
         context: context,
@@ -39,12 +70,6 @@ class ChooseVehicleType extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: Column(
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 5),
-                //   child: Text("Pickup note?",
-                //       style: TextStyle(
-                //           fontFamily: 'MoveTextMedium', fontSize: 18)),
-                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text("Choose a vehicle, or swipe up for more",
@@ -66,13 +91,14 @@ class ChooseVehicleType extends StatelessWidget {
                                   child: CreateDynamicallyListOfCars(
                                     controller: this.controller,
                                   ))),
+                          PaymentMethodSelector(),
                           GenericRectButton(
                             label: 'Confirm',
                             labelFontSize: 22,
                             isArrowShow: false,
                             horizontalPadding: 10,
                             actuatorTrailingFunctional: () =>
-                                this._selectDate(context),
+                                this.startScheduleRideProcess(context),
                             actuatorFunctionl: () =>
                                 showMaterialModalBottomSheet(
                                     duration: Duration(milliseconds: 400),
@@ -129,17 +155,14 @@ class _CreateDynamicallyListOfCarsState
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      decoration:
-          BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
+      // decoration:
+      //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
       child: FutureBuilder(
           future: context.read<TripProvider>().ridesEstimationsData,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData && snapshot.hasError == false) //Good
             {
               //log(snapshot.data.toString());
-              // context
-              //     .read<TripProvider>()
-              //     .updateSelectedRide(rideSelected: snapshot.data[0]);
               return generateListOfVehiclesEstimates(snapshot.data, context);
             }
             //...Loading
@@ -209,7 +232,6 @@ class _CreateDynamicallyListOfCarsState
                                         rideSelected: data[index],
                                         shouldUpdate: true)
                                 : {},
-                            //horizontalTitleGap: 5,
                             contentPadding: EdgeInsets.zero,
                             leading: Container(
                                 width: 65,
@@ -273,7 +295,7 @@ class _CreateDynamicallyListOfCarsState
                 ),
                 shouldShowHeader
                     ? Divider(
-                        height: 25,
+                        height: 15,
                         color: Colors.white,
                       )
                     : SizedBox(
@@ -282,6 +304,44 @@ class _CreateDynamicallyListOfCarsState
               ],
             );
           }),
+    );
+  }
+}
+
+class PaymentMethodSelector extends StatefulWidget {
+  const PaymentMethodSelector({Key? key}) : super(key: key);
+
+  @override
+  _PaymentMethodSelectorState createState() => _PaymentMethodSelectorState();
+}
+
+class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width,
+      height: 50,
+      //decoration: BoxDecoration(border: Border.all(width: 1)),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ListTile(
+              onTap: () => print('Selected preferred payment method.'),
+              contentPadding: EdgeInsets.zero,
+              horizontalTitleGap: 5,
+              leading: Container(
+                width: 35,
+                height: 35,
+                decoration: BoxDecoration(
+                    //border: Border.all(width: 1),
+                    shape: BoxShape.circle,
+                    color: Color.fromRGBO(14, 132, 145, 1)),
+                child: Icon(Icons.account_balance_wallet,
+                    size: 23, color: Colors.white),
+              ),
+              title: Text('Wallet',
+                  style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 16)),
+              trailing: Icon(Icons.chevron_right))),
     );
   }
 }

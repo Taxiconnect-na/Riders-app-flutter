@@ -23,4 +23,15 @@ class SettingsProvider with ChangeNotifier {
     },
     {'location_type': 'Add more', 'icon': Icons.add, 'location_data': null},
   ]; //Hold all the details of the custom location preselected by the user.
+  String defaultPaymentMethod =
+      'cash'; //Hold the default payment method selected
+
+  //?1. Get default payment method icon asset
+  // Widget getDefaultPaymentMethodIcon() {
+  //   switch (defaultPaymentMethod) {
+  //     case 'cash':
+  //       return Container(child: Icon(),)
+  //     default:
+  //   }
+  // }
 }
