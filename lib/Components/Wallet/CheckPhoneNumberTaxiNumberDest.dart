@@ -44,8 +44,7 @@ class _CheckPhoneNumberTaxiNumberDestState
               ),
               AvatarAndServerDetails(),
               GenericRectButton(
-                label: 'Next',
-              )
+                  label: 'Next', actuatorFunctionl: () => print('clicked'))
             ],
           ),
         ),

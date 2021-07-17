@@ -115,8 +115,8 @@ class SendFundsConfirmation extends StatelessWidget {
                     Container(
                       height: 100,
                       child: GenericRectButton(
-                        label: 'Send N\$100',
-                      ),
+                          label: 'Send N\$100',
+                          actuatorFunctionl: () => print('clicked')),
                     ),
                   ],
                 ),

@@ -7,9 +7,11 @@ class GenericRectButton extends StatelessWidget {
   final bool isArrowShow;
   final double horizontalPadding; //Default: 16
   final double verticalPadding; //Default: 16
+  final actuatorFunctionl; //! The function that will be fired when the button is clicked.
 
   GenericRectButton(
       {required this.label,
+      required this.actuatorFunctionl,
       this.isArrowShow = true,
       this.horizontalPadding = 16,
       this.verticalPadding = 16});
@@ -25,8 +27,7 @@ class GenericRectButton extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.black)),
-            onPressed: () =>
-                Navigator.pushNamed(context, '/NewAccountAddiDetails'),
+            onPressed: this.actuatorFunctionl,
             child: Padding(
                 padding: EdgeInsets.only(bottom: 15, top: 15),
                 child: Row(

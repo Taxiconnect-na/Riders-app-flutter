@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
+import 'package:taxiconnect/Modules/Search/Search.dart';
 
 class PassengersNumberSelection extends StatelessWidget {
   const PassengersNumberSelection({Key? key}) : super(key: key);
@@ -46,6 +48,26 @@ class PassengersNumberSelection extends StatelessWidget {
                           GenericRectButton(
                             label: 'Next',
                             horizontalPadding: 0,
+                            actuatorFunctionl: () =>
+                                showMaterialModalBottomSheet(
+                                    duration: Duration(milliseconds: 400),
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                          color: Colors.white,
+                                          child: SafeArea(
+                                              bottom: false,
+                                              child: Container(
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                color: Colors.white,
+                                                child: Search(),
+                                              )));
+                                    }),
                           )
                         ],
                       ),

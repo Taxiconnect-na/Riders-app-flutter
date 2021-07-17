@@ -40,9 +40,9 @@ class _TransactionFinalReportState extends State<TransactionFinalReport> {
               ),
               AvatarAndServerDetails(),
               GenericRectButton(
-                label: 'Done',
-                isArrowShow: false,
-              )
+                  label: 'Done',
+                  isArrowShow: false,
+                  actuatorFunctionl: () => print('clicked'))
             ],
           ),
         ),

@@ -160,7 +160,7 @@ class SearchProvider with ChangeNotifier {
     //...Check if all the fields are filled, by value and by text placeholder
     if (areAllTheRelevantInputFieldsFilled(context: context)) {
       //Good to go! - then dismiss the search window
-      log('All the locations are filled, dismiss the window');
+      Navigator.pop(context);
     } else //Skip
     {
       log('All locations not filled yet, wait.');

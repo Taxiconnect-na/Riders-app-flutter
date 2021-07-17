@@ -51,7 +51,7 @@ class FlagPartPhoneEntry extends StatelessWidget {
                       child: Container(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.amber,
+                        color: Colors.white,
                         child: PhoneNumberInputModal(),
                       )));
             }),
