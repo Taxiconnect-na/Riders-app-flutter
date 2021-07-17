@@ -19,8 +19,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final panelController = PanelController();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -43,7 +41,7 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           SlidingUpPanel(
-            controller: panelController,
+            controller: context.read<HomeProvider>().panelController,
             minHeight: context
                 .watch<HomeProvider>()
                 .minSliderHeight, //? Should vary based on the type of content displayed
@@ -61,7 +59,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     Container(
-                      height: context.watch<HomeProvider>().relativeMapHeight,
+                      height: context.read<HomeProvider>().relativeMapHeight,
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
                       child: GenericMap(),
@@ -77,7 +75,7 @@ class _HomeState extends State<Home> {
                           .isPanelShown
                       ? print(
                           'Keep opened by default - Quick close restriction.')
-                      : this.panelController.open(),
+                      : context.read<HomeProvider>().panelController.open(),
                   child: Container(
                     height: 30,
                     alignment: Alignment.center,
@@ -151,7 +149,6 @@ class _HomeState extends State<Home> {
             ),
           ),
           SafeArea(child: HeaderGeneralCaptain()),
-          //Search()
         ],
       ),
     );

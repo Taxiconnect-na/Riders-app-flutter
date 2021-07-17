@@ -18,7 +18,11 @@ class MainClassicBottomSlider extends StatelessWidget {
     return Container(
       //decoration: BoxDecoration(border: Border.all(width: 1)),
       child: Column(
-        children: [DisplayAssigner()],
+        children: [
+          DisplayAssigner(
+            controller: this.controller,
+          )
+        ],
       ),
     );
   }
@@ -27,12 +31,16 @@ class MainClassicBottomSlider extends StatelessWidget {
 ///Display assigner
 ///Responsible for showing the right content
 class DisplayAssigner extends StatelessWidget {
-  const DisplayAssigner({Key? key}) : super(key: key);
+  final ScrollController controller;
+
+  const DisplayAssigner({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ChooseVehicleType(),
+      child: ChooseVehicleType(
+        controller: this.controller,
+      ),
     );
   }
 }

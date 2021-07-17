@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 ///? HOME PROVIDER
 ///Hold the provider responsible for the home's user interface only (exclude all trip->ride,delivery data) !
 ///! Keep the module-like providers split (create a provider for each of the Components)
 ///! Eg: For Wallet, create a WalletProvider.dart file, etc...
 
 class HomeProvider with ChangeNotifier {
+  final panelController = PanelController(); //!The main panel controller
+
   Completer<GoogleMapController> mapController =
       Completer(); //? Resposible for holding the general maps controller.
   double mapZoom = 15; //The current zoom of the map
   bool isPanelShown = false; //To know whether or not the panel is shown.
-  double minSliderHeight = 200; //The minimum height for the slider.
+  double minSliderHeight =
+      200; //The minimum height for the slider. - default:200
   double maxSliderHeight =
       650; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
   double _initRelativeFocusButtonPosition =
