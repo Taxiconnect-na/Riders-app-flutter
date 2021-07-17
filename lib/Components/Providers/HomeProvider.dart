@@ -13,7 +13,8 @@ class HomeProvider with ChangeNotifier {
   double mapZoom = 15; //The current zoom of the map
   bool isPanelShown = false; //To know whether or not the panel is shown.
   double minSliderHeight = 200; //The minimum height for the slider.
-  double maxSliderHeight = 450; //The maximum height for the slider.
+  double maxSliderHeight =
+      650; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
   double _initRelativeFocusButtonPosition =
       30; //The init and fixed relative focus button position -default: minSliderHeight
   double relativeFocusButtonPosition =

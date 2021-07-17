@@ -44,10 +44,12 @@ class _HomeState extends State<Home> {
         children: [
           SlidingUpPanel(
             controller: panelController,
-            minHeight:
-                200, //? Should vary based on the type of content displayed
-            maxHeight:
-                450, //? Should vary based on the type of content displayed
+            minHeight: context
+                .watch<HomeProvider>()
+                .minSliderHeight, //? Should vary based on the type of content displayed
+            maxHeight: context
+                .watch<HomeProvider>()
+                .maxSliderHeight, //? Should vary based on the type of content displayed
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),
             parallaxEnabled: true,

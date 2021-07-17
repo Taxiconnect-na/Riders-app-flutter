@@ -56,12 +56,14 @@ class _EntryScreenState extends State<EntryScreen> {
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
                       child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text('Get yourself a safe ride',
-                              style: TextStyle(
-                                  fontSize: 33,
-                                  color: Colors.white,
-                                  fontFamily: 'MoveBold'))),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: FittedBox(
+                            child: Text('Get yourself a safe ride',
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    color: Colors.white,
+                                    fontFamily: 'MoveBold')),
+                          )),
                     ),
                   ],
                 )),

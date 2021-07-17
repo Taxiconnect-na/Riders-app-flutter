@@ -47,6 +47,7 @@ class ChooseVehicleType extends StatelessWidget {
                           Expanded(child: CreateDynamicallyListOfCars()),
                           GenericRectButton(
                             label: 'Confirm',
+                            labelFontSize: 22,
                             isArrowShow: false,
                             horizontalPadding: 0,
                             actuatorFunctionl: () =>
@@ -98,6 +99,8 @@ class _CreateDynamicallyListOfCarsState
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(border: Border.all(width: 1)),
       child: Text('Rides estimates'),
     );
   }

@@ -71,8 +71,8 @@ class _CreateAccountEntryState extends State<CreateAccountEntry> {
                         text: TextSpan(
                             style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: 'MoveTextRegular',
-                                fontSize: 17),
+                                fontFamily: 'MoveTextLight',
+                                fontSize: 15),
                             children: [
                       TextSpan(text: 'By clicking '),
                       TextSpan(
@@ -115,7 +115,7 @@ class CreateNewAccountButton extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 15, top: 15),
                 child: Text(
                   'Create your account',
-                  style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 28),
+                  style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 25),
                 )),
           ),
         ));
