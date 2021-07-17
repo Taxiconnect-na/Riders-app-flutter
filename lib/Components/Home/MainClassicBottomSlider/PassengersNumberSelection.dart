@@ -223,15 +223,15 @@ class _IsGoingToTheSamePlaceChoiceState
               child: Checkbox(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   fillColor:
-                      context.watch<TripProvider>().selectedPassengersNo > 1
+                      context.read<TripProvider>().selectedPassengersNo > 1
                           ? MaterialStateProperty.all(
                               Color.fromRGBO(14, 132, 145, 1))
                           : MaterialStateProperty.all(Colors.grey),
-                  value: context.watch<TripProvider>().selectedPassengersNo > 1
+                  value: context.read<TripProvider>().selectedPassengersNo > 1
                       ? context.read<TripProvider>().isGoingToTheSameDestination
                       : false,
                   onChanged: (value) =>
-                      context.watch<TripProvider>().selectedPassengersNo > 1
+                      context.read<TripProvider>().selectedPassengersNo > 1
                           ? context
                               .read<TripProvider>()
                               .updateGoingToTheSameDestSwitch(
