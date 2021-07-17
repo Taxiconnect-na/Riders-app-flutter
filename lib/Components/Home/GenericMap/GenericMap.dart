@@ -35,7 +35,11 @@ class _GenericMapState extends State<GenericMap> {
     return Scaffold(
       // backgroundColor: Colors.red,
       body: GoogleMap(
-        padding: EdgeInsets.only(bottom: 60),
+        padding: EdgeInsets.only(
+            bottom: 60,
+            top: context.watch<HomeProvider>().isPanelShown
+                ? MediaQuery.of(context).size.height * 0.20
+                : 0),
         mapToolbarEnabled: false,
         zoomControlsEnabled: false,
         myLocationButtonEnabled: false,

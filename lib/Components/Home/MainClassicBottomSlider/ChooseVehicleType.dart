@@ -31,7 +31,62 @@ class ChooseVehicleType extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 400,
                 color: Colors.white,
-                child: Text('Schedule your ride'),
+                child: Container(
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  child: Column(
+                    children: [
+                      Container(
+                        //decoration: BoxDecoration(border: Border.all(width: 1)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 25),
+                          child: Text('Schedule your ride',
+                              style: TextStyle(
+                                  fontFamily: 'MoveTextMedium', fontSize: 23)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Divider(),
+                      InkWell(
+                        onTap: () => this._selectDate(context),
+                        child: Container(
+                          //decoration: BoxDecoration(border: Border.all(width: 1)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text('Sunday, Jul 18',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      InkWell(
+                        onTap: () => this._selectTime(context),
+                        child: Container(
+                          //decoration: BoxDecoration(border: Border.all(width: 1)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text('At 12:30AM',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Text('')),
+                      GenericRectButton(
+                          label: 'Done',
+                          isArrowShow: false,
+                          actuatorFunctionl: () {
+                            Navigator.pop(context); //Close schedule modal
+                            //Reopen the main Panel
+                            context
+                                .read<HomeProvider>()
+                                .panelController
+                                .animatePanelToPosition(1,
+                                    curve: Curves.easeInOutCubic);
+                          })
+                    ],
+                  ),
+                ),
               )));
         });
     //...
@@ -48,12 +103,25 @@ class ChooseVehicleType extends StatelessWidget {
   Future _selectDate(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
         context: context,
+        helpText: 'PICKUP DATE',
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 3)));
+        lastDate: DateTime.now().add(const Duration(days: 2)));
 
     log(selectedDate.toString());
     return selectedDate;
+  }
+
+  //?Select future booking time
+  Future _selectTime(BuildContext context) async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+        context: context,
+        helpText: 'PICKUP TIME',
+        initialTime:
+            TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 15))));
+
+    log(selectedTime.toString());
+    return selectedTime;
   }
 
   @override
@@ -94,6 +162,7 @@ class ChooseVehicleType extends StatelessWidget {
                           PaymentMethodSelector(),
                           GenericRectButton(
                             label: 'Confirm',
+                            activateTrailing: true,
                             labelFontSize: 22,
                             isArrowShow: false,
                             horizontalPadding: 10,
@@ -322,7 +391,9 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
       alignment: Alignment.centerLeft,
       width: MediaQuery.of(context).size.width,
       height: 50,
-      //decoration: BoxDecoration(border: Border.all(width: 1)),
+      decoration: BoxDecoration(
+          border:
+              Border(top: BorderSide(width: 1, color: Colors.grey.shade100))),
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ListTile(

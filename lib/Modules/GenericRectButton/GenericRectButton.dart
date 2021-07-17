@@ -73,11 +73,14 @@ class GenericRectButton extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                child: AddTrailingButton(
-                  activateTrailing: this.activateTrailing,
-                  trailingIcon: this.trailingIcon,
-                  actuatorTrailingFunctional: this.actuatorTrailingFunctional,
+              Visibility(
+                visible: this.activateTrailing,
+                child: Container(
+                  child: AddTrailingButton(
+                    activateTrailing: this.activateTrailing,
+                    trailingIcon: this.trailingIcon,
+                    actuatorTrailingFunctional: this.actuatorTrailingFunctional,
+                  ),
                 ),
               )
             ],

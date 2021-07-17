@@ -70,8 +70,10 @@ class HomeProvider with ChangeNotifier {
   //Defined to true if the panel is shown and false otherwise.
   //? Received the bool for the state
   void updatePanelShownStatus(bool status) {
-    isPanelShown = status;
-    notifyListeners();
+    if (isPanelShown != status) {
+      isPanelShown = status;
+      notifyListeners();
+    }
   }
 
   //?4. Update the GPRS service status and the location permission
