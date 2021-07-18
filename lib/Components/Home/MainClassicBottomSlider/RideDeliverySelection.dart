@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/PackageReceiverDeliveryInput.dart';
 
 import 'BasicProductSelection.dart';
 
@@ -41,6 +43,7 @@ class RideDeliverySelection extends StatelessWidget {
                       child: Row(
                         children: [
                           BasicProductSelection(
+                              actuatorFunctionl: () => {},
                               iconString: 'Assets/Images/normaltaxieconomy.jpg',
                               productName: 'Ride',
                               shortDescription:
@@ -59,6 +62,27 @@ class RideDeliverySelection extends StatelessWidget {
                                 ])),
                           ),
                           BasicProductSelection(
+                              actuatorFunctionl: () =>
+                                  showMaterialModalBottomSheet(
+                                      duration: Duration(milliseconds: 350),
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                            color: Colors.white,
+                                            child: SafeArea(
+                                                bottom: false,
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  color: Colors.white,
+                                                  child:
+                                                      PackageReceiverDeliveryInput(),
+                                                )));
+                                      }),
                               iconString: 'Assets/Images/box_delivery.png',
                               iconSize: 31,
                               productName: 'Delivery',

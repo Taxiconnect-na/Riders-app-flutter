@@ -33,7 +33,7 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
                     width: MediaQuery.of(context).size.width,
                     child: Text("Enter the 5-digits code sent you.",
                         style: TextStyle(
-                            fontFamily: 'MoveTextMedium',
+                            fontFamily: 'MoveTextBold',
                             fontSize: 24,
                             color: Colors.black))),
               ),

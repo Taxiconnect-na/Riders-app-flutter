@@ -12,10 +12,12 @@ class BasicProductSelection extends StatelessWidget {
       arrowMoveForwardColor; //The color of the arrow for the move forward.
   final Color
       arrowMoveForwardBackgroundColor; //The background color for the arrow for the mov forward.
+  final actuatorFunctionl; //!The function that will be called after the product is selected
 
   const BasicProductSelection(
       {Key? key,
       required this.iconString,
+      required this.actuatorFunctionl,
       this.iconSize = 40,
       required this.productName,
       required this.shortDescription,
@@ -29,56 +31,60 @@ class BasicProductSelection extends StatelessWidget {
     return Flexible(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Container(
-          child: Column(
-            children: [
-              CircleAvatar(
-                child: CircleAvatar(
-                  child: Image.asset(
-                    this.iconString,
-                    fit: BoxFit.contain,
+        child: InkWell(
+          onTap: this.actuatorFunctionl,
+          child: Container(
+            //decoration: BoxDecoration(border: Border.all(width: 1)),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  child: CircleAvatar(
+                    child: Image.asset(
+                      this.iconString,
+                      fit: BoxFit.contain,
+                    ),
+                    backgroundColor: Colors.white,
+                    radius: this.iconSize,
                   ),
                   backgroundColor: Colors.white,
-                  radius: this.iconSize,
+                  radius: 40,
                 ),
-                backgroundColor: Colors.white,
-                radius: 40,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 10),
-                child: Text(this.productName,
-                    style: TextStyle(fontFamily: 'MoveBold', fontSize: 22)),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(this.shortDescription,
-                    style: TextStyle(
-                        fontFamily: 'MoveTextRegular',
-                        fontSize: 15,
-                        color: this.shortDescriptionColor)),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
-                  child: Container(
-                    //decoration: BoxDecoration(border: Border.all(width: 1)),
-                    alignment: Alignment.bottomCenter,
-                    width: MediaQuery.of(context).size.width,
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 10),
+                  child: Text(this.productName,
+                      style: TextStyle(fontFamily: 'MoveBold', fontSize: 22)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(this.shortDescription,
+                      style: TextStyle(
+                          fontFamily: 'MoveTextRegular',
+                          fontSize: 15,
+                          color: this.shortDescriptionColor)),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 25),
                     child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: this.arrowMoveForwardBackgroundColor,
-                            shape: BoxShape.circle),
-                        child: Icon(
-                          Icons.arrow_forward,
-                          size: 18,
-                          color: this.arrowMoveForwardColor,
-                        )),
+                      //decoration: BoxDecoration(border: Border.all(width: 1)),
+                      alignment: Alignment.bottomCenter,
+                      width: MediaQuery.of(context).size.width,
+                      child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              color: this.arrowMoveForwardBackgroundColor,
+                              shape: BoxShape.circle),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            size: 18,
+                            color: this.arrowMoveForwardColor,
+                          )),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

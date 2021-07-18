@@ -41,6 +41,7 @@ class ConnectMeUsSelection extends StatelessWidget {
                       child: Row(
                         children: [
                           BasicProductSelection(
+                            actuatorFunctionl: () => {},
                             iconString: 'Assets/Images/meeting.png',
                             iconSize: 25,
                             productName: 'ConnectUs',
@@ -62,6 +63,7 @@ class ConnectMeUsSelection extends StatelessWidget {
                                 ])),
                           ),
                           BasicProductSelection(
+                            actuatorFunctionl: () => {},
                             iconString: 'Assets/Images/user.png',
                             iconSize: 25,
                             productName: 'ConnectMe',

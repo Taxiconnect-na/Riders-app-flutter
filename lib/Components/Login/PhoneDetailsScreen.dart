@@ -31,7 +31,7 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: Text("What's your phone number?",
                         style: TextStyle(
-                            fontFamily: 'MoveTextMedium',
+                            fontFamily: 'MoveTextBold',
                             fontSize: 24,
                             color: Colors.black))),
               ),
@@ -49,6 +49,7 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 25),
                   child: Container(
+                    height: 100,
                     child: ListTile(
                       leading: Container(
                         width: MediaQuery.of(context).size.width / 2.2,

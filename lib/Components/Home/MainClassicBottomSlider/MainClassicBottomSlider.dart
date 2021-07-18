@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/BasicProductSelection.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsSelection.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/GenericGreeting.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/RideDeliverySelection.dart';
 
 import 'ChooseVehicleType.dart';
+import 'PackageReceiverDeliveryInput.dart';
 import 'PassengersNumberSelection.dart';
 import 'PickupNoteInserter.dart';
 import 'SummaryTrip.dart';
@@ -38,10 +40,10 @@ class DisplayAssigner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SummaryTrip(
-        controller: this.controller,
-      ),
-    );
+    return Container(child: RideDeliverySelection()
+        // PackageReceiverDeliveryInput(
+        //   controller: this.controller,
+        // ),
+        );
   }
 }

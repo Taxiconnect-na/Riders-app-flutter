@@ -100,13 +100,16 @@ class TextEntryPhoneInput extends StatelessWidget {
                   autocorrect: false,
                   showCursor: true,
                   style: TextStyle(fontSize: 22, letterSpacing: 0),
+                  maxLength: 10, //! Should be conditional to the country
                   keyboardType: TextInputType.numberWithOptions(
                       decimal: false, signed: false),
                   decoration: InputDecoration(
+                      counterText: '',
                       border: InputBorder.none,
                       labelText: "856997167",
                       labelStyle: TextStyle(fontFamily: 'UberMoveTextMedium'),
-                      floatingLabelBehavior: FloatingLabelBehavior.never),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      contentPadding: EdgeInsets.only(bottom: 15.5)),
                 ))));
   }
 }
