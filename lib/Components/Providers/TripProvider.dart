@@ -117,6 +117,13 @@ class TripProvider with ChangeNotifier {
   bool isTripScheduled =
       false; //To know whether or not the trip is scheduled - default: false
 
+  //For the custom fare inputs
+  final double maximumPercentageCustomFareUpLimit = 0.75; //75%
+  double? customFareEntered; //The custom fare entered by the rider
+  double? definitiveCustomFare; //The unchanging custom fare after validatiion
+  bool isCustomFareConsidered =
+      false; //Whether or not a custom fare was applied by the user.
+
   //! Modifiers
   //?1. Update the passengers number
   void updatePassengersNo({required int newPassengerNo}) {
@@ -225,5 +232,61 @@ class TripProvider with ChangeNotifier {
   //?10. Format time to AM/PM format
   String formatTimeToAMPorPMformat({required TimeOfDay time}) {
     return '${DateFormat('h:mm a').format(DateFormat('hh:mm').parse('${time.hour}:${time.minute}'))}';
+  }
+
+  //?11. Get the prices range in which the custom fare should lie in.
+  Map getCustomFareRange() {
+    //The maximum custom fare should be = base fare + (based Fare)*60%
+    //The minimum custom fare should be = base fare + 1
+    double baseFare = double.parse(selectedRideData['base_fare'].toString());
+    double maximumCustomFare =
+        baseFare + (baseFare * maximumPercentageCustomFareUpLimit);
+
+    return {'max': maximumCustomFare.round(), 'min': baseFare.round() + 1};
+  }
+
+  //?12. Update the custom fare value on change
+  void updateCustomFareValueOnChange({required double customFareValue}) {
+    try {
+      if (customFareValue > 0) {
+        customFareEntered = customFareValue;
+      } else //Set to null
+      {
+        customFareEntered = null;
+      }
+    } catch (e) {
+      customFareEntered = customFareValue;
+    }
+    notifyListeners();
+  }
+
+  //?13. Set custom fare value
+  Map setCustomFareValue() {
+    if (customFareEntered != null) //Good
+    {
+      //Check that the custom fare is within the acceptable range
+      Map fareRange = this.getCustomFareRange();
+      if (fareRange['min'] <= customFareEntered &&
+          fareRange['max'] >= customFareEntered) //Clear
+      {
+        definitiveCustomFare = customFareEntered; //!Crucial
+        isCustomFareConsidered = true;
+        return {'response': true};
+      } else //Out of Range
+      {
+        return {'response': 'out_of_range'};
+      }
+    } else //No value provided
+    {
+      return {'response': 'no_change'};
+    }
+  }
+
+  //?14. Remove custom fare previously set
+  void removeCustomFare() {
+    definitiveCustomFare = null; //!crucial
+    customFareEntered = null;
+    isCustomFareConsidered = false;
+    notifyListeners();
   }
 }

@@ -30,7 +30,8 @@ class ChooseVehicleType extends StatelessWidget {
     //? Initialized the error 15min ahead snackbar
     SnackBarMother snackBarMother = new SnackBarMother(
         context: context,
-        snackText: 'Your time must be at least 15 min ahead.',
+        snackChild: Text('Your time must be at least 15 min ahead.',
+            style: TextStyle(fontFamily: 'MoveTextLight', color: Colors.white)),
         snackPaddingBottom: 400,
         snackBackgroundcolor: Color.fromRGBO(178, 34, 34, 1));
     //...

@@ -117,7 +117,22 @@ class RenderSummaryBooking extends StatelessWidget {
     //? Initialized the error 15min ahead snackbar
     SnackBarMother snackBarMother = new SnackBarMother(
         context: context,
-        snackText: 'Your custom must be at least N\$amount_selected',
+        snackChild: RichText(
+          text: TextSpan(
+              style: TextStyle(fontFamily: 'MoveTextLight'),
+              children: [
+                TextSpan(text: 'Your custom fare should be between '),
+                TextSpan(
+                    text:
+                        'N\$${context.read<TripProvider>().getCustomFareRange()['min']}',
+                    style: TextStyle(fontFamily: 'MoveTextMedium')),
+                TextSpan(text: ' and '),
+                TextSpan(
+                    text:
+                        'N\$${context.read<TripProvider>().getCustomFareRange()['max']}',
+                    style: TextStyle(fontFamily: 'MoveTextMedium'))
+              ]),
+        ),
         snackPaddingBottom: 400,
         snackBackgroundcolor: Color.fromRGBO(178, 34, 34, 1));
     //...
@@ -160,11 +175,32 @@ class RenderSummaryBooking extends StatelessWidget {
                             const EdgeInsets.only(left: 15, right: 15, top: 20),
                         child: Container(
                           child: TextField(
+                            enabled: context
+                                    .read<TripProvider>()
+                                    .isCustomFareConsidered
+                                ? false
+                                : true,
                             keyboardType: TextInputType.numberWithOptions(
                                 decimal: true, signed: false),
                             autocorrect: false,
                             autofocus: true,
                             maxLength: 3,
+                            onChanged: (value) {
+                              try {
+                                context
+                                    .read<TripProvider>()
+                                    .updateCustomFareValueOnChange(
+                                        customFareValue: double.parse(
+                                            value.trim().length > 0
+                                                ? value
+                                                : '0'));
+                              } catch (e) {
+                                context
+                                    .read<TripProvider>()
+                                    .updateCustomFareValueOnChange(
+                                        customFareValue: 0);
+                              }
+                            },
                             style: TextStyle(
                                 fontFamily: 'MoveTextMedium', fontSize: 22),
                             decoration: InputDecoration(
@@ -194,12 +230,14 @@ class RenderSummaryBooking extends StatelessWidget {
                                 children: [
                                   TextSpan(text: 'Between '),
                                   TextSpan(
-                                      text: 'N\$30 ',
+                                      text:
+                                          'N\$${context.read<TripProvider>().getCustomFareRange()['min']} ',
                                       style: TextStyle(
                                           fontFamily: 'MoveTextMedium')),
                                   TextSpan(text: 'and '),
                                   TextSpan(
-                                      text: 'N\$65.',
+                                      text:
+                                          'N\$${context.read<TripProvider>().getCustomFareRange()['max']}',
                                       style: TextStyle(
                                           fontFamily: 'MoveTextMedium'))
                                 ]),
@@ -209,10 +247,59 @@ class RenderSummaryBooking extends StatelessWidget {
                       Expanded(child: Text('')),
                       FittedBox(
                         child: GenericRectButton(
-                            label: 'Set new fare to N\$35',
+                            label: context
+                                        .watch<TripProvider>()
+                                        .isCustomFareConsidered ==
+                                    false
+                                ? context
+                                            .watch<TripProvider>()
+                                            .customFareEntered !=
+                                        null
+                                    ? 'Set new fare${context.watch<TripProvider>().customFareEntered != null ? ' to N\$' + context.watch<TripProvider>().customFareEntered!.round().toString() : ''}'
+                                    : 'Close'
+                                : 'Remove custom fare',
                             labelFontSize: 20,
+                            bottomSubtitleText: context
+                                        .watch<TripProvider>()
+                                        .isCustomFareConsidered ==
+                                    false
+                                ? null
+                                : 'Current fare: N\$${context.watch<TripProvider>().definitiveCustomFare}',
                             isArrowShow: false,
-                            actuatorFunctionl: () => print('Set custom fare')),
+                            actuatorFunctionl: () {
+                              if (context
+                                      .read<TripProvider>()
+                                      .isCustomFareConsidered ==
+                                  false) {
+                                Map setCustomFareCheck = context
+                                    .read<TripProvider>()
+                                    .setCustomFareValue();
+
+                                print(setCustomFareCheck);
+                                switch (setCustomFareCheck['response']) {
+                                  case 'out_of_range': //Out of acceptable range
+                                    snackBarMother.showSnackBarMotherChild();
+                                    break;
+                                  case true:
+                                    //? Close custom fare modal
+                                    Navigator.pop(context);
+                                    break;
+                                  case 'no_change':
+                                    //? Close custom fare modal
+                                    Navigator.pop(context);
+                                    break;
+                                  default:
+                                    //? Close custom fare modal
+                                    Navigator.pop(context);
+                                    break;
+                                }
+                              } else //!Remove the previous custom fare
+                              {
+                                context.read<TripProvider>().removeCustomFare();
+                                //? Focus on the textfield
+                                //mainCustomFareInputController.
+                              }
+                            }),
                       )
                     ],
                   ),
@@ -347,7 +434,7 @@ class RenderSummaryBooking extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 15, bottom: 5),
                     child: Container(
                       child: Text(
-                        'N\$ 30',
+                        'N\$ ${context.watch<TripProvider>().isCustomFareConsidered == false ? double.parse(context.watch<TripProvider>().selectedRideData['base_fare'].toString()) : context.watch<TripProvider>().definitiveCustomFare}',
                         style:
                             TextStyle(fontFamily: 'MoveTextBold', fontSize: 25),
                       ),

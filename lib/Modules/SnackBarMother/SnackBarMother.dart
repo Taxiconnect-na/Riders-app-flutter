@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 class SnackBarMother {
   final BuildContext context; //The build context of the parentt
-  final String snackText; //The text to display in the snack bar
+  final Widget snackChild; //The Widget to display in the snack bar
   final Color snackTextColor; //The color of the snack text
   final Color
       snackBackgroundcolor; //The color of the background of the entire snackbar
@@ -17,7 +17,7 @@ class SnackBarMother {
 
   SnackBarMother(
       {required this.context,
-      required this.snackText,
+      required this.snackChild,
       this.snackTextColor = Colors.white,
       this.snackBackgroundcolor = const Color.fromRGBO(14, 132, 145, 1),
       this.snackPaddingBottom = 0});
@@ -41,12 +41,7 @@ class SnackBarMother {
                   SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    '${this.snackText}',
-                    style: TextStyle(
-                        fontFamily: 'MoveTextLight',
-                        color: this.snackTextColor),
-                  ),
+                  this.snackChild,
                 ],
               ),
             ),
