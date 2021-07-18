@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:taxiconnect/Components/Providers/SettingsProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
@@ -109,6 +111,125 @@ class SummaryTrip extends StatelessWidget {
 //To render all the essential booking details
 class RenderSummaryBooking extends StatelessWidget {
   const RenderSummaryBooking({Key? key}) : super(key: key);
+
+  //? Ride scheduling
+  void enterCustomFare(BuildContext context) {
+    //? Initialized the error 15min ahead snackbar
+    SnackBarMother snackBarMother = new SnackBarMother(
+        context: context,
+        snackText: 'Your custom must be at least N\$amount_selected',
+        snackPaddingBottom: 400,
+        snackBackgroundcolor: Color.fromRGBO(178, 34, 34, 1));
+    //...
+    context
+        .read<HomeProvider>()
+        .panelController
+        .animatePanelToPosition(0, curve: Curves.easeInOutCubic);
+    //this._selectDate(context);
+    Future customFareModal = showModalBottomSheet(
+        //enableDrag: false,
+        barrierColor: Colors.black.withOpacity(0.2),
+        context: context,
+        builder: (context) {
+          return Container(
+              color: Colors.white,
+              child: SafeArea(
+                  child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 400,
+                color: Colors.white,
+                child: Container(
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  child: Column(
+                    children: [
+                      Container(
+                        //decoration: BoxDecoration(border: Border.all(width: 1)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 25),
+                          child: Text("What's your custom fare?",
+                              style: TextStyle(
+                                  fontFamily: 'MoveTextMedium', fontSize: 20)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Divider(),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 20),
+                        child: Container(
+                          child: TextField(
+                            keyboardType: TextInputType.numberWithOptions(
+                                decimal: true, signed: false),
+                            autocorrect: false,
+                            autofocus: true,
+                            maxLength: 3,
+                            style: TextStyle(
+                                fontFamily: 'MoveTextMedium', fontSize: 22),
+                            decoration: InputDecoration(
+                                counterText: '',
+                                labelText: 'Enter your fare',
+                                labelStyle:
+                                    TextStyle(fontFamily: 'MoveTextRegular'),
+                                prefixText: 'N\$',
+                                prefixStyle: TextStyle(
+                                    fontFamily: 'MoveTextBold', fontSize: 20)),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 15),
+                        child: Container(
+                          // decoration:
+                          //     BoxDecoration(border: Border.all(width: 1)),
+                          width: MediaQuery.of(context).size.width,
+                          child: RichText(
+                            text: TextSpan(
+                                style: TextStyle(
+                                    fontFamily: 'MoveTextRegular',
+                                    color: Colors.black,
+                                    fontSize: 15),
+                                children: [
+                                  TextSpan(text: 'Between '),
+                                  TextSpan(
+                                      text: 'N\$30 ',
+                                      style: TextStyle(
+                                          fontFamily: 'MoveTextMedium')),
+                                  TextSpan(text: 'and '),
+                                  TextSpan(
+                                      text: 'N\$65.',
+                                      style: TextStyle(
+                                          fontFamily: 'MoveTextMedium'))
+                                ]),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Text('')),
+                      FittedBox(
+                        child: GenericRectButton(
+                            label: 'Set new fare to N\$35',
+                            labelFontSize: 20,
+                            isArrowShow: false,
+                            actuatorFunctionl: () => print('Set custom fare')),
+                      )
+                    ],
+                  ),
+                ),
+              )));
+        });
+    //...
+    customFareModal.then((value) {
+      //? Close the snackbar if previously initialized
+      snackBarMother.hideSnackBar();
+      //? Modal closed - restore the main Panel
+      context
+          .read<HomeProvider>()
+          .panelController
+          .animatePanelToPosition(1, curve: Curves.easeInOutCubic);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +358,7 @@ class RenderSummaryBooking extends StatelessWidget {
                     child: Divider(),
                   ),
                   InkWell(
-                    onTap: () => print('Enter custom fare'),
+                    onTap: () => this.enterCustomFare(context),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 5),
                       child: Container(
