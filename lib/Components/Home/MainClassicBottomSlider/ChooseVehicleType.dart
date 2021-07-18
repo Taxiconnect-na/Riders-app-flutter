@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
@@ -15,6 +16,14 @@ class ChooseVehicleType extends StatelessWidget {
 
   //? Ride scheduling
   void startScheduleRideProcess(BuildContext context) {
+    //! Safely initialize the current date and time+15min
+    context
+        .read<TripProvider>()
+        .updateDateScheduledTrip(date: DateTime.now()); //Date
+    context.read<TripProvider>().updateTimeScheduledTrip(
+        time: TimeOfDay.fromDateTime(
+            DateTime.now().add(Duration(minutes: 15)))); //Time
+    //!...
     context
         .read<HomeProvider>()
         .panelController
@@ -54,7 +63,8 @@ class ChooseVehicleType extends StatelessWidget {
                           //decoration: BoxDecoration(border: Border.all(width: 1)),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text('Sunday, Jul 18',
+                            child: Text(
+                                '${DateFormat('EEE, MMM d').format(context.watch<TripProvider>().selectedScheduledDate)}',
                                 style: TextStyle(fontSize: 20)),
                           ),
                         ),
@@ -66,24 +76,28 @@ class ChooseVehicleType extends StatelessWidget {
                           //decoration: BoxDecoration(border: Border.all(width: 1)),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text('At 12:30AM',
+                            child: Text(
+                                'At ${context.read<TripProvider>().formatTimeToAMPorPMformat(time: context.watch<TripProvider>().selectedScheduledTime)}',
                                 style: TextStyle(fontSize: 20)),
                           ),
                         ),
                       ),
                       Expanded(child: Text('')),
-                      GenericRectButton(
-                          label: 'Done',
-                          isArrowShow: false,
-                          actuatorFunctionl: () {
-                            Navigator.pop(context); //Close schedule modal
-                            //Reopen the main Panel
-                            context
-                                .read<HomeProvider>()
-                                .panelController
-                                .animatePanelToPosition(1,
-                                    curve: Curves.easeInOutCubic);
-                          })
+                      FittedBox(
+                        child: GenericRectButton(
+                            label: 'Confirm pickup time',
+                            labelFontSize: 20,
+                            isArrowShow: false,
+                            actuatorFunctionl: () {
+                              Navigator.pop(context); //Close schedule modal
+                              //Reopen the main Panel
+                              context
+                                  .read<HomeProvider>()
+                                  .panelController
+                                  .animatePanelToPosition(1,
+                                      curve: Curves.easeInOutCubic);
+                            }),
+                      )
                     ],
                   ),
                 ),
@@ -100,7 +114,7 @@ class ChooseVehicleType extends StatelessWidget {
   }
 
   //?Select futuree booking date
-  Future _selectDate(BuildContext context) async {
+  void _selectDate(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
         context: context,
         helpText: 'PICKUP DATE',
@@ -109,19 +123,23 @@ class ChooseVehicleType extends StatelessWidget {
         lastDate: DateTime.now().add(const Duration(days: 2)));
 
     log(selectedDate.toString());
-    return selectedDate;
+    if (selectedDate != null) {
+      context.read<TripProvider>().updateDateScheduledTrip(date: selectedDate);
+    }
   }
 
   //?Select future booking time
-  Future _selectTime(BuildContext context) async {
+  void _selectTime(BuildContext context) async {
     final TimeOfDay? selectedTime = await showTimePicker(
         context: context,
         helpText: 'PICKUP TIME',
         initialTime:
             TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 15))));
 
-    log(selectedTime.toString());
-    return selectedTime;
+    if (selectedTime != null) {
+      context.read<TripProvider>().updateTimeScheduledTrip(
+          time: selectedTime.replacing(hour: selectedTime.hourOfPeriod));
+    }
   }
 
   @override

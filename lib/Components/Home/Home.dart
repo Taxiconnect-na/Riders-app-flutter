@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),
             parallaxEnabled: true,
-            parallaxOffset: 0.7,
+            parallaxOffset: 0.5,
             body: Container(
               decoration: BoxDecoration(color: Colors.grey),
               child: SafeArea(

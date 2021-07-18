@@ -36,10 +36,8 @@ class _GenericMapState extends State<GenericMap> {
       // backgroundColor: Colors.red,
       body: GoogleMap(
         padding: EdgeInsets.only(
-            bottom: 60,
-            top: context.watch<HomeProvider>().isPanelShown
-                ? MediaQuery.of(context).size.height * 0.20
-                : 0),
+          bottom: 60,
+        ),
         mapToolbarEnabled: false,
         zoomControlsEnabled: false,
         myLocationButtonEnabled: false,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 ///? TRIP PROVIDER
 ///Hold the provider responsible for the management of trips (rides, deliveries) only.
@@ -109,6 +110,13 @@ class TripProvider with ChangeNotifier {
     "availability": "available"
   }; //Will hold the map containing the selected ride by the user - by default: autoselect the first
 
+  late DateTime
+      selectedScheduledDate; //The date selected for the scheduled trip
+  late TimeOfDay
+      selectedScheduledTime; //The time selected for the scheduled trip
+  bool isTripScheduled =
+      false; //To know whether or not the trip is scheduled - default: false
+
   //! Modifiers
   //?1. Update the passengers number
   void updatePassengersNo({required int newPassengerNo}) {
@@ -164,5 +172,35 @@ class TripProvider with ChangeNotifier {
       {required Map rideSelected, bool shouldUpdate = false}) {
     selectedRideData = rideSelected;
     notifyListeners();
+  }
+
+  //?6. Update the date for the scheduled trip
+  void updateDateScheduledTrip({required DateTime date}) {
+    selectedScheduledDate = date;
+    notifyListeners();
+  }
+
+  //?7. Update the time for the scheduled trip
+  void updateTimeScheduledTrip({required TimeOfDay time}) {
+    selectedScheduledTime = time;
+    notifyListeners();
+  }
+
+  //?8. Confirm scheduled pickup up date and time
+  void confirmScheduledPickupTime() {}
+
+  //?9. Remove previously scheduled date and time
+  void removePreviouslyScheduledDateAndTime() {
+    selectedScheduledDate = DateTime.now();
+    selectedScheduledTime =
+        TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 15)));
+    isTripScheduled = false; //?Crucial
+    //...
+    notifyListeners();
+  }
+
+  //?10. Format time to AM/PM format
+  String formatTimeToAMPorPMformat({required TimeOfDay time}) {
+    return '${DateFormat('h:mm a').format(DateFormat('hh:mm').parse('${time.hour}:${time.minute}'))}';
   }
 }
