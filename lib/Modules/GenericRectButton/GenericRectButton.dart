@@ -15,6 +15,8 @@ class GenericRectButton extends StatelessWidget {
   final IconData
       trailingIcon; //Main icon for the trailing button - default: Icon.watch_later
   final actuatorTrailingFunctional; //?The function that will be fired when the trailing button is clicked - default - false
+  final String?
+      bottomSubtitleText; //The subtitle to display under the main label text - default:null
 
   GenericRectButton(
       {required this.label,
@@ -25,6 +27,7 @@ class GenericRectButton extends StatelessWidget {
       this.labelFontSize = 28,
       this.activateTrailing = false,
       this.trailingIcon = Icons.watch_later,
+      this.bottomSubtitleText,
       this.actuatorTrailingFunctional = false});
 
   @override
@@ -47,18 +50,46 @@ class GenericRectButton extends StatelessWidget {
                             MaterialStateProperty.all(Colors.black)),
                     onPressed: this.actuatorFunctionl,
                     child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, top: 15),
+                        padding: EdgeInsets.only(
+                            bottom: this.bottomSubtitleText == null ? 15 : 5,
+                            top: this.bottomSubtitleText == null ? 15 : 5),
                         child: Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  this.label,
-                                  style: TextStyle(
-                                      fontFamily: 'MoveTextMedium',
-                                      fontSize: this.labelFontSize),
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        this.label,
+                                        style: TextStyle(
+                                            fontFamily: 'MoveTextMedium',
+                                            fontSize:
+                                                this.bottomSubtitleText == null
+                                                    ? this.labelFontSize
+                                                    : 20),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: this.bottomSubtitleText != null
+                                        ? true
+                                        : false,
+                                    child: Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        child: Text(
+                                            '${this.bottomSubtitleText}',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade200,
+                                                fontSize: 15)),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                             Visibility(

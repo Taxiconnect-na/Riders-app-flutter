@@ -187,7 +187,30 @@ class TripProvider with ChangeNotifier {
   }
 
   //?8. Confirm scheduled pickup up date and time
-  void confirmScheduledPickupTime() {}
+  bool confirmScheduledPickupTime() {
+    //Check if the time difference between the selected one and current one is not less than 15min
+    TimeOfDay refTime = TimeOfDay.now();
+    double refTimeSec = (refTime.hour * 3600) + (refTime.minute * 60);
+    double scheduledSec = (selectedScheduledTime.hour * 3600) +
+        (selectedScheduledTime.minute * 60);
+
+    double diff = scheduledSec - refTimeSec;
+
+    if (diff > 0) //Good
+    {
+      if (diff >= (15 * 60)) //>=15min
+      {
+        isTripScheduled = true;
+        return true;
+      } else //No, should be 15min diff btwn the current time and the scheduled
+      {
+        return false;
+      }
+    } else //No, should be 15min diff btwn the current time and the scheduled
+    {
+      return false;
+    }
+  }
 
   //?9. Remove previously scheduled date and time
   void removePreviouslyScheduledDateAndTime() {

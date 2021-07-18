@@ -8,6 +8,7 @@ import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
 import 'package:taxiconnect/Modules/Search/Search.dart';
+import 'package:taxiconnect/Modules/SnackBarMother/SnackBarMother.dart';
 
 class ChooseVehicleType extends StatelessWidget {
   final ScrollController controller;
@@ -24,6 +25,13 @@ class ChooseVehicleType extends StatelessWidget {
         time: TimeOfDay.fromDateTime(
             DateTime.now().add(Duration(minutes: 15)))); //Time
     //!...
+    //? Initialized the error 15min ahead snackbar
+    SnackBarMother snackBarMother = new SnackBarMother(
+        context: context,
+        snackText: 'Your time must be at least 15 min ahead.',
+        snackPaddingBottom: 400,
+        snackBackgroundcolor: Color.fromRGBO(178, 34, 34, 1));
+    //...
     context
         .read<HomeProvider>()
         .panelController
@@ -31,6 +39,7 @@ class ChooseVehicleType extends StatelessWidget {
     //this._selectDate(context);
     Future tripScheduleModal = showModalBottomSheet(
         //enableDrag: false,
+        barrierColor: Colors.black.withOpacity(0.2),
         context: context,
         builder: (context) {
           return Container(
@@ -85,17 +94,45 @@ class ChooseVehicleType extends StatelessWidget {
                       Expanded(child: Text('')),
                       FittedBox(
                         child: GenericRectButton(
-                            label: 'Confirm pickup time',
+                            label: context.watch<TripProvider>().isTripScheduled
+                                ? 'Remove schedule'
+                                : 'Confirm pickup time',
+                            bottomSubtitleText: context
+                                    .watch<TripProvider>()
+                                    .isTripScheduled
+                                ? '${DateFormat('EEE, MMM d').format(context.watch<TripProvider>().selectedScheduledDate)} at ${context.read<TripProvider>().formatTimeToAMPorPMformat(time: context.watch<TripProvider>().selectedScheduledTime)}'
+                                : null,
                             labelFontSize: 20,
                             isArrowShow: false,
                             actuatorFunctionl: () {
-                              Navigator.pop(context); //Close schedule modal
-                              //Reopen the main Panel
-                              context
-                                  .read<HomeProvider>()
-                                  .panelController
-                                  .animatePanelToPosition(1,
-                                      curve: Curves.easeInOutCubic);
+                              if (context
+                                      .read<TripProvider>()
+                                      .isTripScheduled ==
+                                  false) //?Provide new schedule capability
+                              {
+                                if (context
+                                    .read<TripProvider>()
+                                    .confirmScheduledPickupTime()) //Successful assigned scheduled time
+                                {
+                                  print('Good scheduled time');
+                                  Navigator.pop(context); //Close schedule modal
+                                  //Reopen the main Panel
+                                  context
+                                      .read<HomeProvider>()
+                                      .panelController
+                                      .animatePanelToPosition(1,
+                                          curve: Curves.easeInOutCubic);
+                                } else //! The time chosen is less than the 15min required difference
+                                {
+                                  print('Should be 15min diff');
+                                  snackBarMother.showSnackBarMotherChild();
+                                }
+                              } else //!Remove current schedule
+                              {
+                                context
+                                    .read<TripProvider>()
+                                    .removePreviouslyScheduledDateAndTime();
+                              }
                             }),
                       )
                     ],
@@ -105,6 +142,8 @@ class ChooseVehicleType extends StatelessWidget {
         });
     //...
     tripScheduleModal.then((value) {
+      //? Close the snackbar if previously initialized
+      snackBarMother.hideSnackBar();
       //? Modal closed - restore the main Panel
       context
           .read<HomeProvider>()
@@ -184,6 +223,11 @@ class ChooseVehicleType extends StatelessWidget {
                             labelFontSize: 22,
                             isArrowShow: false,
                             horizontalPadding: 10,
+                            bottomSubtitleText: context
+                                    .watch<TripProvider>()
+                                    .isTripScheduled
+                                ? '${DateFormat('EEE, MMM d').format(context.watch<TripProvider>().selectedScheduledDate)} at ${context.read<TripProvider>().formatTimeToAMPorPMformat(time: context.watch<TripProvider>().selectedScheduledTime)}'
+                                : null,
                             actuatorTrailingFunctional: () =>
                                 this.startScheduleRideProcess(context),
                             actuatorFunctionl: () =>
