@@ -6,6 +6,7 @@ import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/RideDelivery
 import 'ChooseVehicleType.dart';
 import 'PassengersNumberSelection.dart';
 import 'PickupNoteInserter.dart';
+import 'SummaryTrip.dart';
 
 //Main classic bottom slider
 class MainClassicBottomSlider extends StatelessWidget {
@@ -38,7 +39,7 @@ class DisplayAssigner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ChooseVehicleType(
+      child: SummaryTrip(
         controller: this.controller,
       ),
     );

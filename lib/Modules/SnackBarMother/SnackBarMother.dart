@@ -56,6 +56,7 @@ class SnackBarMother {
   }
 
   void showSnackBarMotherChild() {
+    this.hideSnackBar();
     this.initSnackBar();
     ScaffoldMessenger.of(this.context)
         .showSnackBar(this.snackBarMotherInstance);
