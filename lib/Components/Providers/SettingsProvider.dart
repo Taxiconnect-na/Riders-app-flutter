@@ -27,11 +27,19 @@ class SettingsProvider with ChangeNotifier {
       'cash'; //Hold the default payment method selected
 
   //?1. Get default payment method icon asset
-  // Widget getDefaultPaymentMethodIcon() {
-  //   switch (defaultPaymentMethod) {
-  //     case 'cash':
-  //       return Container(child: Icon(),)
-  //     default:
-  //   }
-  // }
+  IconData getDefaultPaymentMethodIcon() {
+    switch (defaultPaymentMethod) {
+      case 'cash':
+        return Icons.payments;
+      case 'wallet':
+        return Icons.account_balance_wallet;
+      default:
+        return Icons.payments;
+    }
+  }
+
+  //?2. Uppercase only the first char
+  String ucFirst({required String text}) {
+    return '${text[0].toUpperCase()}${text.substring(1)}';
+  }
 }

@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Providers/SettingsProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
 import 'package:taxiconnect/Modules/Search/Search.dart';
 import 'package:taxiconnect/Modules/SnackBarMother/SnackBarMother.dart';
+
+//! Panel's optimal height: 600
 
 class SummaryTrip extends StatelessWidget {
   final ScrollController controller;
@@ -44,7 +47,7 @@ class SummaryTrip extends StatelessWidget {
                 Divider(),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 5),
                     child: Container(
                       alignment: Alignment.topLeft,
                       width: MediaQuery.of(context).size.width,
@@ -52,11 +55,12 @@ class SummaryTrip extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: Colors.red)),
+                                  // decoration: BoxDecoration(
+                                  //     border: Border.all(
+                                  //         width: 1, color: Colors.red)),
                                   alignment: Alignment.topLeft,
                                   child: RenderSummaryBooking())),
+                          ShowBookingSpecifics(),
                           GenericRectButton(
                             label: 'Connect to your ride',
                             labelFontSize: 22,
@@ -110,13 +114,13 @@ class RenderSummaryBooking extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(border: Border.all(width: 1)),
+      //decoration: BoxDecoration(border: Border.all(width: 1)),
       child: Column(
         children: [
           Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(border: Border.all(width: 1)),
+              //decoration: BoxDecoration(border: Border.all(width: 1)),
               child: Column(
                 children: [
                   CircleAvatar(
@@ -160,10 +164,186 @@ class RenderSummaryBooking extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      //decoration: BoxDecoration(border: Border.all(width: 1)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  '1',
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  context
+                                      .read<SettingsProvider>()
+                                      .getDefaultPaymentMethodIcon(),
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  context.read<SettingsProvider>().ucFirst(
+                                      text: context
+                                          .read<SettingsProvider>()
+                                          .defaultPaymentMethod),
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 5),
+                    child: Container(
+                      child: Text(
+                        'N\$ 30',
+                        style:
+                            TextStyle(fontFamily: 'MoveTextBold', fontSize: 25),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, left: 65, right: 65),
+                    child: Divider(),
+                  ),
+                  InkWell(
+                    onTap: () => print('Enter custom fare'),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Container(
+                        //decoration: BoxDecoration(border: Border.all(width: 1)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: [
+                                      TextSpan(
+                                          text: 'or ',
+                                          style: TextStyle(fontSize: 15)),
+                                      TextSpan(
+                                          text: 'Enter a custom fare',
+                                          style: TextStyle(
+                                              fontFamily: 'MoveTextBold',
+                                              fontSize: 18,
+                                              color: Color.fromRGBO(
+                                                  14, 132, 145, 1)))
+                                    ]),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3, left: 3),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    size: 18,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )),
         ],
+      ),
+    );
+  }
+}
+
+//SHow the specifics of the booking: is going until home? The N$5 included pickup fees.
+class ShowBookingSpecifics extends StatelessWidget {
+  const ShowBookingSpecifics({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.info,
+                  size: 14,
+                ),
+                SizedBox(
+                  width: 3,
+                ),
+                Container(
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: 'MoveTextRegular'),
+                        children: [
+                          TextSpan(
+                              text: 'N\$5',
+                              style: TextStyle(fontFamily: 'MoveTextBold')),
+                          TextSpan(
+                            text: ' pickup fee included.',
+                          )
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Row(
+                children: [
+                  Icon(Icons.home,
+                      size: 15, color: Color.fromRGBO(14, 132, 145, 1)),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Container(
+                    child: Text('Going until home.'),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

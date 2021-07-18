@@ -10,6 +10,8 @@ import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
 import 'package:taxiconnect/Modules/Search/Search.dart';
 import 'package:taxiconnect/Modules/SnackBarMother/SnackBarMother.dart';
 
+//! Panel's optimal height: 650
+
 class ChooseVehicleType extends StatelessWidget {
   final ScrollController controller;
   const ChooseVehicleType({Key? key, required this.controller})

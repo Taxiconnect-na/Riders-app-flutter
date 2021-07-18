@@ -19,7 +19,7 @@ class HomeProvider with ChangeNotifier {
   double minSliderHeight =
       200; //The minimum height for the slider. - default:200
   double maxSliderHeight =
-      650; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
+      600; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
   double _initRelativeFocusButtonPosition =
       30; //The init and fixed relative focus button position -default: minSliderHeight
   double relativeFocusButtonPosition =
