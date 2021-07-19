@@ -12,6 +12,7 @@ class _NewAccountAddiDetailsState extends State<NewAccountAddiDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -47,7 +48,7 @@ class _NewAccountAddiDetailsState extends State<NewAccountAddiDetails> {
                         ])),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               InputUserDetails()
             ],

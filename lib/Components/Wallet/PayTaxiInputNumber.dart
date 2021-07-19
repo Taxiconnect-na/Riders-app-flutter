@@ -75,9 +75,7 @@ class _PayTaxiInputNumberState extends State<PayTaxiInputNumber> {
                         ),
                       ),
                       trailing: GenericCircButton(
-                        originRouteName: 'PayTaxiInputNumber',
-                        destinationRouteName: 'CreateAccountEntry',
-                        destinationRouteNature: 'obvious',
+                        actuatorFunctionl: () => print('Navigator kicked'),
                       ),
                     ),
                   ))

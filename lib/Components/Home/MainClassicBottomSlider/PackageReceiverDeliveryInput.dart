@@ -17,6 +17,7 @@ class _PackageReceiverDeliveryInputState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -40,7 +41,7 @@ class _PackageReceiverDeliveryInputState
                             color: Colors.black))),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -98,9 +99,8 @@ class _PackageReceiverDeliveryInputState
                         ),
                       ),
                       trailing: GenericCircButton(
-                        originRouteName: 'PackageReceiverDeliveryInput',
-                        destinationRouteName: 'OTPVerificationEntry',
-                        destinationRouteNature: 'obvious',
+                        actuatorFunctionl: () => Navigator.pushNamed(
+                            context, '/OTPVerificationEntry'),
                       ),
                     ),
                   ))

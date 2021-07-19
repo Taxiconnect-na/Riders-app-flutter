@@ -15,21 +15,22 @@ class _PhoneNumberInputEntryState extends State<PhoneNumberInputEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
             child: Container(
-      //decoration: BoxDecoration(border: Border.all(width: 1)),
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          FlagPartPhoneEntry(),
-          SizedBox(
-            width: 5,
+          //decoration: BoxDecoration(border: Border.all(width: 1)),
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            children: [
+              FlagPartPhoneEntry(),
+              SizedBox(
+                width: 5,
+              ),
+              TextEntryPhoneInput()
+            ],
           ),
-          TextEntryPhoneInput()
-        ],
-      ),
-    )));
+        )));
   }
 }
 

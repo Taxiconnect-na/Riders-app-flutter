@@ -110,6 +110,31 @@ class TripProvider with ChangeNotifier {
     "availability": "available"
   }; //Will hold the map containing the selected ride by the user - by default: autoselect the first
 
+  //? The predefined package sizes
+  List packagesSizesGeneralData = [
+    {
+      'app_label': 'Small package',
+      'package_type': 'envelope',
+      'dimensions': '24cm x 25cm',
+      'icon': 'Assets/Images/Delivery/envelope.png'
+    },
+    {
+      'app_label': 'Medium package',
+      'package_type': 'small',
+      'dimensions': '47cm x 68cm x 50cm',
+      'icon': 'Assets/Images/Delivery/small.png'
+    },
+    {
+      'app_label': 'Large package',
+      'package_type': 'large',
+      'dimensions': '62cm x 46cm x 76cm',
+      'icon': 'Assets/Images/Delivery/large.png'
+    }
+  ];
+
+  late Map
+      selectedPackageSize; //Will hold the package size selected by the user.
+
   late DateTime
       selectedScheduledDate; //The date selected for the scheduled trip
   late TimeOfDay
@@ -288,5 +313,15 @@ class TripProvider with ChangeNotifier {
     customFareEntered = null;
     isCustomFareConsidered = false;
     notifyListeners();
+  }
+
+  //?15. Update selected package size
+  void updateSelectedPackageSize(
+      {required Map packageSizeSelected, bool shouldUpdate = true}) {
+    print('Package size updated');
+    selectedPackageSize = packageSizeSelected;
+    if (shouldUpdate) {
+      notifyListeners();
+    }
   }
 }

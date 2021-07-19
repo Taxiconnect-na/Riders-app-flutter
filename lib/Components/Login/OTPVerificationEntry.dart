@@ -38,7 +38,7 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
                             color: Colors.black))),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Expanded(
                   child: Padding(
@@ -54,9 +54,8 @@ class _OTPVerificationEntryState extends State<OTPVerificationEntry> {
                     height: 100,
                     child: ListTile(
                       trailing: GenericCircButton(
-                        originRouteName: 'OTPVerificationEntry',
-                        destinationRouteName: 'CreateAccountEntry',
-                        destinationRouteNature: 'obvious',
+                        actuatorFunctionl: () =>
+                            Navigator.pushNamed(context, '/CreateAccountEntry'),
                       ),
                     ),
                   ))

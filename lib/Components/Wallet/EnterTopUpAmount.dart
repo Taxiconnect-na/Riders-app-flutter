@@ -148,9 +148,7 @@ class ValidationButtonsPart extends StatelessWidget {
               ),
             ),
             trailing: GenericCircButton(
-              originRouteName: 'PhoneDetailsScreen',
-              destinationRouteName: 'OTPVerificationEntry',
-              destinationRouteNature: 'obvious',
+              actuatorFunctionl: () => print('Navigator kicked'),
             ),
           ),
         ));

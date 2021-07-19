@@ -3,6 +3,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/PackageReceiverDeliveryInput.dart';
 
 import 'BasicProductSelection.dart';
+import 'PackageSizeDeliverySelect.dart';
 
 class RideDeliverySelection extends StatelessWidget {
   const RideDeliverySelection({Key? key}) : super(key: key);
@@ -80,7 +81,7 @@ class RideDeliverySelection extends StatelessWidget {
                                                       .width,
                                                   color: Colors.white,
                                                   child:
-                                                      PackageReceiverDeliveryInput(),
+                                                      PackageSizeDeliverySelect(),
                                                 )));
                                       }),
                               iconString: 'Assets/Images/box_delivery.png',

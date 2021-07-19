@@ -72,9 +72,7 @@ class _SendFundsFriendInputNumberState
                         ),
                       ),
                       trailing: GenericCircButton(
-                        originRouteName: 'SendFundsFriendInputNumber',
-                        destinationRouteName: 'OTPVerificationEntry',
-                        destinationRouteNature: 'obvious',
+                        actuatorFunctionl: () => print('Navigator kicked'),
                       ),
                     ),
                   ))

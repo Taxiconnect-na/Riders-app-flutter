@@ -63,6 +63,7 @@ flutter:
   assets:
     - Assets/Images/
     - Assets/Images/Vehicles/
+    - Assets/Images/Delivery/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

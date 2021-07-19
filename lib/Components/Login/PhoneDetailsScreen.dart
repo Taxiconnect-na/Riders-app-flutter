@@ -13,6 +13,7 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -36,7 +37,7 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                             color: Colors.black))),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Expanded(
                   child: Padding(
@@ -59,9 +60,8 @@ class _PhoneDetailsScreenState extends State<PhoneDetailsScreen> {
                         ),
                       ),
                       trailing: GenericCircButton(
-                        originRouteName: 'PhoneDetailsScreen',
-                        destinationRouteName: 'OTPVerificationEntry',
-                        destinationRouteNature: 'obvious',
+                        actuatorFunctionl: () => Navigator.pushNamed(
+                            context, '/OTPVerificationEntry'),
                       ),
                     ),
                   ))
