@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Home/Delivery/DeliveryIntroScreen.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/PackageReceiverDeliveryInput.dart';
 
 import 'BasicProductSelection.dart';
@@ -80,8 +81,7 @@ class RideDeliverySelection extends StatelessWidget {
                                                       .size
                                                       .width,
                                                   color: Colors.white,
-                                                  child:
-                                                      PackageSizeDeliverySelect(),
+                                                  child: DeliveryIntroScreen(),
                                                 )));
                                       }),
                               iconString: 'Assets/Images/box_delivery.png',
