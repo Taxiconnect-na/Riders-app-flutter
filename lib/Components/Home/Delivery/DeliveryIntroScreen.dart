@@ -44,7 +44,19 @@ class _DeliveryIntroScreenState extends State<DeliveryIntroScreen> {
                     child:
                         Icon(Icons.arrow_back, size: 33, color: Colors.black)),
                 trailing: InkWell(
-                  onTap: () => print('Show information'),
+                  onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                            color: Colors.white,
+                            child: SafeArea(
+                                child: Container(
+                              height: 450,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.white,
+                              child: ShowGuidelinesInfoModal(),
+                            )));
+                      }),
                   child: Container(
                     width: 110,
                     height: 30,
@@ -157,5 +169,29 @@ class ShowContentIntro extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+//Show guidelines info modal
+class ShowGuidelinesInfoModal extends StatelessWidget {
+  const ShowGuidelinesInfoModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(children: [
+      Container(
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Text('Guidelines',
+              style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 20)),
+        ),
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      Divider(),
+    ]));
   }
 }
