@@ -51,7 +51,7 @@ class _DeliveryIntroScreenState extends State<DeliveryIntroScreen> {
                             color: Colors.white,
                             child: SafeArea(
                                 child: Container(
-                              height: 450,
+                              height: 485,
                               width: MediaQuery.of(context).size.width,
                               color: Colors.white,
                               child: ShowGuidelinesInfoModal(),
@@ -192,6 +192,173 @@ class ShowGuidelinesInfoModal extends StatelessWidget {
         height: 10,
       ),
       Divider(),
+      Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          //decoration: BoxDecoration(border: Border.all(width: 1)),
+          child: Text('Disclosure',
+              style: TextStyle(
+                  fontFamily: 'MoveTextMedium',
+                  fontSize: 16,
+                  color: Colors.grey.shade900)),
+        ),
+      ),
+      Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            //decoration: BoxDecoration(border: Border.all(width: 1)),
+            child: Text('Please make sure your package is :',
+                style: TextStyle(fontSize: 17)),
+          )),
+      Container(
+        width: MediaQuery.of(context).size.width,
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
+        alignment: Alignment.centerLeft,
+        child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  height: 20,
+                  child: Row(
+                    children: [
+                      NumberPrefix(numberValue: 1),
+                      GuideTextRender(
+                        textValue: 'Under N\$1000 in value',
+                        fontSize: 17,
+                        fontFamily: 'MoveTextBold',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  height: 20,
+                  child: Row(
+                    children: [
+                      NumberPrefix(numberValue: 2),
+                      GuideTextRender(
+                        textValue: 'Securely sealed',
+                        fontSize: 17,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  //decoration: BoxDecoration(border: Border.all(width: 1)),
+                  height: 50,
+                  child: Row(
+                    children: [
+                      NumberPrefix(numberValue: 3),
+                      GuideTextRender(
+                        textValue:
+                            'Not a prohibited item (such as recreational drugs, dangerous or illegal items).',
+                        fontSize: 17,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          //decoration: BoxDecoration(border: Border.all(width: 1)),
+          child: Text('Prohibited items',
+              style: TextStyle(
+                  fontFamily: 'MoveTextMedium',
+                  fontSize: 16,
+                  color: Colors.grey.shade900)),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+        child: GuideTextRender(
+          textValue:
+              'Not a prohibited item (such as recreational drugs, dangerous or illegal items).',
+          fontSize: 17,
+          shouldUseFlexible: false,
+        ),
+      ),
+      Expanded(
+        child: GenericRectButton(
+            label: 'I understand',
+            isArrowShow: false,
+            labelFontSize: 22,
+            actuatorFunctionl: () => Navigator.pop(context)),
+      )
     ]));
+  }
+}
+
+//Number prefix
+class NumberPrefix extends StatelessWidget {
+  final int numberValue; //The value of the number
+  const NumberPrefix({Key? key, required this.numberValue}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //decoration: BoxDecoration(border: Border.all(width: 1)),
+      child: SizedBox(
+          height: 40,
+          width: 17,
+          child: Text('${this.numberValue}.',
+              style: TextStyle(fontSize: 17, fontFamily: 'MoveTextMedium'))),
+    );
+  }
+}
+
+//Point render
+class GuideTextRender extends StatelessWidget {
+  final String textValue;
+  final double fontSize;
+  final String fontFamily;
+  final bool shouldUseFlexible;
+  const GuideTextRender(
+      {Key? key,
+      required this.textValue,
+      this.fontSize = 16,
+      this.fontFamily = 'MoveTextRegular',
+      this.shouldUseFlexible = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (this.shouldUseFlexible) //Flexible based
+    {
+      return Flexible(
+        flex: 1,
+        child: Container(
+          //decoration: BoxDecoration(border: Border.all(width: 1)),
+          child: Text(this.textValue,
+              style: TextStyle(
+                  fontSize: this.fontSize, fontFamily: this.fontFamily)),
+        ),
+      );
+    } else //Non flexible based
+    {
+      return Container(
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
+        child: Text(this.textValue,
+            style: TextStyle(
+                fontSize: this.fontSize, fontFamily: this.fontFamily)),
+      );
+    }
   }
 }
