@@ -3,12 +3,14 @@ import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/BasicProduct
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsSelection.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/GenericGreeting.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/RideDeliverySelection.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 
 import 'ChooseVehicleType.dart';
 import 'PackageReceiverDeliveryInput.dart';
 import 'PassengersNumberSelection.dart';
 import 'PickupNoteInserter.dart';
 import 'SummaryTrip.dart';
+import 'package:provider/provider.dart';
 
 //Main classic bottom slider
 class MainClassicBottomSlider extends StatelessWidget {
@@ -40,10 +42,7 @@ class DisplayAssigner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: RideDeliverySelection()
-        // PackageReceiverDeliveryInput(
-        //   controller: this.controller,
-        // ),
-        );
+    return Container(
+        child: context.watch<SmartBookingStepsProvider>().currentWidgetInFocus);
   }
 }

@@ -68,36 +68,43 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            panelBuilder: (controller) => Column(
-              children: [
-                GestureDetector(
-                  onTap: () => Provider.of<HomeProvider>(context, listen: false)
-                          .isPanelShown
-                      ? print(
-                          'Keep opened by default - Quick close restriction.')
-                      : context.read<HomeProvider>().panelController.open(),
-                  child: Container(
-                    height: 30,
-                    alignment: Alignment.center,
-                    child: Stack(
+            panelBuilder: (controller) {
+              //! Update the child panel controller
+              context.read<HomeProvider>().updateChildPanelController(
+                  newPanelControllerChildValue: controller);
+              //!...
+              return Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => Provider.of<HomeProvider>(context,
+                                listen: false)
+                            .isPanelShown
+                        ? print(
+                            'Keep opened by default - Quick close restriction.')
+                        : context.read<HomeProvider>().panelController.open(),
+                    child: Container(
+                      height: 30,
                       alignment: Alignment.center,
-                      children: [
-                        Positioned(
-                          bottom: 7,
-                          child: Icon(
-                            Icons.minimize_rounded,
-                            size: 40,
-                            color: Colors.grey.shade400,
-                          ),
-                        )
-                      ],
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            bottom: 7,
+                            child: Icon(
+                              Icons.minimize_rounded,
+                              size: 40,
+                              color: Colors.grey.shade400,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                    child: MainClassicBottomSlider(controller: controller)),
-              ],
-            ),
+                  Expanded(
+                      child: MainClassicBottomSlider(controller: controller)),
+                ],
+              );
+            },
             onPanelOpened: () {
               context.read<HomeProvider>().updatePanelShownStatus(true);
               print('PANEL OPENED!');

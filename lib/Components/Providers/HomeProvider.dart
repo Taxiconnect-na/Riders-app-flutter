@@ -11,6 +11,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomeProvider with ChangeNotifier {
   final panelController = PanelController(); //!The main panel controller
+  late ScrollController
+      parenControllerChild; //!The scroll controller return by the main panelController;
 
   Completer<GoogleMapController> mapController =
       Completer(); //? Resposible for holding the general maps controller.
@@ -41,6 +43,12 @@ class HomeProvider with ChangeNotifier {
   //!----
   final userCenterPointFallback = const LatLng(-22.559723,
       17.074068); //TO be used when the actual user location is not yet found.
+
+  //?0. Update child panel controller
+  void updateChildPanelController(
+      {required ScrollController newPanelControllerChildValue}) {
+    parenControllerChild = newPanelControllerChildValue;
+  }
 
   //?1. Initialize home screen measurements
   //Resposible for initializing the height of the map, the refocus button when the Home component

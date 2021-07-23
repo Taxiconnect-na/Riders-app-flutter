@@ -10,7 +10,7 @@ class GenericGreeting extends StatelessWidget {
       height: 150,
       width: MediaQuery.of(context).size.width,
       child: Text('Hi Jessica',
-          style: TextStyle(fontFamily: 'MoveBold', fontSize: 24)),
+          style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 25)),
     );
   }
 }
