@@ -6,6 +6,9 @@ import 'package:taxiconnect/Components/Home/GenericMap/GenericMap.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/MainClassicBottomSlider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiconnect/Components/Providers/MainSliderAnimatorProvider.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
+import 'package:taxiconnect/Modules/AnimationManager/MainSliderAnimator.dart';
 import 'package:taxiconnect/Modules/LocationOpsHandler/LocationOpsHandler.dart';
 import 'package:taxiconnect/Modules/Search/Search.dart';
 
@@ -18,11 +21,17 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
+  late final MainSliderAnimator
+      mainSliderAnimator; //To manage the slider animation of the content
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    mainSliderAnimator = new MainSliderAnimator(
+        animationProvider: this, context: context); //Init the slider animator
 
     final _homeProvider = Provider.of<HomeProvider>(context, listen: false);
     _homeProvider.initHomeScreenMeasurements(
@@ -101,17 +110,37 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Expanded(
-                      child: MainClassicBottomSlider(controller: controller)),
+                      child: Opacity(
+                    opacity: context
+                        .watch<MainSliderAnimatorProvider>()
+                        .opacityAnimation,
+                    child: Container(
+                        margin: EdgeInsets.only(
+                            top: context
+                                .watch<MainSliderAnimatorProvider>()
+                                .topPositionAnimation),
+                        child: MainClassicBottomSlider(controller: controller)),
+                  )),
                 ],
               );
             },
             onPanelOpened: () {
               context.read<HomeProvider>().updatePanelShownStatus(true);
               print('PANEL OPENED!');
+              //mainSliderAnimator.startNormaAnimation();
+              context
+                  .read<SmartBookingStepsProvider>()
+                  .navigateToFutureDestRoute(
+                      context: context, wasDueToPanel: true);
             },
             onPanelClosed: () {
               context.read<HomeProvider>().updatePanelShownStatus(false);
               print('PANEL CLOSED!');
+              //mainSliderAnimator.startReverseAnimation();
+              context
+                  .read<SmartBookingStepsProvider>()
+                  .navigateToPreviousDestRoute(
+                      context: context, wasDueToPanel: true);
             },
             onPanelSlide: (double position) {
               context.read<HomeProvider>().updateRefocusAndMapPositions(

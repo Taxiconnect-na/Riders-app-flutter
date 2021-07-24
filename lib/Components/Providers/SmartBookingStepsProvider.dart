@@ -168,14 +168,97 @@ class SmartBookingStepsProvider with ChangeNotifier {
   }
 
   //?3. Navigate to future destination route
-  void navigateToFutureDestRoute() {
+  void navigateToFutureDestRoute(
+      {required BuildContext context, bool wasDueToPanel = false}) {
     int currentStateIndex = currentNavigationStateIndex;
     int futureStateIndex = currentStateIndex + 1;
     int previousStateIndex = currentNavigationStateIndex - 1 >= 0
         ? currentNavigationStateIndex - 1
         : currentNavigationStateIndex;
     //...
+    if (wasDueToPanel == true &&
+        futureStateIndex ==
+            1) //!Only allow once if it was due to the panel up action
+    {
+      futureNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex);
+    } else if (wasDueToPanel == false) //!Navigate
+    {
+      futureNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex);
+    }
+  }
+
+  //? Future navigator processor
+  void futureNavigatorProcessor(
+      {required BuildContext context,
+      required int currentStateIndex,
+      required int futureStateIndex,
+      required int previousStateIndex}) {
     if (currentProcessMother == 'ride') {
+      currentProcessMother = 'ride';
+      //...
+      currentNavigationStateIndex = futureStateIndex; //?Very important
+      currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
+          context: context,
+          processParentName: getFutureDestinationRouteName(),
+          navigationStepIndex: futureStateIndex);
+      //Update avery change
+      notifyListeners();
+    } else //Delivery
+    {}
+  }
+
+  //?4. Navigate to future destination route
+  void navigateToPreviousDestRoute(
+      {required BuildContext context, bool wasDueToPanel = false}) {
+    int currentStateIndex = currentNavigationStateIndex;
+    int futureStateIndex = currentStateIndex + 1;
+    int previousStateIndex = currentNavigationStateIndex - 1 >= 0
+        ? currentNavigationStateIndex - 1
+        : currentNavigationStateIndex;
+    //...
+    if (wasDueToPanel == true &&
+        currentStateIndex ==
+            1) //!Only allow once if it was due to the panel up action
+    {
+      previousNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex);
+    } else if (wasDueToPanel == false) //!Navigate
+    {
+      previousNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex);
+    }
+  }
+
+  //? Previous navigator processor
+  void previousNavigatorProcessor(
+      {required BuildContext context,
+      required int currentStateIndex,
+      required int futureStateIndex,
+      required int previousStateIndex}) {
+    if (currentProcessMother == 'ride') {
+      currentProcessMother = 'ride';
+      //...
+      currentNavigationStateIndex = previousStateIndex; //?Very important
+      currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
+          context: context,
+          processParentName: getFutureDestinationRouteName(),
+          navigationStepIndex: previousStateIndex);
+      //Update avery change
+      notifyListeners();
     } else //Delivery
     {}
   }
