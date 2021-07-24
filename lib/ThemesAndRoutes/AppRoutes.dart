@@ -43,7 +43,7 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
         child: ScreenUtilInit(
             builder: () => MaterialApp(
                     theme: AppTheme.appTheme,
-                    initialRoute: '/',
+                    initialRoute: '/Home',
                     routes: {
                       '/': (context) => SplashScreen(),
                       '/EntryScreen': (context) => EntryScreen(),

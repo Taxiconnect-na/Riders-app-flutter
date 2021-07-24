@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ChooseVehicleType.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsSelection.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/GenericGreeting.dart';
@@ -56,14 +57,15 @@ class SmartBookingStepsProvider with ChangeNotifier {
   //?2. Get future destination route name
   String getFutureDestinationRouteName({required int navigationStepIndex}) {
     if (currentProcessMother.trim().toLowerCase() == 'ride') {
-      if (navigationStepIndex + 1 <= _rideWorkflow.length) //Good
+      log((navigationStepIndex + 1).toString());
+      if (navigationStepIndex + 1 < _rideWorkflow.length) //Good
       {
         return _rideWorkflow[navigationStepIndex + 1];
       } else {
         return _rideWorkflow[navigationStepIndex];
       }
     } else if (currentProcessMother.trim().toLowerCase() == 'delivery') {
-      if (navigationStepIndex + 1 <= _deliveryWorkflow.length) //Good
+      if (navigationStepIndex + 1 < _deliveryWorkflow.length) //Good
       {
         return _deliveryWorkflow[navigationStepIndex + 1];
       } else {
@@ -71,7 +73,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
       }
     } else //Ride by default
     {
-      if (navigationStepIndex + 1 <= _rideWorkflow.length) //Good
+      if (navigationStepIndex + 1 < _rideWorkflow.length) //Good
       {
         return _rideWorkflow[navigationStepIndex + 1];
       } else {
@@ -112,6 +114,8 @@ class SmartBookingStepsProvider with ChangeNotifier {
       {required BuildContext context,
       required String processParentName,
       required int navigationStepIndex}) {
+    log(processParentName);
+    log(navigationStepIndex.toString());
     if (processParentName == 'ride') {
       // 'minimal', //Where the  greeting lies - shared
       // 'productSelection', //?Shared navigation step
@@ -203,7 +207,34 @@ class SmartBookingStepsProvider with ChangeNotifier {
       required int currentStateIndex,
       required int futureStateIndex,
       required int previousStateIndex}) {
-    currentNavigationStateIndex = futureStateIndex; //?Very important
+    currentNavigationStateIndex = futureStateIndex == 4
+        ? futureStateIndex + 1
+        : futureStateIndex; //?Very important
+    futureStateIndex = futureStateIndex == 4
+        ? futureStateIndex + 1
+        : futureStateIndex; //!Avoid empty destinations (eg: DestinationInput, receiver input, package size selection)
+
+    //?Restore height size
+    if (getFutureDestinationRouteName(navigationStepIndex: currentStateIndex) ==
+        'rideTypeSelection') {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200,
+          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
+    } else if (getFutureDestinationRouteName(
+            navigationStepIndex: currentStateIndex) ==
+        'summary') {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200,
+          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 150);
+    } else //Restore to half the height size
+    {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.6);
+    }
+    //...
+    context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,
+        curve: Curves.easeInOutCubic); //Raise panel height
+    //----------------------------------------
 
     if (currentProcessMother == 'ride') {
       currentProcessMother = 'ride';
@@ -255,7 +286,13 @@ class SmartBookingStepsProvider with ChangeNotifier {
     if (currentProcessMother == 'ride') {
       currentProcessMother = 'ride';
       //...
-      currentNavigationStateIndex = previousStateIndex; //?Very important
+      currentNavigationStateIndex = previousStateIndex == 4
+          ? previousStateIndex - 1
+          : previousStateIndex; //?Very important
+      previousStateIndex = previousStateIndex == 4
+          ? previousStateIndex - 1
+          : previousStateIndex; //!Avoid empty destinations (eg: DestinationInput, receiver input, package size selection)
+
       currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
           context: context,
           processParentName: getPreviousDestinationRouteName(),

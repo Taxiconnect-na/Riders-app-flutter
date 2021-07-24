@@ -30,6 +30,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
 
+    print(ScreenUtil().screenHeight / 2);
+
     mainSliderAnimator = new MainSliderAnimator(
         animationProvider: this, context: context); //Init the slider animator
 
@@ -52,10 +54,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           SlidingUpPanel(
             controller: context.read<HomeProvider>().panelController,
             minHeight: context
-                .watch<HomeProvider>()
+                .read<HomeProvider>()
                 .minSliderHeight, //? Should vary based on the type of content displayed
             maxHeight: context
-                .watch<HomeProvider>()
+                .read<HomeProvider>()
                 .maxSliderHeight, //? Should vary based on the type of content displayed
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),

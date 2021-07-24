@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
@@ -20,8 +21,8 @@ class HomeProvider with ChangeNotifier {
   bool isPanelShown = false; //To know whether or not the panel is shown.
   double minSliderHeight =
       200; //The minimum height for the slider. - default:200
-  double maxSliderHeight =
-      450; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
+  double maxSliderHeight = ScreenUtil().screenHeight *
+      0.6; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
   double _initRelativeFocusButtonPosition =
       30; //The init and fixed relative focus button position -default: minSliderHeight
   double relativeFocusButtonPosition =
@@ -143,6 +144,20 @@ class HomeProvider with ChangeNotifier {
   //?7. Update the current zoom of the map
   void updateCurrentZoomOfMap({required double zoom}) {
     mapZoom = zoom;
+    notifyListeners();
+  }
+
+  //?8. Update panel's max height
+  void updatePanelMinMaxHeights(
+      {required double newMinHeight, required double newMaxHeight}) {
+    minSliderHeight = newMinHeight;
+    maxSliderHeight = newMaxHeight;
+    //Update refocus button
+    this.relativeFocusButtonPosition =
+        (1 * (maxSliderHeight - minSliderHeight)) +
+            this._initRelativeFocusButtonPosition;
+    //Map height
+    //this.relativeMapHeight -= sliderPositionHeight;
     notifyListeners();
   }
 }

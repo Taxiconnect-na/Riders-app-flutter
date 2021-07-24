@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
@@ -12,10 +14,35 @@ import 'package:taxiconnect/Modules/SnackBarMother/SnackBarMother.dart';
 
 //! Panel's optimal height: 650
 
-class ChooseVehicleType extends StatelessWidget {
+class ChooseVehicleType extends StatefulWidget {
   final ScrollController controller;
   const ChooseVehicleType({Key? key, required this.controller})
       : super(key: key);
+
+  @override
+  _ChooseVehicleTypeState createState() =>
+      _ChooseVehicleTypeState(controller: this.controller);
+}
+
+class _ChooseVehicleTypeState extends State<ChooseVehicleType> {
+  final ScrollController controller;
+  _ChooseVehicleTypeState({required this.controller});
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //Call after build
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      // context.read<HomeProvider>().updatePanelMinMaxHeights(
+      //     newMinHeight: context.read<HomeProvider>().maxSliderHeight,
+      //     newMaxHeight: 650);
+      // Add Your Code here.
+      context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,
+          curve: Curves.easeInOutCubic); //Raise panel height
+    });
+  }
 
   //? Ride scheduling
   void startScheduleRideProcess(BuildContext context) {
@@ -221,39 +248,21 @@ class ChooseVehicleType extends StatelessWidget {
                                   ))),
                           PaymentMethodSelector(),
                           GenericRectButton(
-                            label: 'Confirm',
-                            activateTrailing: true,
-                            labelFontSize: 22,
-                            isArrowShow: false,
-                            horizontalPadding: 10,
-                            bottomSubtitleText: context
-                                    .watch<TripProvider>()
-                                    .isTripScheduled
-                                ? '${DateFormat('EEE, MMM d').format(context.watch<TripProvider>().selectedScheduledDate)} at ${context.read<TripProvider>().formatTimeToAMPorPMformat(time: context.watch<TripProvider>().selectedScheduledTime)}'
-                                : null,
-                            actuatorTrailingFunctional: () =>
-                                this.startScheduleRideProcess(context),
-                            actuatorFunctionl: () =>
-                                showMaterialModalBottomSheet(
-                                    duration: Duration(milliseconds: 400),
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                          color: Colors.white,
-                                          child: SafeArea(
-                                              bottom: false,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                color: Colors.white,
-                                                child: Search(),
-                                              )));
-                                    }),
-                          )
+                              label: 'Confirm',
+                              activateTrailing: true,
+                              labelFontSize: 22,
+                              isArrowShow: false,
+                              horizontalPadding: 10,
+                              bottomSubtitleText: context
+                                      .watch<TripProvider>()
+                                      .isTripScheduled
+                                  ? '${DateFormat('EEE, MMM d').format(context.watch<TripProvider>().selectedScheduledDate)} at ${context.read<TripProvider>().formatTimeToAMPorPMformat(time: context.watch<TripProvider>().selectedScheduledTime)}'
+                                  : null,
+                              actuatorTrailingFunctional: () =>
+                                  this.startScheduleRideProcess(context),
+                              actuatorFunctionl: () => context
+                                  .read<SmartBookingStepsProvider>()
+                                  .navigateToFutureDestRoute(context: context))
                         ],
                       ),
                     ),

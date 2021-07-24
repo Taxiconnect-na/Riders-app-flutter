@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Modules/GenericRectButton/GenericRectButton.dart';
@@ -46,34 +47,17 @@ class PickupNoteInserter extends StatelessWidget {
                           Expanded(child: PickupNoteInputField()),
                           IsGoingUntilHomeChoice(),
                           GenericRectButton(
-                            label:
-                                context.watch<TripProvider>().pickupNoteText !=
-                                        null
-                                    ? 'Next'
-                                    : 'Skip',
-                            isArrowShow: false,
-                            horizontalPadding: 0,
-                            actuatorFunctionl: () =>
-                                showMaterialModalBottomSheet(
-                                    duration: Duration(milliseconds: 400),
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                          color: Colors.white,
-                                          child: SafeArea(
-                                              bottom: false,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                color: Colors.white,
-                                                child: Search(),
-                                              )));
-                                    }),
-                          )
+                              label: context
+                                          .watch<TripProvider>()
+                                          .pickupNoteText !=
+                                      null
+                                  ? 'Next'
+                                  : 'Skip',
+                              isArrowShow: false,
+                              horizontalPadding: 0,
+                              actuatorFunctionl: () => context
+                                  .read<SmartBookingStepsProvider>()
+                                  .navigateToFutureDestRoute(context: context))
                         ],
                       ),
                     ),
