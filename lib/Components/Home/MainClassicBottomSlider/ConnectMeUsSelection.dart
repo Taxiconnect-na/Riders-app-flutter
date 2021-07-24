@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
+import 'package:provider/provider.dart';
 import 'BasicProductSelection.dart';
 
 class ConnectMeUsSelection extends StatelessWidget {
@@ -41,7 +42,9 @@ class ConnectMeUsSelection extends StatelessWidget {
                       child: Row(
                         children: [
                           BasicProductSelection(
-                            actuatorFunctionl: () => {},
+                            actuatorFunctionl: () => context
+                                .read<SmartBookingStepsProvider>()
+                                .navigateToFutureDestRoute(context: context),
                             iconString: 'Assets/Images/meeting.png',
                             iconSize: 25,
                             productName: 'ConnectUs',
@@ -63,7 +66,9 @@ class ConnectMeUsSelection extends StatelessWidget {
                                 ])),
                           ),
                           BasicProductSelection(
-                            actuatorFunctionl: () => {},
+                            actuatorFunctionl: () => context
+                                .read<SmartBookingStepsProvider>()
+                                .navigateToFutureDestRoute(context: context),
                             iconString: 'Assets/Images/user.png',
                             iconSize: 25,
                             productName: 'ConnectMe',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taxiconnect/Components/Login/SplashScreen.dart';
 import 'package:taxiconnect/ThemesAndRoutes/AppTheme.dart' as AppTheme;
 import 'package:taxiconnect/Components/Home/Home.dart';
 import 'package:taxiconnect/Components/Login/CreateAccountEntry.dart';
@@ -42,9 +43,10 @@ class _AppGeneralEntryState extends State<AppGeneralEntry> {
         child: ScreenUtilInit(
             builder: () => MaterialApp(
                     theme: AppTheme.appTheme,
-                    initialRoute: '/Home',
+                    initialRoute: '/',
                     routes: {
-                      '/': (context) => EntryScreen(),
+                      '/': (context) => SplashScreen(),
+                      '/EntryScreen': (context) => EntryScreen(),
                       '/Home': (context) => Home(),
                       '/PhoneDetailsScreen': (context) => PhoneDetailsScreen(),
                       '/OTPVerificationEntry': (context) =>

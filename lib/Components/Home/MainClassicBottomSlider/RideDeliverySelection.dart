@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:taxiconnect/Components/Home/Delivery/DeliveryIntroScreen.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/PackageReceiverDeliveryInput.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 import 'BasicProductSelection.dart';
 import 'PackageSizeDeliverySelect.dart';
+import 'package:provider/provider.dart';
 
 class RideDeliverySelection extends StatelessWidget {
   const RideDeliverySelection({Key? key}) : super(key: key);
@@ -44,7 +46,9 @@ class RideDeliverySelection extends StatelessWidget {
                       child: Row(
                         children: [
                           BasicProductSelection(
-                              actuatorFunctionl: () => {},
+                              actuatorFunctionl: () => context
+                                  .read<SmartBookingStepsProvider>()
+                                  .navigateToFutureDestRoute(context: context),
                               iconString: 'Assets/Images/normaltaxieconomy.jpg',
                               productName: 'Ride',
                               shortDescription:

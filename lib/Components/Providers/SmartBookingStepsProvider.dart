@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ChooseVehicleType.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ConnectMeUsSelection.dart';
@@ -52,28 +54,28 @@ class SmartBookingStepsProvider with ChangeNotifier {
   }
 
   //?2. Get future destination route name
-  String getFutureDestinationRouteName() {
+  String getFutureDestinationRouteName({required int navigationStepIndex}) {
     if (currentProcessMother.trim().toLowerCase() == 'ride') {
-      if (currentNavigationStateIndex + 1 <= _rideWorkflow.length) //Good
+      if (navigationStepIndex + 1 <= _rideWorkflow.length) //Good
       {
-        return _rideWorkflow[currentNavigationStateIndex + 1];
+        return _rideWorkflow[navigationStepIndex + 1];
       } else {
-        return _rideWorkflow[currentNavigationStateIndex];
+        return _rideWorkflow[navigationStepIndex];
       }
     } else if (currentProcessMother.trim().toLowerCase() == 'delivery') {
-      if (currentNavigationStateIndex + 1 <= _deliveryWorkflow.length) //Good
+      if (navigationStepIndex + 1 <= _deliveryWorkflow.length) //Good
       {
-        return _deliveryWorkflow[currentNavigationStateIndex + 1];
+        return _deliveryWorkflow[navigationStepIndex + 1];
       } else {
-        return _deliveryWorkflow[currentNavigationStateIndex];
+        return _deliveryWorkflow[navigationStepIndex];
       }
     } else //Ride by default
     {
-      if (currentNavigationStateIndex + 1 <= _rideWorkflow.length) //Good
+      if (navigationStepIndex + 1 <= _rideWorkflow.length) //Good
       {
-        return _rideWorkflow[currentNavigationStateIndex + 1];
+        return _rideWorkflow[navigationStepIndex + 1];
       } else {
-        return _rideWorkflow[currentNavigationStateIndex];
+        return _rideWorkflow[navigationStepIndex];
       }
     }
   }
@@ -201,13 +203,14 @@ class SmartBookingStepsProvider with ChangeNotifier {
       required int currentStateIndex,
       required int futureStateIndex,
       required int previousStateIndex}) {
+    currentNavigationStateIndex = futureStateIndex; //?Very important
+
     if (currentProcessMother == 'ride') {
       currentProcessMother = 'ride';
       //...
-      currentNavigationStateIndex = futureStateIndex; //?Very important
       currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
           context: context,
-          processParentName: getFutureDestinationRouteName(),
+          processParentName: currentProcessMother,
           navigationStepIndex: futureStateIndex);
       //Update avery change
       notifyListeners();
@@ -255,7 +258,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
       currentNavigationStateIndex = previousStateIndex; //?Very important
       currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
           context: context,
-          processParentName: getFutureDestinationRouteName(),
+          processParentName: getPreviousDestinationRouteName(),
           navigationStepIndex: previousStateIndex);
       //Update avery change
       notifyListeners();
