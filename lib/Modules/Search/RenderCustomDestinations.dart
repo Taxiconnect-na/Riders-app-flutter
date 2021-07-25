@@ -64,7 +64,7 @@ class _RenderCustomDestinationsState extends State<RenderCustomDestinations> {
                 style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 16),
               ),
               subtitle: Text(
-                  '${context.read<HomeProvider>().userLocationDetails['street'] != null && context.read<HomeProvider>().userLocationDetails['street'] != false ? context.read<HomeProvider>().userLocationDetails['street'] + ', ' : ''}${context.read<HomeProvider>().userLocationDetails['city'] != false ? context.read<HomeProvider>().userLocationDetails['city'] + '' : ''}',
+                  '${context.watch<HomeProvider>().userLocationDetails['street'] != null && context.watch<HomeProvider>().userLocationDetails['street'] != false ? context.watch<HomeProvider>().userLocationDetails['street'] + ', ' : ''}${context.watch<HomeProvider>().userLocationDetails['city'] != false ? context.watch<HomeProvider>().userLocationDetails['city'] + '' : ''}',
                   style: TextStyle(color: Colors.black)),
             ),
           ),
@@ -126,10 +126,9 @@ class GetAdditionalCustomLocations extends StatelessWidget {
                             width: 26,
                             height: 26,
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(9, 110, 212, 1),
-                                border: Border.all(
-                                    width: 1,
-                                    color: Color.fromRGBO(9, 110, 212, 1)),
+                                color: Colors.black,
+                                border:
+                                    Border.all(width: 1, color: Colors.black),
                                 shape: BoxShape.circle),
                             child: Icon(
                               customLocationsData[index]['icon'],

@@ -19,7 +19,7 @@ class GenericMap extends StatefulWidget {
 
 class _GenericMapState extends State<GenericMap> {
   void _onMapCreatedHandler(GoogleMapController controller) {
-    controller.setMapStyle(new MapStyleData().mapStyleData1);
+    controller.setMapStyle(new MapStyleData().mapStyleData2);
 
     context
         .read<HomeProvider>()

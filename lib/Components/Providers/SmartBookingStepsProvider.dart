@@ -225,11 +225,11 @@ class SmartBookingStepsProvider with ChangeNotifier {
         'summary') {
       context.read<HomeProvider>().updatePanelMinMaxHeights(
           newMinHeight: 200,
-          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 150);
+          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
     } else //Restore to half the height size
     {
       context.read<HomeProvider>().updatePanelMinMaxHeights(
-          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.6);
+          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.55);
     }
     //...
     context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,

@@ -34,6 +34,7 @@ class BasicProductSelection extends StatelessWidget {
         child: InkWell(
           onTap: this.actuatorFunctionl,
           child: Container(
+            alignment: Alignment.center,
             //decoration: BoxDecoration(border: Border.all(width: 1)),
             child: Column(
               children: [
@@ -64,10 +65,10 @@ class BasicProductSelection extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 25),
+                    padding: const EdgeInsets.only(bottom: 0),
                     child: Container(
                       //decoration: BoxDecoration(border: Border.all(width: 1)),
-                      alignment: Alignment.bottomCenter,
+                      alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                           width: 30,

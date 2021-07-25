@@ -46,8 +46,11 @@ class ConnectMeUsSelection extends StatelessWidget {
                                 .read<SmartBookingStepsProvider>()
                                 .navigateToFutureDestRoute(context: context),
                             iconString: 'Assets/Images/meeting.png',
-                            iconSize: 25,
+                            iconSize: 20,
                             productName: 'ConnectUs',
+                            arrowMoveForwardBackgroundColor:
+                                Colors.grey.shade300,
+                            arrowMoveForwardColor: Colors.black,
                             shortDescription: 'Shared booking',
                             shortDescriptionColor:
                                 Color.fromRGBO(9, 110, 212, 1),
@@ -70,8 +73,11 @@ class ConnectMeUsSelection extends StatelessWidget {
                                 .read<SmartBookingStepsProvider>()
                                 .navigateToFutureDestRoute(context: context),
                             iconString: 'Assets/Images/user.png',
-                            iconSize: 25,
+                            iconSize: 20,
                             productName: 'ConnectMe',
+                            arrowMoveForwardBackgroundColor:
+                                Colors.grey.shade300,
+                            arrowMoveForwardColor: Colors.black,
                             shortDescription: 'Private booking',
                             shortDescriptionColor:
                                 Color.fromRGBO(9, 110, 212, 1),

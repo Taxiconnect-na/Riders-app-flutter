@@ -275,7 +275,6 @@ class RenderSummaryBooking extends StatelessWidget {
                                     .read<TripProvider>()
                                     .setCustomFareValue();
 
-                                print(setCustomFareCheck);
                                 switch (setCustomFareCheck['response']) {
                                   case 'out_of_range': //Out of acceptable range
                                     snackBarMother.showSnackBarMotherChild();
@@ -522,7 +521,7 @@ class ShowBookingSpecifics extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
-                            fontFamily: 'MoveTextRegular'),
+                            fontFamily: 'MoveTextLight'),
                         children: [
                           TextSpan(
                               text: 'N\$5',
@@ -545,7 +544,11 @@ class ShowBookingSpecifics extends StatelessWidget {
                     width: 3,
                   ),
                   Container(
-                    child: Text('Going until home.'),
+                    child: Text(
+                        context.read<TripProvider>().isGoingUntilHome
+                            ? 'Going until home.'
+                            : 'Not going until home.',
+                        style: TextStyle(fontFamily: 'MoveTextRegular')),
                   ),
                 ],
               ),

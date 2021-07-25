@@ -51,6 +51,9 @@ class RideDeliverySelection extends StatelessWidget {
                                   .navigateToFutureDestRoute(context: context),
                               iconString: 'Assets/Images/normaltaxieconomy.jpg',
                               productName: 'Ride',
+                              arrowMoveForwardBackgroundColor:
+                                  Colors.grey.shade300,
+                              arrowMoveForwardColor: Colors.black,
                               shortDescription:
                                   'The easiest way to move around the city.'),
                           Container(
@@ -90,6 +93,9 @@ class RideDeliverySelection extends StatelessWidget {
                               iconString: 'Assets/Images/box_delivery.png',
                               iconSize: 31,
                               productName: 'Delivery',
+                              arrowMoveForwardBackgroundColor:
+                                  Colors.grey.shade300,
+                              arrowMoveForwardColor: Colors.black,
                               shortDescription:
                                   'Send your packages from one place to another.'),
                         ],

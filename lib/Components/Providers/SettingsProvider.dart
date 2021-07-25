@@ -9,10 +9,16 @@ class SettingsProvider with ChangeNotifier {
       'location_type': 'Home',
       'icon': Icons.home,
       'location_data': {
-        'city': 'Windhoek',
-        'location_name': 'Trift Place',
-        'country': 'Namibia',
-        'street': 'Trift street'
+        "location_id": 598475513,
+        "location_name": "Khomasdal",
+        "coordinates": [17.0470405, -22.5493927],
+        "averageGeo": -5.502352199999997,
+        "city": "Windhoek",
+        "street": false,
+        "state": "Khomas Region",
+        "country": "Namibia",
+        "query": "Khomas",
+        "_id": "60fc777fa361439ed83ebc5d"
       } //!DEBUG location
     }, //Contains standard location data: street, city, country, location_name
     {'location_type': 'Work', 'icon': Icons.work, 'location_data': null},

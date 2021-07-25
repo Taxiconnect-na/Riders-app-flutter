@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +18,9 @@ class HomeProvider with ChangeNotifier {
   late ScrollController
       parenControllerChild; //!The scroll controller return by the main panelController;
 
+  final String user_fingerprint =
+      '5b29bb1b9ac69d884f13fd4be2badcd22b72b98a69189bfab806dcf7c5f5541b6cbe8087cf60c791';
+
   Completer<GoogleMapController> mapController =
       Completer(); //? Resposible for holding the general maps controller.
   double mapZoom = 15; //The current zoom of the map
@@ -22,7 +28,7 @@ class HomeProvider with ChangeNotifier {
   double minSliderHeight =
       200; //The minimum height for the slider. - default:200
   double maxSliderHeight = ScreenUtil().screenHeight *
-      0.6; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
+      0.55; //The maximum height for the slider (default:450 - generic). - for rides estimations (default:650 based on the screen)
   double _initRelativeFocusButtonPosition =
       30; //The init and fixed relative focus button position -default: minSliderHeight
   double relativeFocusButtonPosition =
@@ -35,12 +41,8 @@ class HomeProvider with ChangeNotifier {
   late Map userLocationCoords =
       new Map(); //The user location coordinates: lat/long
   //! Add location debug data
-  Map<String, dynamic> userLocationDetails = {
-    'city': 'Windhoek',
-    'location_name': 'Trift Place',
-    'country': 'Namibia',
-    'street': 'Trift street'
-  }; //The details of the user location: city, location name
+  Map<String, dynamic> userLocationDetails =
+      new Map(); //The details of the user location: city, location name
   //!----
   final userCenterPointFallback = const LatLng(-22.559723,
       17.074068); //TO be used when the actual user location is not yet found.
@@ -159,5 +161,17 @@ class HomeProvider with ChangeNotifier {
     //Map height
     //this.relativeMapHeight -= sliderPositionHeight;
     notifyListeners();
+  }
+
+  //?9. Update user's current location
+  void updateUsersCurrentLocation(
+      {required Map<String, dynamic> newCurrentLocation}) {
+    //Replace name by location_name
+    newCurrentLocation['location_name'] = newCurrentLocation['street'];
+    if (!mapEquals(newCurrentLocation, userLocationDetails)) //New data received
+    {
+      userLocationDetails = newCurrentLocation;
+      notifyListeners();
+    }
   }
 }

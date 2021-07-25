@@ -1,10 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiconnect/Components/Providers/SearchProvider.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 
 ///? TRIP PROVIDER
 ///Hold the provider responsible for the management of trips (rides, deliveries) only.
 
 class TripProvider with ChangeNotifier {
+  final String hostname = 'http://192.168.8.109';
+
   int selectedPassengersNo =
       1; //Hold the current number of selected passengers for a trip - default: 1 , max 4
   bool isGoingToTheSameDestination =
@@ -14,88 +23,92 @@ class TripProvider with ChangeNotifier {
   TextEditingController noteInputController =
       new TextEditingController(); //The controller to manipulate the note text input.
   String? pickupNoteText; //The text value of the pickup note - default:null
-  Future? ridesEstimationsData = new Future(() {
-    return [
-      {
-        "id": 0,
-        "category": "Economy",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 19,
-        "car_type": "normalTaxiEconomy",
-        "app_label": "Normal Taxi",
-        "description": "Enjoy affordable rides",
-        "media": {"car_app_icon": "../images_res/normaltaxieconomy.jpg"},
-        "availability": "available"
-      },
-      {
-        "id": 1,
-        "category": "Economy",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 20,
-        "car_type": "electricEconomy",
-        "app_label": "Electric car",
-        "description": "Zero emission all the way",
-        "media": {"car_app_icon": "../images_res/electricEconomy.jpg"},
-        "availability": "available"
-      },
-      {
-        "id": 2,
-        "category": "Comfort",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 70,
-        "car_type": "comfortNormalRide",
-        "app_label": "Normal car",
-        "description": "Ride in comfort",
-        "media": {"car_app_icon": "../images_res/comfortrideNormal.jpg"},
-        "availability": "available"
-      },
-      {
-        "id": 3,
-        "category": "Comfort",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 65,
-        "car_type": "comfortElectricRide",
-        "app_label": "Electric car",
-        "description": "Get there in silence",
-        "media": {"car_app_icon": "../images_res/comfortrideElectric.jpg"},
-        "availability": "unavailable"
-      },
-      {
-        "id": 4,
-        "category": "Luxury",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 190,
-        "car_type": "luxuryNormalRide",
-        "app_label": "Normal car",
-        "description": "Enjoy the best luxury",
-        "media": {"car_app_icon": "../images_res/luxuryRideNormal.jpg"},
-        "availability": "unavailable"
-      },
-      {
-        "id": 5,
-        "category": "Luxury",
-        "ride_type": "RIDE",
-        "country": "Namibia",
-        "city": "Windhoek",
-        "base_fare": 250,
-        "car_type": "luxuryElectricRide",
-        "app_label": "Electric car",
-        "description": "Luxury with zero emission",
-        "media": {"car_app_icon": "../images_res/luxuryRideElectric.jpg"},
-        "availability": "unavailable"
-      }
-    ];
-  }); //Will hold all the prices estimations coming straight from up.
+  String selectedConnectType =
+      'ConnectUs'; //The connect type - default : ConnectUs, possible values: ConnectMe, ConnectUs
+
+  Future? ridesEstimationsData;
+  // new Future(() {
+  //   return [
+  //     {
+  //       "id": 0,
+  //       "category": "Economy",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 19,
+  //       "car_type": "normalTaxiEconomy",
+  //       "app_label": "Normal Taxi",
+  //       "description": "Enjoy affordable rides",
+  //       "media": {"car_app_icon": "../images_res/normaltaxieconomy.jpg"},
+  //       "availability": "available"
+  //     },
+  //     {
+  //       "id": 1,
+  //       "category": "Economy",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 20,
+  //       "car_type": "electricEconomy",
+  //       "app_label": "Electric car",
+  //       "description": "Zero emission all the way",
+  //       "media": {"car_app_icon": "../images_res/electricEconomy.jpg"},
+  //       "availability": "available"
+  //     },
+  //     {
+  //       "id": 2,
+  //       "category": "Comfort",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 70,
+  //       "car_type": "comfortNormalRide",
+  //       "app_label": "Normal car",
+  //       "description": "Ride in comfort",
+  //       "media": {"car_app_icon": "../images_res/comfortrideNormal.jpg"},
+  //       "availability": "available"
+  //     },
+  //     {
+  //       "id": 3,
+  //       "category": "Comfort",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 65,
+  //       "car_type": "comfortElectricRide",
+  //       "app_label": "Electric car",
+  //       "description": "Get there in silence",
+  //       "media": {"car_app_icon": "../images_res/comfortrideElectric.jpg"},
+  //       "availability": "unavailable"
+  //     },
+  //     {
+  //       "id": 4,
+  //       "category": "Luxury",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 190,
+  //       "car_type": "luxuryNormalRide",
+  //       "app_label": "Normal car",
+  //       "description": "Enjoy the best luxury",
+  //       "media": {"car_app_icon": "../images_res/luxuryRideNormal.jpg"},
+  //       "availability": "unavailable"
+  //     },
+  //     {
+  //       "id": 5,
+  //       "category": "Luxury",
+  //       "ride_type": "RIDE",
+  //       "country": "Namibia",
+  //       "city": "Windhoek",
+  //       "base_fare": 250,
+  //       "car_type": "luxuryElectricRide",
+  //       "app_label": "Electric car",
+  //       "description": "Luxury with zero emission",
+  //       "media": {"car_app_icon": "../images_res/luxuryRideElectric.jpg"},
+  //       "availability": "unavailable"
+  //     }
+  //   ];
+  // }); //Will hold all the prices estimations coming straight from up.
   Map selectedRideData = {
     "id": 0,
     "category": "Economy",
@@ -199,6 +212,11 @@ class TripProvider with ChangeNotifier {
     }
   }
 
+  //!---Pricing and booking meta variables
+  Map<String, dynamic> pricingInputDataRaw = new Map();
+  Map<String, dynamic> bookingDataSomething = new Map();
+  //!-------------------------------------
+
   //?5. Update selected ride
   void updateSelectedRide(
       {required Map rideSelected, bool shouldUpdate = false}) {
@@ -233,13 +251,16 @@ class TripProvider with ChangeNotifier {
       if (diff >= (15 * 60)) //>=15min
       {
         isTripScheduled = true;
+        notifyListeners();
         return true;
       } else //No, should be 15min diff btwn the current time and the scheduled
       {
+        notifyListeners();
         return false;
       }
     } else //No, should be 15min diff btwn the current time and the scheduled
     {
+      notifyListeners();
       return false;
     }
   }
@@ -296,13 +317,16 @@ class TripProvider with ChangeNotifier {
       {
         definitiveCustomFare = customFareEntered; //!Crucial
         isCustomFareConsidered = true;
+        notifyListeners();
         return {'response': true};
       } else //Out of Range
       {
+        notifyListeners();
         return {'response': 'out_of_range'};
       }
     } else //No value provided
     {
+      notifyListeners();
       return {'response': 'no_change'};
     }
   }
@@ -322,6 +346,90 @@ class TripProvider with ChangeNotifier {
     selectedPackageSize = packageSizeSelected;
     if (shouldUpdate) {
       notifyListeners();
+    }
+  }
+
+  //?17. Update connect type
+  void updateConnectType({required String connecTypeSelected}) {
+    selectedConnectType = connecTypeSelected;
+  }
+
+  //?18. Update pricing data
+  Future updatePricingDataForComputation(
+      {required Map<String, dynamic> userLocation,
+      required BuildContext context}) async {
+    pricingInputDataRaw['user_fingerprint'] =
+        context.read<HomeProvider>().user_fingerprint;
+    pricingInputDataRaw['country'] = userLocation['country'];
+    pricingInputDataRaw['connectType'] = this.selectedConnectType;
+    pricingInputDataRaw['timeScheduled'] = 'now';
+    pricingInputDataRaw['naturePickup'] =
+        'PrivateLocation'; //Force PrivateLocation type if nothing found]
+    pricingInputDataRaw['passengersNo'] = this.selectedPassengersNo;
+    pricingInputDataRaw['isAllGoingToSameDestination'] =
+        this.isGoingToTheSameDestination;
+    pricingInputDataRaw['isGoingUntilHome'] =
+        this.isGoingUntilHome; //! Will double the fares for the Economy]
+    pricingInputDataRaw['rideType'] = context
+        .read<SmartBookingStepsProvider>()
+        .currentProcessMother
+        .toUpperCase()
+        .trim(); //RIDE/DELIVERY
+
+    pricingInputDataRaw['pickupData'] = {
+      'coordinates': [
+        context.read<HomeProvider>().userLocationCoords[
+            'latitude'], //TODO: should be set to the selected pickup location
+        context.read<HomeProvider>().userLocationCoords['longitude']
+      ],
+      'location_name':
+          userLocation['name'] != null ? userLocation['name'] : false,
+      'street_name':
+          userLocation['street'] != null ? userLocation['street'] : false,
+      'city': userLocation['city'] != null ? userLocation['city'] : false,
+    };
+
+    pricingInputDataRaw['destinationData'] = {
+      'passenger1Destination':
+          context.read<SearchProvider>().destination1Data['location_name'] !=
+                  null
+              ? context.read<SearchProvider>().destination1Data
+              : false, //Passenger 1 destination's details
+      'passenger2Destination':
+          context.read<SearchProvider>().destination2Data['location_name'] !=
+                  null
+              ? context.read<SearchProvider>().destination2Data
+              : false, //Passenger 2 destination's details
+      'passenger3Destination':
+          context.read<SearchProvider>().destination3Data['location_name'] !=
+                  null
+              ? context.read<SearchProvider>().destination3Data
+              : false, //Passenger 3 destination's details
+      'passenger4Destination':
+          context.read<SearchProvider>().destination4Data['location_name'] !=
+                  null
+              ? context.read<SearchProvider>().destination4Data
+              : false, //Passenger 4 destination's details
+    };
+
+    //...
+    print(pricingInputDataRaw);
+    String urlString = '$hostname:9797/getOverallPricingAndAvailabilityDetails';
+    Response response = await post(Uri.parse(Uri.encodeFull(urlString)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pricingInputDataRaw));
+
+    if (response.statusCode == 200) //Ok
+    {
+      print(response.body);
+      ridesEstimationsData = new Future(() {
+        return json.decode(response.body);
+      });
+    } else //Error
+    {
+      print(response.statusCode);
     }
   }
 }

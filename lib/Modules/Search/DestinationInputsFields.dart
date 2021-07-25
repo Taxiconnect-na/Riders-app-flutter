@@ -200,7 +200,7 @@ class _SingleDestinationTypeInputState
     return Padding(
       padding: EdgeInsets.only(bottom: this.bottomOutsidePadding),
       child: Container(
-        height: 33,
+        height: 40,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: Colors.grey.shade300,
@@ -224,7 +224,7 @@ class _SingleDestinationTypeInputState
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: this.generatePlaceholder(context),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(bottom: 11))),
+                  contentPadding: EdgeInsets.only(bottom: 14))),
         ),
       ),
     );

@@ -16,7 +16,8 @@ class SearchProvider with ChangeNotifier {
   Future?
       resultSearchLocations; //Responsible for holding the result of the autocompleted search for all the fields.
 
-  late Map pickupLocationData = new Map(); //Will hold the pickup location data
+  late Map<String, dynamic> pickupLocationData =
+      new Map(); //Will hold the pickup location data
   late Map destination1Data =
       new Map(); //Will hold the the passenger 1 data { location_name, city, country, street_name, query }
   late Map destination2Data = new Map(); //Will hold the the passenger 2 data
@@ -78,7 +79,8 @@ class SearchProvider with ChangeNotifier {
   }
 
   //?3. Update the pickup location details
-  void updatePickupLocationDetails({required Map newLocation}) {
+  void updatePickupLocationDetails(
+      {required Map<String, dynamic> newLocation}) {
     pickupLocationData = newLocation;
   }
 
@@ -160,6 +162,11 @@ class SearchProvider with ChangeNotifier {
     FocusScope.of(context).unfocus();
     //...Check if all the fields are filled, by value and by text placeholder
     if (areAllTheRelevantInputFieldsFilled(context: context)) {
+      //?Force pickup location update - if empty
+      if (pickupLocationData['location_name'] == null) {
+        updatePickupLocationDetails(
+            newLocation: context.read<HomeProvider>().userLocationDetails);
+      }
       //Good to go! - then dismiss the search window
       //Move forward
       context
@@ -167,6 +174,9 @@ class SearchProvider with ChangeNotifier {
           .navigateToFutureDestRoute(context: context);
       //Dismiss search
       Navigator.pop(context);
+      //Gather pricing raw data and compute fare
+      context.read<TripProvider>().updatePricingDataForComputation(
+          context: context, userLocation: pickupLocationData);
     } else //Skip
     {
       log('All locations not filled yet, wait.');

@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:taxiconnect/Components/Providers/HomeProvider.dart';
@@ -12,6 +16,7 @@ import 'package:taxiconnect/Modules/LocationOpsHandler/PositionConverter.dart';
 class LocationOpsHandler {
   //? Attributes - very important
   final BuildContext parentContext;
+  final String hostname = 'http://192.168.8.109:9090';
   //...
   LocationOpsHandler({required this.parentContext});
   //Location location = new Location();
@@ -91,6 +96,23 @@ class LocationOpsHandler {
     });
   }
 
+  //? 5 . Geocode the current point
+  void geocodeThisPoint(
+      {required double latitude, required double longitude}) async {
+    String urlString =
+        '$hostname/getUserLocationInfos?latitude=$latitude&longitude=$longitude&user_fingerprint=${parentContext.read<HomeProvider>().user_fingerprint}';
+    Response response = await get(Uri.parse(Uri.encodeFull(urlString)));
+
+    if (response.statusCode == 200) {
+      //log(response.body);
+      parentContext.read<HomeProvider>().updateUsersCurrentLocation(
+          newCurrentLocation: json.decode(response.body));
+    } else //Some error
+    {
+      print(response.statusCode);
+    }
+  }
+
   //...
   void startLocationWatcher() async {
     print('Watcher active and running!');
@@ -126,6 +148,10 @@ class LocationOpsHandler {
                   .updateRidersLocationCoordinates(
                       latitude: value['latitude'],
                       longitude: value['longitude']);
+
+              //Geocode the point
+              this.geocodeThisPoint(
+                  latitude: value['latitude'], longitude: value['longitude']);
             }
           });
         } else //Is missing one Permission - get the last coordinates
