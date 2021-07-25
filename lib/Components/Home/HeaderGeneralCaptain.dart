@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 
 //Header general captain
 //General header for the all app operations in HOME
@@ -22,7 +24,15 @@ class _HeaderGeneralCaptainState extends State<HeaderGeneralCaptain> {
             child: Row(
           children: [
             InkWell(
-              onTap: () => Scaffold.of(context).openDrawer(),
+              onTap: () => context
+                          .read<SmartBookingStepsProvider>()
+                          .currentNavigationStateIndex <=
+                      0
+                  ? Scaffold.of(context).openDrawer()
+                  : context
+                      .read<SmartBookingStepsProvider>()
+                      .navigateToPreviousDestRoute(
+                          context: context, doSkipLabelClose: false),
               child: Container(
                 width: 55,
                 height: 55,
@@ -32,10 +42,18 @@ class _HeaderGeneralCaptainState extends State<HeaderGeneralCaptain> {
                       spreadRadius: 1,
                       blurRadius: 6)
                 ], color: Colors.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.menu,
-                  size: 37,
-                ),
+                child: context
+                            .watch<SmartBookingStepsProvider>()
+                            .currentNavigationStateIndex <=
+                        0
+                    ? Icon(
+                        Icons.menu,
+                        size: 37,
+                      )
+                    : Icon(
+                        Icons.arrow_back,
+                        size: 37,
+                      ),
               ),
             ),
           ],

@@ -57,7 +57,6 @@ class SmartBookingStepsProvider with ChangeNotifier {
   //?2. Get future destination route name
   String getFutureDestinationRouteName({required int navigationStepIndex}) {
     if (currentProcessMother.trim().toLowerCase() == 'ride') {
-      log((navigationStepIndex + 1).toString());
       if (navigationStepIndex + 1 < _rideWorkflow.length) //Good
       {
         return _rideWorkflow[navigationStepIndex + 1];
@@ -114,8 +113,8 @@ class SmartBookingStepsProvider with ChangeNotifier {
       {required BuildContext context,
       required String processParentName,
       required int navigationStepIndex}) {
-    log(processParentName);
-    log(navigationStepIndex.toString());
+    log('process name --> $processParentName');
+    log('current step index --> ${navigationStepIndex.toString()}');
     if (processParentName == 'ride') {
       // 'minimal', //Where the  greeting lies - shared
       // 'productSelection', //?Shared navigation step
@@ -173,6 +172,33 @@ class SmartBookingStepsProvider with ChangeNotifier {
     }
   }
 
+  //?Restore height size
+  void restoreHeightSize(
+      {required int currentStateIndex, required BuildContext context}) {
+    if (getFutureDestinationRouteName(navigationStepIndex: currentStateIndex) ==
+        'rideTypeSelection') {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200,
+          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
+      context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,
+          curve: Curves.easeInOutCubic); //Raise panel height
+    } else if (getFutureDestinationRouteName(
+            navigationStepIndex: currentStateIndex) ==
+        'summary') {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200,
+          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
+      context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,
+          curve: Curves.easeInOutCubic); //Raise panel height
+    } else //Restore to half the height size
+    {
+      context.read<HomeProvider>().updatePanelMinMaxHeights(
+          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.55);
+    }
+    //...
+    //----------------------------------------
+  }
+
   //?3. Navigate to future destination route
   void navigateToFutureDestRoute(
       {required BuildContext context, bool wasDueToPanel = false}) {
@@ -181,6 +207,8 @@ class SmartBookingStepsProvider with ChangeNotifier {
     int previousStateIndex = currentNavigationStateIndex - 1 >= 0
         ? currentNavigationStateIndex - 1
         : currentNavigationStateIndex;
+
+    print(futureStateIndex);
     //...
     if (wasDueToPanel == true &&
         futureStateIndex ==
@@ -215,25 +243,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
         : futureStateIndex; //!Avoid empty destinations (eg: DestinationInput, receiver input, package size selection)
 
     //?Restore height size
-    if (getFutureDestinationRouteName(navigationStepIndex: currentStateIndex) ==
-        'rideTypeSelection') {
-      context.read<HomeProvider>().updatePanelMinMaxHeights(
-          newMinHeight: 200,
-          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
-    } else if (getFutureDestinationRouteName(
-            navigationStepIndex: currentStateIndex) ==
-        'summary') {
-      context.read<HomeProvider>().updatePanelMinMaxHeights(
-          newMinHeight: 200,
-          newMaxHeight: (ScreenUtil().screenHeight * 0.6) + 120);
-    } else //Restore to half the height size
-    {
-      context.read<HomeProvider>().updatePanelMinMaxHeights(
-          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.55);
-    }
-    //...
-    context.read<HomeProvider>().panelController.animatePanelToPosition(1.0,
-        curve: Curves.easeInOutCubic); //Raise panel height
+    restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
     //----------------------------------------
 
     if (currentProcessMother == 'ride') {
@@ -251,30 +261,56 @@ class SmartBookingStepsProvider with ChangeNotifier {
 
   //?4. Navigate to future destination route
   void navigateToPreviousDestRoute(
-      {required BuildContext context, bool wasDueToPanel = false}) {
+      {required BuildContext context,
+      bool wasDueToPanel = false,
+      bool doSkipLabelClose = true}) {
     int currentStateIndex = currentNavigationStateIndex;
     int futureStateIndex = currentStateIndex + 1;
     int previousStateIndex = currentNavigationStateIndex - 1 >= 0
         ? currentNavigationStateIndex - 1
         : currentNavigationStateIndex;
-    //...
-    if (wasDueToPanel == true &&
-        currentStateIndex ==
-            1) //!Only allow once if it was due to the panel up action
-    {
-      previousNavigatorProcessor(
-          context: context,
-          currentStateIndex: currentStateIndex,
-          futureStateIndex: futureStateIndex,
-          previousStateIndex: previousStateIndex);
-    } else if (wasDueToPanel == false) //!Navigate
-    {
-      previousNavigatorProcessor(
-          context: context,
-          currentStateIndex: currentStateIndex,
-          futureStateIndex: futureStateIndex,
-          previousStateIndex: previousStateIndex);
+
+    print(currentStateIndex);
+    print(previousStateIndex);
+
+    //?Restore height size
+    restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
+    //----------------------------------------
+    //! Restore for minimal
+    if (getPreviousDestinationRouteName() == 'minimal' &&
+        doSkipLabelClose == false) {
+      context.read<HomeProvider>().panelController.animatePanelToPosition(0.0,
+          curve: Curves.easeInOutCubic); //Raise panel height
     }
+
+    previousStateIndex = previousStateIndex == 4
+        ? previousStateIndex - 1
+        : previousStateIndex; //!Avoid empty destinations (eg: DestinationInput, receiver input, package size selection)
+    currentNavigationStateIndex = previousStateIndex; //?Very important
+
+    currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
+        context: context,
+        processParentName: currentProcessMother,
+        navigationStepIndex: previousStateIndex);
+    // //...
+    notifyListeners();
+    // if (wasDueToPanel == true &&
+    //     currentStateIndex ==
+    //         1) //!Only allow once if it was due to the panel up action
+    // {
+    //   previousNavigatorProcessor(
+    //       context: context,
+    //       currentStateIndex: currentStateIndex,
+    //       futureStateIndex: futureStateIndex,
+    //       previousStateIndex: previousStateIndex);
+    // } else if (wasDueToPanel == false) //!Navigate
+    // {
+    //   previousNavigatorProcessor(
+    //       context: context,
+    //       currentStateIndex: currentStateIndex,
+    //       futureStateIndex: futureStateIndex,
+    //       previousStateIndex: previousStateIndex);
+    // }
   }
 
   //? Previous navigator processor
@@ -283,9 +319,19 @@ class SmartBookingStepsProvider with ChangeNotifier {
       required int currentStateIndex,
       required int futureStateIndex,
       required int previousStateIndex}) {
+    //?Restore height size
+    restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
+    //----------------------------------------
+
     if (currentProcessMother == 'ride') {
       currentProcessMother = 'ride';
       //...
+      //! Restore for minimal
+      if (getPreviousDestinationRouteName() == 'minimal') {
+        context.read<HomeProvider>().panelController.animatePanelToPosition(0.0,
+            curve: Curves.easeInOutCubic); //Raise panel height
+      }
+
       currentNavigationStateIndex = previousStateIndex == 4
           ? previousStateIndex - 1
           : previousStateIndex; //?Very important
@@ -295,7 +341,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
 
       currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
           context: context,
-          processParentName: getPreviousDestinationRouteName(),
+          processParentName: currentProcessMother,
           navigationStepIndex: previousStateIndex);
       //Update avery change
       notifyListeners();
