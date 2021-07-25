@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taxiconnect/Components/Home/MainClassicBottomSlider/ChooseVehicleType.dart';
@@ -174,7 +173,9 @@ class SmartBookingStepsProvider with ChangeNotifier {
 
   //?Restore height size
   void restoreHeightSize(
-      {required int currentStateIndex, required BuildContext context}) {
+      {required int currentStateIndex,
+      required BuildContext context,
+      double percPanelOpening = 1}) {
     if (getFutureDestinationRouteName(navigationStepIndex: currentStateIndex) ==
         'rideTypeSelection') {
       context.read<HomeProvider>().updatePanelMinMaxHeights(
@@ -193,7 +194,9 @@ class SmartBookingStepsProvider with ChangeNotifier {
     } else //Restore to half the height size
     {
       context.read<HomeProvider>().updatePanelMinMaxHeights(
-          newMinHeight: 200, newMaxHeight: ScreenUtil().screenHeight * 0.55);
+          newMinHeight: 200,
+          newMaxHeight: ScreenUtil().screenHeight * 0.55,
+          percPanelOpening: percPanelOpening);
     }
     //...
     //----------------------------------------
@@ -279,6 +282,12 @@ class SmartBookingStepsProvider with ChangeNotifier {
     //! Restore for minimal
     if (getPreviousDestinationRouteName() == 'minimal' &&
         doSkipLabelClose == false) {
+      //?Restore height size
+      restoreHeightSize(
+          currentStateIndex: currentStateIndex,
+          context: context,
+          percPanelOpening: 0.0);
+      //----------------------------------------
       context.read<HomeProvider>().panelController.animatePanelToPosition(0.0,
           curve: Curves.easeInOutCubic); //Raise panel height
     }
@@ -292,60 +301,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
         context: context,
         processParentName: currentProcessMother,
         navigationStepIndex: previousStateIndex);
-    // //...
+    //...
     notifyListeners();
-    // if (wasDueToPanel == true &&
-    //     currentStateIndex ==
-    //         1) //!Only allow once if it was due to the panel up action
-    // {
-    //   previousNavigatorProcessor(
-    //       context: context,
-    //       currentStateIndex: currentStateIndex,
-    //       futureStateIndex: futureStateIndex,
-    //       previousStateIndex: previousStateIndex);
-    // } else if (wasDueToPanel == false) //!Navigate
-    // {
-    //   previousNavigatorProcessor(
-    //       context: context,
-    //       currentStateIndex: currentStateIndex,
-    //       futureStateIndex: futureStateIndex,
-    //       previousStateIndex: previousStateIndex);
-    // }
-  }
-
-  //? Previous navigator processor
-  void previousNavigatorProcessor(
-      {required BuildContext context,
-      required int currentStateIndex,
-      required int futureStateIndex,
-      required int previousStateIndex}) {
-    //?Restore height size
-    restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
-    //----------------------------------------
-
-    if (currentProcessMother == 'ride') {
-      currentProcessMother = 'ride';
-      //...
-      //! Restore for minimal
-      if (getPreviousDestinationRouteName() == 'minimal') {
-        context.read<HomeProvider>().panelController.animatePanelToPosition(0.0,
-            curve: Curves.easeInOutCubic); //Raise panel height
-      }
-
-      currentNavigationStateIndex = previousStateIndex == 4
-          ? previousStateIndex - 1
-          : previousStateIndex; //?Very important
-      previousStateIndex = previousStateIndex == 4
-          ? previousStateIndex - 1
-          : previousStateIndex; //!Avoid empty destinations (eg: DestinationInput, receiver input, package size selection)
-
-      currentWidgetInFocus = getRelevantWidgetToShowIntheSlider(
-          context: context,
-          processParentName: currentProcessMother,
-          navigationStepIndex: previousStateIndex);
-      //Update avery change
-      notifyListeners();
-    } else //Delivery
-    {}
   }
 }

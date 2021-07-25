@@ -151,12 +151,14 @@ class HomeProvider with ChangeNotifier {
 
   //?8. Update panel's max height
   void updatePanelMinMaxHeights(
-      {required double newMinHeight, required double newMaxHeight}) {
+      {required double newMinHeight,
+      required double newMaxHeight,
+      double percPanelOpening = 1}) {
     minSliderHeight = newMinHeight;
     maxSliderHeight = newMaxHeight;
     //Update refocus button
     this.relativeFocusButtonPosition =
-        (1 * (maxSliderHeight - minSliderHeight)) +
+        (percPanelOpening * (maxSliderHeight - minSliderHeight)) +
             this._initRelativeFocusButtonPosition;
     //Map height
     //this.relativeMapHeight -= sliderPositionHeight;

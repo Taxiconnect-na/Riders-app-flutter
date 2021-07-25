@@ -109,7 +109,7 @@ class RenderDestinationSearchData extends StatelessWidget {
                             fontFamily: 'MoveTextMedium', fontSize: 16),
                       ),
                       subtitle: Text(
-                          '${data[index]['street'] != false ? data[index]['street'] + ', ' : ''}${data[index]['city'] != false ? data[index]['city'] + '' : ''}'),
+                          '${data[index]['street'] != null && data[index]['street'] != false ? data[index]['street'] + ', ' : ''}${data[index]['city'] != null && data[index]['city'] != false ? data[index]['city'] + '' : ''}'),
                     ),
                   ),
                   Visibility(

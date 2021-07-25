@@ -231,7 +231,7 @@ class SearchProvider with ChangeNotifier {
 //Responsible for the text autocomplete
 class SearchResultsOnQuery {
   String urlStringBackbone =
-      'http://13.56.37.251:9091/getSearchedLocations?user_fp=7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da';
+      'http://192.168.8.109:9091/getSearchedLocations?user_fp=7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da';
   //The string to be used for the network get API
 
   //a. Get the search results as a Future

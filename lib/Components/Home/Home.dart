@@ -54,10 +54,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           SlidingUpPanel(
             controller: context.read<HomeProvider>().panelController,
             minHeight: context
-                .read<HomeProvider>()
+                .watch<HomeProvider>()
                 .minSliderHeight, //? Should vary based on the type of content displayed
             maxHeight: context
-                .read<HomeProvider>()
+                .watch<HomeProvider>()
                 .maxSliderHeight, //? Should vary based on the type of content displayed
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25)),
