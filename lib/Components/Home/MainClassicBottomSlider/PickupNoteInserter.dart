@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:taxiconnect/Components/Providers/SearchProvider.dart';
 import 'package:taxiconnect/Components/Providers/SmartBookingStepsProvider.dart';
 import 'package:taxiconnect/Components/Providers/TripProvider.dart';
 import 'package:provider/provider.dart';
@@ -55,9 +56,21 @@ class PickupNoteInserter extends StatelessWidget {
                                   : 'Skip',
                               isArrowShow: false,
                               horizontalPadding: 0,
-                              actuatorFunctionl: () => context
-                                  .read<SmartBookingStepsProvider>()
-                                  .navigateToFutureDestRoute(context: context))
+                              actuatorFunctionl: () {
+                                //Gather pricing raw data and compute fare
+                                context
+                                    .read<TripProvider>()
+                                    .updatePricingDataForComputation(
+                                        context: context,
+                                        userLocation: context
+                                            .read<SearchProvider>()
+                                            .pickupLocationData);
+                                //...
+                                context
+                                    .read<SmartBookingStepsProvider>()
+                                    .navigateToFutureDestRoute(
+                                        context: context);
+                              })
                         ],
                       ),
                     ),

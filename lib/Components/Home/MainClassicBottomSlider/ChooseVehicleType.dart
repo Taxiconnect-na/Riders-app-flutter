@@ -301,7 +301,7 @@ class _CreateDynamicallyListOfCarsState
       // decoration:
       //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
       child: FutureBuilder(
-          future: context.read<TripProvider>().ridesEstimationsData,
+          future: context.watch<TripProvider>().ridesEstimationsData,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData && snapshot.hasError == false) //Good
             {

@@ -276,6 +276,34 @@ class SmartBookingStepsProvider with ChangeNotifier {
     print(currentStateIndex);
     print(previousStateIndex);
 
+    if (wasDueToPanel == true &&
+        futureStateIndex ==
+            1) //!Only allow once if it was due to the panel up action
+    {
+      previousNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex,
+          doSkipLabelClose: doSkipLabelClose);
+    } else if (wasDueToPanel == false) //!Navigate
+    {
+      previousNavigatorProcessor(
+          context: context,
+          currentStateIndex: currentStateIndex,
+          futureStateIndex: futureStateIndex,
+          previousStateIndex: previousStateIndex,
+          doSkipLabelClose: doSkipLabelClose);
+    }
+  }
+
+  //? Previous navigator processor
+  void previousNavigatorProcessor(
+      {required BuildContext context,
+      required int currentStateIndex,
+      required int futureStateIndex,
+      required int previousStateIndex,
+      bool doSkipLabelClose = true}) {
     //?Restore height size
     restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
     //----------------------------------------

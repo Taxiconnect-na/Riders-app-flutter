@@ -427,6 +427,7 @@ class TripProvider with ChangeNotifier {
       ridesEstimationsData = new Future(() {
         return json.decode(response.body);
       });
+      notifyListeners();
     } else //Error
     {
       print(response.statusCode);

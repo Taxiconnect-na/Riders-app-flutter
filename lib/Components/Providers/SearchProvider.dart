@@ -174,9 +174,6 @@ class SearchProvider with ChangeNotifier {
           .navigateToFutureDestRoute(context: context);
       //Dismiss search
       Navigator.pop(context);
-      //Gather pricing raw data and compute fare
-      context.read<TripProvider>().updatePricingDataForComputation(
-          context: context, userLocation: pickupLocationData);
     } else //Skip
     {
       log('All locations not filled yet, wait.');
