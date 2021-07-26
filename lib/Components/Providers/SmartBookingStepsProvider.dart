@@ -211,7 +211,6 @@ class SmartBookingStepsProvider with ChangeNotifier {
         ? currentNavigationStateIndex - 1
         : currentNavigationStateIndex;
 
-    print(futureStateIndex);
     //...
     if (wasDueToPanel == true &&
         futureStateIndex ==
@@ -273,12 +272,9 @@ class SmartBookingStepsProvider with ChangeNotifier {
         ? currentNavigationStateIndex - 1
         : currentNavigationStateIndex;
 
-    print(currentStateIndex);
-    print(previousStateIndex);
-
     if (wasDueToPanel == true &&
-        futureStateIndex ==
-            1) //!Only allow once if it was due to the panel up action
+        currentStateIndex ==
+            0) //!Only allow once if it was due to the panel up action
     {
       previousNavigatorProcessor(
           context: context,
@@ -307,6 +303,7 @@ class SmartBookingStepsProvider with ChangeNotifier {
     //?Restore height size
     restoreHeightSize(currentStateIndex: currentStateIndex, context: context);
     //----------------------------------------
+    currentWidgetInFocus = GenericGreeting();
     //! Restore for minimal
     if (getPreviousDestinationRouteName() == 'minimal' &&
         doSkipLabelClose == false) {

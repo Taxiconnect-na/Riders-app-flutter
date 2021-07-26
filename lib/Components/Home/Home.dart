@@ -67,13 +67,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               decoration: BoxDecoration(color: Colors.grey),
               child: SafeArea(
                 top: false,
+                bottom: false,
                 child: Column(
                   children: [
-                    Container(
-                      height: context.read<HomeProvider>().relativeMapHeight,
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      child: GenericMap(),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        height: context.read<HomeProvider>().relativeMapHeight,
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        child: GenericMap(),
+                      ),
                     ),
                   ],
                 ),

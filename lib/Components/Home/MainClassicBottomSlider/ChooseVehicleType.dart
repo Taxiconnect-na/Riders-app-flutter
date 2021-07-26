@@ -252,7 +252,7 @@ class _ChooseVehicleTypeState extends State<ChooseVehicleType> {
                               activateTrailing: true,
                               labelFontSize: 22,
                               isArrowShow: false,
-                              horizontalPadding: 10,
+                              horizontalPadding: 15,
                               bottomSubtitleText: context
                                       .watch<TripProvider>()
                                       .isTripScheduled
@@ -469,7 +469,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
           border:
               Border(top: BorderSide(width: 1, color: Colors.grey.shade100))),
       child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ListTile(
               onTap: () => print('Selected preferred payment method.'),
               contentPadding: EdgeInsets.zero,
@@ -480,9 +480,8 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                 decoration: BoxDecoration(
                     //border: Border.all(width: 1),
                     shape: BoxShape.circle,
-                    color: Color.fromRGBO(14, 132, 145, 1)),
-                child: Icon(Icons.account_balance_wallet,
-                    size: 23, color: Colors.white),
+                    color: Color.fromRGBO(9, 110, 212, 1)),
+                child: Icon(Icons.credit_card, size: 23, color: Colors.white),
               ),
               title: Text('Wallet',
                   style: TextStyle(fontFamily: 'MoveTextMedium', fontSize: 16)),
